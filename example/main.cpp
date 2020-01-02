@@ -6,8 +6,7 @@
 #include <math.h>
 #include <fonts.h>
 
-using namespace uddDisplay;
-using namespace uddImage;
+using namespace udd;
 
 DisplayConfigruation config;
 Display d1;
@@ -30,7 +29,7 @@ unsigned long long currentTimeMillis() {
 }
 
 
-void drawSine(uddImage::Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
+void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
     bool first = true;;
     int lx = -1, ly = -1;
     double vx = 0;
@@ -65,10 +64,10 @@ void frame(int frameCount) {
     }
     ++fps;
 
-    int imageWidth  = config.width;
-    int imageHeight = config.height;
+    int imageWidth  = config.height;
+    int imageHeight = config.width;
 
-    uddImage::Image image = uddImage::Image(imageWidth, imageHeight, BLACK);
+    Image image = Image(imageWidth, imageHeight, BLACK);
 
     int minX, minY = 0;
     int maxX = imageWidth-1;
@@ -104,7 +103,7 @@ void frame(int frameCount) {
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
 
 
-    d1.showImage(image,DEGREE_0);
+    d1.showImage(image,DEGREE_270);
 
 
     image.close();
@@ -141,8 +140,6 @@ int main(void)
     while (true) {
         frame(++count);
     }
-
-
 
 
     return 0;

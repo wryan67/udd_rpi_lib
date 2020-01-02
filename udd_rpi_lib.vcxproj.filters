@@ -12,6 +12,7 @@
     <ClCompile Include="src\fonts\font20.c" />
     <ClCompile Include="src\fonts\font24.c" />
     <ClCompile Include="src\fonts\font24CN.c" />
+    <ClCompile Include="src\Metadata.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Display.h" />
@@ -19,6 +20,7 @@
     <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\inttypes.h" />
     <ClInclude Include="src\fonts\fonts.h" />
+    <ClInclude Include="src\Metadata.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />

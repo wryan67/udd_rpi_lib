@@ -6,9 +6,8 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-using namespace uddImage;
 
-namespace uddDisplay {
+namespace udd {
 
     Display::Display() {
 
@@ -201,13 +200,8 @@ namespace uddDisplay {
 
         for (int y = 0; y < config.height; y++) {
             for (int x = 0; x < config.width; ++x) {
-                ColorType* ct;
-                switch (rotation) {
-                case DEGREE_0:   ct = image.getPixel(x, y); break;
-                case DEGREE_90:  ct = image.getPixel(y, x); break;
-                default:
-                    fprintf(stderr,"not implemented yet, rotation degree=%d", rotation);
-                }
+                ColorType* ct= image.getPixel(x,y,rotation);
+                
                 row[x] = color2word(ct);
             }
 

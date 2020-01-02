@@ -1,34 +1,19 @@
 #pragma once
-
-#include "Image.h"
 #include <inttypes.h>
 #include <Color.h>
 
-using namespace uddImage;
+#include "Metadata.h"
+#include "Image.h"
 
-namespace uddDisplay {
 
-    enum DisplayType {
-        ST7789, ST7735
-    };
+namespace udd {
 
-    enum InterfaceType {
-        SPI, I2C
-    };
-
-    enum Rotation {
-        DEGREE_0 = 0, DEGREE_90 = 90, DEGREE_180 = 180, DEGREE_270 = 270
-    };
-
-    enum ScreenMirror {
-        NORMAL, HORIZONTAL, VERTICAL
-    };
 
 
     struct DisplayConfigurationStruct {
         DisplayType    displayType = ST7789;
         InterfaceType  interfacedType = SPI;
-        Rotation screenRotation = DEGREE_0;
+        Rotation       screenRotation = DEGREE_0;
         ScreenMirror   screenMirror = NORMAL;
 
         int width = 240;

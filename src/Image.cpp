@@ -2,8 +2,9 @@
 #include "fonts.h"
 #include <math.h>
 
+using namespace udd;
 
-namespace uddImage {
+
 
 
 
@@ -69,19 +70,33 @@ namespace uddImage {
 
     }
 
-
-
     ColorType* Image::getPixel(int x, int y) {
 
         if (x<0 || x > width || y<0 || y>height) {
+            fprintf(stderr, "access outside image area x=%d, y=%d\n", x, y); fflush(stderr);
             return NULL;
         }
+
         long offset = (y * width) + x;
-        //    printf("getPixel:: x=%3d, y=%3d; offset=%d\n", );
         ColorType* xp = canvas + offset;
+
 
         return xp;
     }
+
+
+    ColorType* Image::getPixel(int x, int y, Rotation rotation) {
+        switch (rotation) {
+        case DEGREE_0:    return getPixel(x, y); 
+        case DEGREE_90:   return getPixel(y, height - x -1);
+        case DEGREE_180:  return getPixel(width - x  -1, height - y-1);
+        case DEGREE_270:  return getPixel(width -y -1, x);
+
+        default:
+            fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);
+        }
+    }
+
 
     _word Image::color2word(ColorType* xp) {
         return ((0x1f & (xp->blue)) << 11) | ((0x3f & (xp->red)) << 5) | ((0x1f & (xp->green)));
@@ -209,4 +224,3 @@ namespace uddImage {
         }// Write all
     }
 
-}

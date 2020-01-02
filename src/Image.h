@@ -8,18 +8,10 @@
 #include <inttypes.h>
 #include <fonts.h>
 
+#include "Metadata.h"
 
-namespace uddImage {
-    typedef enum {
-        SOLID,
-        DOTTED,
-    } LineStyle;
 
-    typedef enum {
-        NONE,
-        FILL,
-        MASK
-    } FillPattern;
+namespace udd {
 
 
     class Image {
@@ -42,6 +34,8 @@ namespace uddImage {
         void drawChar(int Xpoint, int Ypoint, const char Acsii_Char, sFONT* Font, Color Color_Background, Color Color_Foreground);
 
         void printPixel(int x, int y);
+
+        ColorType* getPixel(int x, int y, udd::Rotation rotation);
 
         ColorType* getPixel(int x, int y);
 
