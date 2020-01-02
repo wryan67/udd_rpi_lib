@@ -5,11 +5,22 @@
     <ClCompile Include="src\Display.cpp" />
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\Image.cpp" />
+    <ClCompile Include="src\fonts\font8.c" />
+    <ClCompile Include="src\fonts\font12.c" />
+    <ClCompile Include="src\fonts\font12CN.c" />
+    <ClCompile Include="src\fonts\font16.c" />
+    <ClCompile Include="src\fonts\font20.c" />
+    <ClCompile Include="src\fonts\font24.c" />
+    <ClCompile Include="src\fonts\font24CN.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Display.h" />
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\inttypes.h" />
+    <ClInclude Include="src\fonts\fonts.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\fonts\Release_Notes.html" />
   </ItemGroup>
 </Project>

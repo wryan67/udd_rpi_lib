@@ -6,6 +6,7 @@
 
 #include <Color.h>
 #include <inttypes.h>
+#include <fonts.h>
 
 
 namespace uddImage {
@@ -34,6 +35,11 @@ namespace uddImage {
         void drawLine(int x1, int y1, int x2, int y2, Color color, LineStyle style, int width);
 
         void drawPoint(int x, int y, Color color, int width);
+
+        void drawText(int Xstart, int Ystart, const char* pString,
+            sFONT* Font, Color background, Color forground);
+
+        void drawChar(int Xpoint, int Ypoint, const char Acsii_Char, sFONT* Font, Color Color_Background, Color Color_Foreground);
 
         void printPixel(int x, int y);
 

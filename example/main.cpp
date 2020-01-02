@@ -4,6 +4,8 @@
 #include <Image.h>
 #include <sys/time.h>
 #include <math.h>
+#include <fonts.h>
+
 using namespace uddDisplay;
 using namespace uddImage;
 
@@ -53,12 +55,24 @@ void frame(int frameCount) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 
+    long long second = now / 1000;
+    if (lastSecond < 0) lastSecond = second;
 
-    uddImage::Image image = uddImage::Image(config.height, config.width, BLACK);
+    if (lastSecond != second) {
+        lastFPS = fps;
+        fps = 0;
+        lastSecond = second;
+    }
+    ++fps;
+
+    int imageWidth  = config.width;
+    int imageHeight = config.height;
+
+    uddImage::Image image = uddImage::Image(imageWidth, imageHeight, BLACK);
 
     int minX, minY = 0;
-    int maxX = config.height-1;
-    int maxY = config.width-1;
+    int maxX = imageWidth-1;
+    int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
     image.drawLine(minX, minY, maxX, minY, WHITE, SOLID, 1);  //top
@@ -78,10 +92,19 @@ void frame(int frameCount) {
     };
 
     for (int line = 0; line < 4; ++line) {
-        drawSine(image, frameCount + line * (PI), .25, maxX, maxY, .65, lineColor[line], (line==0)?2:1);
+        drawSine(image, frameCount + (4-line) * (PI), .25, maxX, maxY, .65, lineColor[line], (line==0)?2:1);
     }
 
-    d1.showImage(image,DEGREE_90);
+
+    char message[32];
+    sprintf(message, "%4.2f", refVoltage);
+    image.drawText(minX + 1, minY + 1, message, &Font24, LIGHT_BLUE, LIGHT_GRAY);
+
+    sprintf(message, "%d-fps", lastFPS);
+    image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
+
+
+    d1.showImage(image,DEGREE_0);
 
 
     image.close();

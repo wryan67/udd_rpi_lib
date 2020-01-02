@@ -1,10 +1,13 @@
 #include "Image.h"
+#include "fonts.h"
 #include <math.h>
 
 
 namespace uddImage {
 
-    uddImage::Image::Image(int width, int height, Color backgroundColor) {
+
+
+    Image::Image(int width, int height, Color backgroundColor) {
         this->width = width;
         this->height = height;
 
@@ -147,6 +150,63 @@ namespace uddImage {
             rx = round(x);
             ry = round(y);
         }
+    }
+
+
+    void Image::drawText(int Xstart, int Ystart, const char* pString,
+        sFONT* Font, Color background, Color foreground) {
+
+
+        int Xpoint = Xstart;
+        int Ypoint = Ystart;
+
+
+        while (*pString != '\0') {
+            //if X direction filled , reposition to(Xstart,Ypoint),Ypoint is Y direction plus the Height of the character
+            if ((Xpoint + Font->Width) > width) {
+                Xpoint = Xstart;
+                Ypoint += Font->Height;
+            }
+
+            // If the Y direction is full, reposition to(Xstart, Ystart)
+            if ((Ypoint + Font->Height) > height) {
+                Xpoint = Xstart;
+                Ypoint = Ystart;
+            }
+            drawChar(Xpoint, Ypoint, *pString, Font, background, foreground);
+
+            //The next character of the address
+            pString++;
+
+            //The next word of the abscissa increases the font of the broadband
+            Xpoint += Font->Width;
+        }
+    }
+
+    void Image::drawChar(int Xpoint, int Ypoint, const char Acsii_Char,
+        sFONT* Font, Color background, Color foreground) {
+        int Page, Column;
+
+
+        uint32_t Char_Offset = (Acsii_Char - ' ') * Font->Height * (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+        const unsigned char* ptr = &Font->table[Char_Offset];
+
+        for (Page = 0; Page < Font->Height; Page++) {
+            for (Column = 0; Column < Font->Width; Column++) {
+
+                if (*ptr & (0x80 >> (Column % 8))) {
+                    drawPixel(Xpoint + Column, Ypoint + Page, foreground);
+                }
+                else {
+                    drawPixel(Xpoint + Column, Ypoint + Page, background);
+                }
+                //One pixel is 8 bits
+                if (Column % 8 == 7)
+                    ptr++;
+            }// Write a line
+            if (Font->Width % 8 != 0)
+                ptr++;
+        }// Write all
     }
 
 }

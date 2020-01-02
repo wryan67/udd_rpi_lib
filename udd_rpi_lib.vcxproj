@@ -67,19 +67,30 @@
   <ItemGroup>
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="example\main.cpp" />
+    <ClCompile Include="src\fonts\font12.c" />
+    <ClCompile Include="src\fonts\font12CN.c" />
+    <ClCompile Include="src\fonts\font16.c" />
+    <ClCompile Include="src\fonts\font20.c" />
+    <ClCompile Include="src\fonts\font24.c" />
+    <ClCompile Include="src\fonts\font24CN.c" />
+    <ClCompile Include="src\fonts\font8.c" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\Display.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\fonts\fonts.h" />
     <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\Display.h" />
     <ClInclude Include="src\inttypes.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\fonts\Release_Notes.html" />
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories); src</AdditionalIncludeDirectories>
-      <CppLanguageStandard>gnu++1y</CppLanguageStandard>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories); src; src/fonts</AdditionalIncludeDirectories>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
