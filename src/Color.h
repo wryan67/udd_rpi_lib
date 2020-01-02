@@ -25,12 +25,20 @@ public:
 };
 
 
+// original 8
 extern Color BLACK;
 extern Color RED;
 extern Color GREEN;
 extern Color BLUE;
-extern Color YELOW;
+extern Color YELLOW;
 extern Color MAGENTA;
+extern Color CYAN;
 extern Color WHITE;
+
+extern Color BROWN;
+extern Color ORANGE;
+
+extern Color LIGHT_BLUE;
+extern Color LIGHT_GRAY;
 
 

@@ -36,10 +36,18 @@ ColorType Color::toType() {
 }
 
 
-Color BLACK = Color(0, 0, 0);
-Color RED = Color(255, 0, 0);
-Color GREEN = Color(0, 255, 0);
-Color BLUE = Color(0, 0, 255);
-Color YELOW = Color(255, 255, 0);
-Color MAGENTA = Color(255, 0, 255);
-Color WHITE = Color(255, 255, 255);
+// Original 8
+Color BLACK     = Color(0,     0,   0);
+Color RED       = Color(255,   0,   0);
+Color GREEN     = Color(0,   255,   0);
+Color BLUE      = Color(0,     0, 255);
+Color YELLOW    = Color(255, 255,   0);
+Color MAGENTA   = Color(255,   0, 255);
+Color CYAN      = Color(0,   255, 255);
+Color WHITE     = Color(255, 255, 255);
+
+Color BROWN     = Color(165, 42, 42);
+Color ORANGE    = Color(255, 128, 0);
+
+Color LIGHT_BLUE = Color(204, 228, 255);
+Color LIGHT_GRAY = Color(224, 224, 224);

@@ -4,36 +4,49 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <Display.h>
 #include <Color.h>
 #include <inttypes.h>
 
 
-class Image {
-public:
+namespace uddImage {
+    typedef enum {
+        SOLID,
+        DOTTED,
+    } LineStyle;
+
+    typedef enum {
+        NONE,
+        FILL,
+        MASK
+    } FillPattern;
 
 
-    Image(_word width, _word height, Color backgroundColor);
+    class Image {
+    public:
+        Image(int width, int height, Color backgroundColor);
 
-    void clear(Color backgroundColor);
+        void clear(Color backgroundColor);
 
-    void close();
-    
-    void drawPixel(_word x, _word y, Color color);
+        void close();
 
-    void printPixel(_word x, _word y);
+        void drawPixel(int x, int y, Color color);
 
-    ColorType *getPixel(_word x, _word y);
+        void drawLine(int x1, int y1, int x2, int y2, Color color, LineStyle style, int width);
 
-    _word color2word(ColorType* xp);
+        void drawPoint(int x, int y, Color color, int width);
 
+        void printPixel(int x, int y);
 
-private:
-    ColorType *canvas;
+        ColorType* getPixel(int x, int y);
 
-    _word width;
-    _word height;
-    Color    backgroundColor;
+    private:
+        ColorType* canvas;
 
-};
+        _word width;
+        _word height;
+        Color    backgroundColor;
 
+        _word color2word(ColorType* xp);
+
+    };
+}

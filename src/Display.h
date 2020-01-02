@@ -1,86 +1,94 @@
 #pragma once
 
-#include <Image.h>
+#include "Image.h"
 #include <inttypes.h>
 #include <Color.h>
 
-enum DisplayType {
-    ST7789, ST7735
-};
+using namespace uddImage;
 
-enum InterfaceType {
-    SPI, I2C
-};
+namespace uddDisplay {
 
-enum ScreenRotation {
-    ROTATE_0=0, ROTAT_90=90, ROTATE_180=180, ROTATE_270=270
-};
+    enum DisplayType {
+        ST7789, ST7735
+    };
 
-enum ScreenMirror {
-    NORMAL, HORIZONTAL, VERTICAL
-};
+    enum InterfaceType {
+        SPI, I2C
+    };
 
+    enum Rotation {
+        DEGREE_0 = 0, DEGREE_90 = 90, DEGREE_180 = 180, DEGREE_270 = 270
+    };
 
-struct DisplayConfigurationStruct {
-    DisplayType    displayType     = ST7789;
-    InterfaceType  interfacedType  = SPI;
-    ScreenRotation screenRotation  = ROTATE_0;
-    ScreenMirror   screenMirror    = NORMAL;
-    
-    int width   = 240;
-    int height  = 320;
-
-    int xOffset = 0;
-    int yOffest = 0;
-
-//                wiringPi 
-    int CS      = 21;
-    int DC      = 22;
-    int RST     = 23;
-    int BLK     = 7;
-
-    
-    int i2cAddress;  
-
-    int spiChannel  = 0; 
-    int spiSpeed    = 10000000;    
-
-};
-
-typedef DisplayConfigurationStruct      DisplayConfigruation;
+    enum ScreenMirror {
+        NORMAL, HORIZONTAL, VERTICAL
+    };
 
 
+    struct DisplayConfigurationStruct {
+        DisplayType    displayType = ST7789;
+        InterfaceType  interfacedType = SPI;
+        Rotation screenRotation = DEGREE_0;
+        ScreenMirror   screenMirror = NORMAL;
 
-class Display {
-private:
-    DisplayConfigruation config;
-    int handle;
+        int width = 240;
+        int height = 320;
 
-public:
+        int xOffset = 0;
+        int yOffest = 0;
 
-    Display(DisplayConfigruation config);
+        //                wiringPi 
+        int CS = 21;
+        int DC = 22;
+        int RST = 23;
+        int BLK = 7;
 
-    void openDisplay();
 
-    void reset();
+        int i2cAddress;
 
-    _word color2word(ColorType* xp);
+        int spiChannel = 0;
+        int spiSpeed = 10000000;
 
-    void clear(Color color);
+    };
 
-    void init();
+    typedef DisplayConfigurationStruct      DisplayConfigruation;
 
-    void printConfiguration();
 
-    void closeSPI();
-    void openSPI();
-    void visable();
-    void hidden();
-    void showImage(class Image image);
-    void writeBytes(_byte* data, uint32_t len);
-    void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
-    void writeCommand(_byte data);
-    void writeByte(_byte data);
-    //void writeWord(_word data);
-};
+    class Display {
+    private:
 
+        DisplayConfigruation config;
+        int handle;
+
+    public:
+        Display();
+        Display(DisplayConfigruation config);
+
+        void openDisplay();
+
+        void reset();
+
+        _word color2word(ColorType* xp);
+
+        void clear(Color color);
+
+        void showImage(Image image, Rotation rotation);
+        void showImage(Image image);
+
+        void init();
+
+        void printConfiguration();
+
+        void closeSPI();
+        void openSPI();
+        void visable();
+        void hidden();
+
+        void writeBytes(_byte* data, uint32_t len);
+        void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
+        void writeCommand(_byte data);
+        void writeByte(_byte data);
+        //void writeWord(_word data);
+    };
+
+}
