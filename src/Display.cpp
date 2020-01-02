@@ -41,7 +41,17 @@ namespace udd {
     }
 
     _word Display::color2word(ColorType* xp) {
-        return ((0x1f & (xp->blue)) << 11) | ((0x3f & (xp->red)) << 5) | ((0x1f & (xp->green)));
+        double bluePct = xp->blue / 255.0;
+        double greenPct = xp->green / 255.0;
+        double redPct = xp->red / 255.0;
+
+        int red = redPct * 0x1f;
+        int green = greenPct * 0x3f;
+        int blue = bluePct * 0x1f;
+
+        _word buf = ((0x1f & (red)) << 11) | ((0x3f & (green)) << 5) | ((0x1f & (blue)));
+
+        return (buf >> 8) | buf << 8;
     }
 
     void Display::init() {

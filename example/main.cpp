@@ -91,13 +91,13 @@ void frame(int frameCount) {
     };
 
     for (int line = 0; line < 4; ++line) {
-        drawSine(image, frameCount + (4-line) * (PI), .25, maxX, maxY, .65, lineColor[line], (line==0)?2:1);
+        drawSine(image, frameCount + (4 - line) * (PI), .25, maxX, maxY, .65, lineColor[line], (line == 0) ? 3 : 2);
     }
 
 
     char message[32];
     sprintf(message, "%4.2f", refVoltage);
-    image.drawText(minX + 1, minY + 1, message, &Font24, LIGHT_BLUE, LIGHT_GRAY);
+    image.drawText(minX + 1, minY + 1, message, &Font24, DARK_GRAY_BLUE, WHITE);
 
     sprintf(message, "%d-fps", lastFPS);
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);

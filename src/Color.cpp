@@ -1,4 +1,6 @@
 #include "Color.h"
+#include <string.h>
+#include <stdio.h>
 
 Color::Color() {
     color.red = 0;
@@ -9,19 +11,65 @@ Color::Color() {
 
 
 Color::Color(ColorType color) {
-    this->color.red     = color.red;
-    this->color.green   = color.green;
-    this->color.blue    = color.blue;
+    this->color.red = color.red;
+    this->color.green = color.green;
+    this->color.blue = color.blue;
     this->color.opacity = color.opacity;
 }
 
 
 Color::Color(_byte red, _byte green, _byte blue) {
-    color.red       = red;
-    color.green     = green;
-    color.blue      = blue;
-    color.opacity   = 255;
+    color.red = red;
+    color.green = green;
+    color.blue = blue;
+    color.opacity = 255;
 }
+
+Color::Color(const char* hexbytes) {
+    char buf[3];
+    int intensity;
+    int offset = 0;
+    if (hexbytes[0] == '#') {
+        offset = 1;
+    }
+
+    if (strlen(&hexbytes[offset]) == 5) {
+        memset(buf, 0, sizeof(buf));
+        strncpy(buf, &hexbytes[offset], 1);
+        sscanf(buf, "%x", &intensity);
+        color.red = intensity;
+        offset += 1;
+    } else {
+        memset(buf, 0, sizeof(buf));
+        strncpy(buf, &hexbytes[offset], 2);
+        sscanf(buf, "%x", &intensity);
+        color.red = intensity;
+        offset += 2;
+    }    
+    
+    memset(buf, 0, sizeof(buf));
+    strncpy(buf, &hexbytes[offset], 2);
+    sscanf(buf, "%x", &intensity);
+    color.green = intensity;
+
+    offset += 2;
+    memset(buf, 0, sizeof(buf));
+    strncpy(buf, &hexbytes[offset], 2);
+    sscanf(buf, "%x", &intensity);
+    color.blue = intensity;
+
+
+    if (strlen(hexbytes) > 7) {
+        offset += 2;
+        memset(buf, 0, sizeof(buf));
+        strncpy(buf, &hexbytes[offset], 2);
+        sscanf(buf, "%x", &intensity);
+        color.opacity = intensity;
+    }
+
+    printf("hexcolor: r:%d g:%d b:%d\n", color.red, color.green, color.blue);
+}
+
 
 
 Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
@@ -47,8 +95,10 @@ Color CYAN          = Color(0,   255, 255);
 Color WHITE         = Color(255, 255, 255);
 
 // extended colors
-Color BROWN         = Color(165, 42, 42);
-Color ORANGE        = Color(255, 128, 0);
+Color BROWN         = Color(165,  42,  42);
+Color ORANGE        = Color(255, 128,   0);
 
 Color LIGHT_BLUE    = Color(204, 228, 255);
 Color LIGHT_GRAY    = Color(224, 224, 224);
+
+Color DARK_GRAY_BLUE = Color("003366");

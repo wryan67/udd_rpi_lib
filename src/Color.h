@@ -20,6 +20,7 @@ public:
     Color();
     Color(ColorType color);
     Color(_byte red, _byte blue, _byte green);
+    Color(const char *hexbytes);
     Color(_byte red, _byte blue, _byte green, _byte opacity);
     ColorType toType();
 };
@@ -41,4 +42,5 @@ extern Color ORANGE;
 extern Color LIGHT_BLUE;
 extern Color LIGHT_GRAY;
 
+extern Color DARK_GRAY_BLUE;
 
