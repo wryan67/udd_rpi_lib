@@ -14,37 +14,40 @@ int main(void)
     digitalWrite(11, HIGH);
 
 
-    Image image = Image(240, 320, BLACK);
-
-
-    image.drawPixel(4, 40, WHITE);
-    image.drawPixel(4, 41, RED);
-    image.drawPixel(4, 42, GREEN);
-    image.drawPixel(4, 43, BLUE);
-
-
-    for (int i = 40; i < 45; ++i) {
-        image.printPixel(4, i);
-    }
-
-
     DisplayConfigruation config;
+    config.spiSpeed = 65000000;
 
 
     Display d1 = Display(config);
+    d1.printConfiguration();
 
     d1.clear(WHITE);
-    delay(250);
+    delay(10);
     d1.clear(RED);
-    delay(250);
+    delay(10);
     d1.clear(BLUE);
-    delay(250);
+    delay(10);
     d1.clear(GREEN);
-    delay(250);
+    delay(10);
     d1.clear(BLACK);
 
 
+    Image image = Image(config.width, config.height, BLACK);
+
+    //              x   y
+    for (int i = 4; i < 100; ++i) {
+        image.drawPixel(i, 30, WHITE);
+        image.drawPixel(i, 31, WHITE);
+        image.drawPixel(i, 40, RED);
+        image.drawPixel(i, 41, RED);
+        image.drawPixel(i, 50, GREEN);
+        image.drawPixel(i, 51, GREEN);
+        image.drawPixel(i, 60, BLUE);
+        image.drawPixel(i, 61, BLUE);
+    }
+
     d1.showImage(image);
+
 
     image.close();
 

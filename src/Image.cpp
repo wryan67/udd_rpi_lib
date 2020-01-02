@@ -11,21 +11,30 @@ Image::Image(_word width, _word height, Color backgroundColor) {
     uint32_t imageSize = width * height;
     uint32_t memorySize = imageSize * sizeof(ColorType);
 
-    canvas = (ColorType **)malloc(memorySize);
+    canvas = (ColorType *)malloc(memorySize);
 
-    printf("width=%d; height=%d; memorySize=%d\n", width, height, memorySize);
+    printf("Image::width=%d; height=%d; memorySize=%d\n", width, height, memorySize);
 
     clear(backgroundColor);
 }
 
 void Image::clear(Color backgroundColor) {
-    ColorType color = backgroundColor.toType();
-    for (_word x = 0; x < width; ++x) {
-        for (_word y = 0; y < height; ++y) {
-            _word offset = x * y * sizeof(ColorType);
-            memcpy(canvas + (offset), &color, sizeof(ColorType));
+//    ColorType color = backgroundColor.toType();
+    
+    printf("image::clear r:%d; g:%d; b:%d sizeof(ColorType)=%d\n", backgroundColor.color.red, backgroundColor.color.green, backgroundColor.color.blue, sizeof(ColorType));
+
+    for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y) {
+            ColorType* xp = getPixel(x, y);
+            xp->red = backgroundColor.color.red;
+            xp->green = backgroundColor.color.green;
+            xp->blue = backgroundColor.color.blue;
+            xp->opacity = backgroundColor.color.opacity;
         }
     }
+
+    printf("clear::end\n"); fflush(stdout);
+
 }
 
 void Image::close() {
@@ -33,25 +42,45 @@ void Image::close() {
 }
 
 void Image::drawPixel(_word x, _word y, Color color) {
-    ColorType c1 = color.toType();
 
-    memcpy(canvas + x * y * sizeof(ColorType), &c1, sizeof(ColorType));
+    ColorType* xp = getPixel(x, y);
+
+    xp->red = color.color.red;
+    xp->green = color.color.green;
+    xp->blue = color.color.blue;
+    xp->opacity = color.color.opacity;
+
+
+    if (color.color.red != 0 ||
+        color.color.green != 0 ||
+        color.color.blue != 0
+        ) {
+    }
+
+
 }
 
 void Image::printPixel(_word x, _word y) {
-    ColorType* xp = (ColorType *) (canvas + x * y * sizeof(ColorType));
-    printf("r:%d g:%d b:%d\n", xp->red, xp->green, xp->blue);
+    ColorType* xp = getPixel(x, y);
+
+    _word cx = color2word(xp); 
+
+    printf("r:%-3d g:%-3d b:%-3d %08x\n", xp->red, xp->green, xp->blue, cx);
 
 }
 
-Color Image::getPixel(_word x, _word y) {
+ColorType *Image::getPixel(_word x, _word y) {
 
     if (x<0 || x > width || y<0 || y>height) {
-        return BLACK;
+        return NULL;
     }
+    long offset = (y * width) + x;
+//    printf("getPixel:: x=%3d, y=%3d; offset=%d\n", );
+    ColorType *xp = canvas + offset;
 
-    _word offset = x * y * sizeof(ColorType);
-    ColorType* xp = (ColorType*)(canvas + offset);
+    return xp;
+}
 
-    return *xp;
+_word Image::color2word(ColorType* xp) {
+    return ((0x1f & (xp->blue)) << 11) | ((0x3f & (xp->red)) << 5) | ((0x1f & (xp->green)));
 }

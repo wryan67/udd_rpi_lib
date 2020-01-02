@@ -7,6 +7,7 @@ struct ColorStruct {
     _byte blue;
     _byte green;
     _byte opacity;
+    _byte filler[4];
 };
 
 typedef ColorStruct ColorType;

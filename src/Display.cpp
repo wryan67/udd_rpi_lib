@@ -22,9 +22,6 @@ void Display::openDisplay() {
     visable();
 
     init();
-
-    printConfiguration();
-    printf("display opened\n"); fflush(stdout);
 }
 
 void Display::reset() {
@@ -37,32 +34,9 @@ void Display::reset() {
 }
 
 _word Display::color2word(ColorType *xp) {
-    
-    
-
     return ((0x1f & (xp->blue)) << 11) | ((0x3f & (xp->red)) << 5) | ((0x1f & (xp->green)));
-
-// ??   Color >> 8 | (Color & 0xff) << 8;
 }
 
-void Display::clear(Color color) {
-    ColorType ct = color.toType();
-
-    _word  image[config.width];
-    _byte* imageP = (_byte*)(image);
-    _word  cx = color2word(&ct);
-
-    for (int x = 0; x < config.width; x++) {
-        image[x] = cx;
-    }
-    
-    setScreenWindow(0, 0, config.width, config.height);
-    digitalWrite(config.DC, 1);
-
-    for (int y = 0; y < config.height; y++) {
-        writeBytes(imageP, config.width * 2);
-    }
-}
 void Display::init() {
     reset();
 
@@ -170,7 +144,6 @@ void Display::printConfiguration() {
     printf("spiSpeed:          %d\n", config.spiSpeed);
     printf("handle:            %d\n", handle);
 
-
 }
 
 
@@ -191,25 +164,42 @@ void Display::hidden() {
     digitalWrite(config.BLK, 0);
 }
 
-void Display::showImage(Image image) {
-    _word y;
+void Display::clear(Color color) {
+    ColorType ct = color.toType();
 
+    _word  row[config.width];
+    _byte* rowPointer = (_byte*)(row);
+    _word  cx = color2word(&ct);
+
+    for (int x = 0; x < config.width; x++) {
+        row[x] = cx;
+    }
+
+    setScreenWindow(0, 0, config.width, config.height);
+    digitalWrite(config.DC, 1);
+
+    for (int y = 0; y < config.height; y++) {
+        writeBytes(rowPointer, config.width * 2);
+    }
+}
+
+
+void Display::showImage(Image image) {
     printf("tag21\n"); fflush(stdout);
 
     setScreenWindow(0, 0, config.width, config.height);
     digitalWrite(config.DC, 1);
-    for (y = 0; y < config.height; y++) {
-        _word len = config.width * 2;
-        _byte row[len * 2];
 
+    _word  row[config.width];
+    _byte* rowPointer = (_byte*)(row);
 
-        for (int x = 0; x < len; x+=2) {
-            ColorType ct = image.getPixel(x, y).toType();
-            _word px = color2word(&ct);
-            memcpy(&row[x], &px, sizeof(_word));
+    for (int y = 0; y < config.height; y++) {       
+        for (int x = 0; x < config.width; ++x) {
+            ColorType *ct = image.getPixel(x, y);
+            row[x] = color2word(ct);
         }
 
-        writeBytes(row, len);
+        writeBytes(rowPointer, config.width * 2);
     }
 }
 

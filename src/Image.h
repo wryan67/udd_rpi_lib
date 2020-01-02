@@ -23,11 +23,13 @@ public:
 
     void printPixel(_word x, _word y);
 
-    Color getPixel(_word x, _word y);
+    ColorType *getPixel(_word x, _word y);
+
+    _word color2word(ColorType* xp);
 
 
 private:
-    ColorType** canvas;
+    ColorType *canvas;
 
     _word width;
     _word height;
