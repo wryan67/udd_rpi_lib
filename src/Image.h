@@ -33,6 +33,8 @@ namespace udd {
 
         void drawChar(int Xpoint, int Ypoint, const char Acsii_Char, sFONT* Font, Color Color_Background, Color Color_Foreground);
 
+        void loadBMP(const char* filename, int Xstart, int Ystart);
+
         void printPixel(int x, int y);
 
         ColorType* getPixel(int x, int y, udd::Rotation rotation);

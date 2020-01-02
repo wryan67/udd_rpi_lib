@@ -50,7 +50,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-void frame(int frameCount) {
+bool frame(int frameCount, long long start) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 
@@ -69,7 +69,7 @@ void frame(int frameCount) {
 
     Image image = Image(imageWidth, imageHeight, BLACK);
 
-    int minX, minY = 0;
+    int minX=0, minY = 0;
     int maxX = imageWidth-1;
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
@@ -78,6 +78,7 @@ void frame(int frameCount) {
     image.drawLine(minX, maxY, maxX, maxY, WHITE, SOLID, 1);
     image.drawLine(maxX, minY, maxX, maxY, WHITE, SOLID, 1);  //right
     image.drawLine(minX, minY, minX, maxY, WHITE, SOLID, 1);  //left
+
 
     // line markers
     for (int v = 1; v < refVoltage; ++v) {
@@ -102,11 +103,12 @@ void frame(int frameCount) {
     sprintf(message, "%d-fps", lastFPS);
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
 
-
     d1.showImage(image,DEGREE_270);
 
 
     image.close();
+
+    return ((now - start) < 4000);
 }
 
 int main(void)
@@ -136,9 +138,21 @@ int main(void)
     delay(10);
     d1.clear(BLACK);
 
+    Image image = Image(320, 240, BLACK);
+    image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+
+
+
     long count = 0;
     while (true) {
-        frame(++count);
+        
+        d1.showImage(image, DEGREE_270);
+
+        delay(1000);
+
+        long long start = currentTimeMillis();
+
+        while (frame(++count, start));
     }
 
 

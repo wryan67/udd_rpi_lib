@@ -21,8 +21,12 @@
     <ClInclude Include="src\inttypes.h" />
     <ClInclude Include="src\fonts\fonts.h" />
     <ClInclude Include="src\Metadata.h" />
+    <ClInclude Include="src\bmp\GUI_BMPfile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\BlueAngle4-320x240.bmp" />
   </ItemGroup>
 </Project>

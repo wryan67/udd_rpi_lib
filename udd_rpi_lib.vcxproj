@@ -79,6 +79,7 @@
     <ClCompile Include="src\Display.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\bmp\GUI_BMPfile.h" />
     <ClInclude Include="src\Metadata.h" />
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\fonts\fonts.h" />
@@ -89,9 +90,12 @@
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\BlueAngle4-320x240.bmp" />
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories); src; src/fonts</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);src;src/fonts;src/bmp</AdditionalIncludeDirectories>
       <CppLanguageStandard>gnu++1y</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
