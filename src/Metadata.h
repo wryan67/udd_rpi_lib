@@ -1,6 +1,8 @@
 #pragma once
 
 namespace udd {
+
+// screen stuff
     enum DisplayType {
         ST7789, ST7735
     };

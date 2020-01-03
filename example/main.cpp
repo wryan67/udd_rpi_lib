@@ -74,11 +74,7 @@ bool frame(int frameCount, long long start) {
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
-    image.drawLine(minX, minY, maxX, minY, WHITE, SOLID, 1);  //top
-    image.drawLine(minX, maxY, maxX, maxY, WHITE, SOLID, 1);
-    image.drawLine(maxX, minY, maxX, maxY, WHITE, SOLID, 1);  //right
-    image.drawLine(minX, minY, minX, maxY, WHITE, SOLID, 1);  //left
-
+    image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
     // line markers
     for (int v = 1; v < refVoltage; ++v) {
@@ -153,6 +149,8 @@ int main(void)
         long long start = currentTimeMillis();
 
         while (frame(++count, start));
+
+        
     }
 
 

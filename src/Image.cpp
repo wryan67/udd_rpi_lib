@@ -152,9 +152,15 @@ void Image::drawLine(int x1, int y1, int x2, int y2, Color color, LineStyle styl
 
     int step = (style == DOTTED) ? 2 : 1;
 
-    for (i = 0; i <= longestLeg; i += step) {
+    for (i = 0; i <= longestLeg; ++i) {
+        bool visible = true;
 
-        drawPoint(rx, ry, color, width);
+        if (style == DOTTED && i%2==0) {
+            visible = false;
+        }
+
+        if (visible) drawPoint(rx, ry, color, width);
+
 
         if (abs(x2 - rx) == 0 && abs(y2 - ry) == 0) {
             break;
@@ -332,4 +338,29 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
         }
     }
     return;
+}
+
+
+void Image::drawRectangle(int x1, int y1, int x2, int y2, Color Color, 
+        FillPattern pattern, LineStyle lineStyle, int width) {
+    
+    switch (pattern) {
+    case NONE:
+        drawLine(x1, y1, x2, y1, Color, lineStyle, width);
+        drawLine(x1, y1, x1, y2, Color, lineStyle, width);
+        drawLine(x2, y2, x2, y1, Color, lineStyle, width);
+        drawLine(x2, y2, x1, y2, Color, lineStyle, width);
+        break;
+    case FILL:
+        for (int y = y1; y < y2; y++) {
+            drawLine(x1, y, x2, y, Color, lineStyle, width);
+        }
+        break;
+    case MASK:
+        fprintf(stderr, "drawRectangle::mask not yet implemented\n");
+        break;
+    default:
+        fprintf(stderr, "drawRectangle::unknown pattern\n");
+        break;
+    }
 }
