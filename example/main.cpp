@@ -12,7 +12,6 @@ DisplayConfigruation config;
 Display d1;
 unsigned long long currentTimeMillis();
 
-static const double PI = 3.14159265358979;
 
 long long lastTime = currentTimeMillis();
 long long lastSecond;
@@ -74,6 +73,7 @@ bool frame(int frameCount, long long start) {
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
+
     image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
     // line markers
@@ -81,6 +81,14 @@ bool frame(int frameCount, long long start) {
         int y = maxY - ((v / refVoltage) * maxY);
         image.drawLine(1, y, maxX, y, BROWN, SOLID, 1);
     }
+
+
+
+    image.drawCircle(maxX / 2, maxY / 2, maxY / 4, GRAY,        NONE,  DOTTED, 3);
+    image.drawCircle(maxX / 2, maxY / 2, maxY / 4, LIGHT_GRAY,  NONE,  SOLID,  2);
+    image.drawCircle(maxX / 2, maxY / 2, maxY / 4, WHITE,       NONE,  SOLID,  1);
+
+
 
     Color lineColor[9] = {
         //1      2     3        4      5         6        7       8    

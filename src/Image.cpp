@@ -364,3 +364,49 @@ void Image::drawRectangle(int x1, int y1, int x2, int y2, Color Color,
         break;
     }
 }
+
+
+void Image::arcPoint(int x, int y, int radius, double degree, int* xPoint, int* yPoint) {
+    double px = radius * cos(degree * PI / 180.0);
+    double py = radius * sin(degree * PI / 180.0);
+
+    int ix = x + round(px);
+    int iy = y + round(py);
+
+    *xPoint = ix;
+    *yPoint = iy;
+}
+
+void Image::drawCircle(int x, int y, int radius, Color color, FillPattern pattern, LineStyle lineStyle, int width) {
+
+    double xPoint, yPoint, degree;
+
+    int lx=-1, ly=-1;
+    int ct = 0;
+
+    for (int degree = 0; degree < 360; degree += 1) {
+        
+        xPoint = radius * cos(degree * PI / 180.0);
+        yPoint = radius * sin(degree * PI / 180.0);
+
+        switch (lineStyle) {
+        case SOLID:
+            if (lx != xPoint || ly != yPoint) {
+                drawPoint(x + round(xPoint), y + round(yPoint), color, width);
+                lx = xPoint;
+                ly = yPoint;
+            }
+            break;
+        case DOTTED:
+            if (lx != xPoint || ly != yPoint) {
+                if (++ct % 2 == 1) {
+                    drawPoint(x + round(xPoint), y + round(yPoint), color, width);
+                }
+                lx = xPoint;
+                ly = yPoint;
+            }
+        }
+    }
+
+
+}

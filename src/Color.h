@@ -36,6 +36,7 @@ extern Color MAGENTA;
 extern Color CYAN;
 extern Color WHITE;
 
+extern Color GRAY;
 extern Color BROWN;
 extern Color ORANGE;
 

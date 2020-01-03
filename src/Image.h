@@ -37,6 +37,10 @@ namespace udd {
 
         void drawRectangle(int x1, int y1, int x2, int y2, Color Color, FillPattern pattern, LineStyle lineStyle, int width);
 
+        void arcPoint(int x, int y, int radius, double degree, int* xPoint, int* yPoint);
+
+        void drawCircle(int x, int y, int radius, Color Color, FillPattern pattern, LineStyle lineStyle, int width);
+
         void printPixel(int x, int y);
 
         ColorType* getPixel(int x, int y, udd::Rotation rotation);
