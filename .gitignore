@@ -3,6 +3,7 @@
 demo
 
 # User-specific files
+.swp
 *.suo
 *.user
 *.userosscache

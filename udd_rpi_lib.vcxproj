@@ -65,8 +65,8 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Metadata.cpp" />
-    <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\controller\Metadata.cpp" />
+    <ClCompile Include="src\controller\Color.cpp" />
     <ClCompile Include="example\main.cpp" />
     <ClCompile Include="src\fonts\font12.c" />
     <ClCompile Include="src\fonts\font12CN.c" />
@@ -75,17 +75,17 @@
     <ClCompile Include="src\fonts\font24.c" />
     <ClCompile Include="src\fonts\font24CN.c" />
     <ClCompile Include="src\fonts\font8.c" />
-    <ClCompile Include="src\Image.cpp" />
-    <ClCompile Include="src\Display.cpp" />
+    <ClCompile Include="src\controller\Image.cpp" />
+    <ClCompile Include="src\controller\Display.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\bmp\GUI_BMPfile.h" />
-    <ClInclude Include="src\Metadata.h" />
-    <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\controller\Metadata.h" />
+    <ClInclude Include="src\controller\Color.h" />
     <ClInclude Include="src\fonts\fonts.h" />
-    <ClInclude Include="src\Image.h" />
-    <ClInclude Include="src\Display.h" />
-    <ClInclude Include="src\inttypes.h" />
+    <ClInclude Include="src\controller\Image.h" />
+    <ClInclude Include="src\controller\Display.h" />
+    <ClInclude Include="src\controller\inttypes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />
@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);src;src/fonts;src/bmp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);src;src/fonts;src/bmp;src/controller;src/displays</AdditionalIncludeDirectories>
       <CppLanguageStandard>gnu++1y</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
