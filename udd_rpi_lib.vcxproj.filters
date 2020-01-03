@@ -13,6 +13,7 @@
     <ClCompile Include="src\controller\Display.cpp" />
     <ClCompile Include="src\controller\Image.cpp" />
     <ClCompile Include="src\controller\Metadata.cpp" />
+    <ClCompile Include="src\displays\DisplayST7789.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fonts\fonts.h" />
@@ -22,6 +23,7 @@
     <ClInclude Include="src\controller\Image.h" />
     <ClInclude Include="src\controller\inttypes.h" />
     <ClInclude Include="src\controller\Metadata.h" />
+    <ClInclude Include="src\displays\DisplayST7789.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />

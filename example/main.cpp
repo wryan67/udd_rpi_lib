@@ -1,15 +1,19 @@
 #include <wiringPi.h>
 #include <stdio.h>
-#include <Display.h>
 #include <Image.h>
 #include <sys/time.h>
 #include <math.h>
 #include <fonts.h>
 
+#include <Display.h>
+#include <DisplayST7789.h>
+
+
 using namespace udd;
 
 DisplayConfigruation config;
-Display d1;
+DisplayST7789 d1;
+
 unsigned long long currentTimeMillis();
 
 
@@ -129,7 +133,7 @@ int main(void)
     config.spiSpeed = 65000000;
 
 
-    d1 = Display(config);
+    d1 = DisplayST7789(config);
     d1.printConfiguration();
 
     d1.clear(WHITE);

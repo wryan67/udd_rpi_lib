@@ -65,6 +65,7 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\controller\Metadata.cpp" />
     <ClCompile Include="src\controller\Color.cpp" />
     <ClCompile Include="example\main.cpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="src\controller\Display.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\displays\DisplayST7789.h" />
     <ClInclude Include="src\bmp\GUI_BMPfile.h" />
     <ClInclude Include="src\controller\Metadata.h" />
     <ClInclude Include="src\controller\Color.h" />

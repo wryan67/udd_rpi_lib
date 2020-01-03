@@ -38,16 +38,15 @@ namespace udd {
 
     typedef DisplayConfigurationStruct      DisplayConfigruation;
 
-
     class Display {
-    private:
+    protected:
+        Display();
+        Display(DisplayConfigruation config);
 
         DisplayConfigruation config;
         int handle;
 
     public:
-        Display();
-        Display(DisplayConfigruation config);
 
         void openDisplay();
 
@@ -60,7 +59,7 @@ namespace udd {
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);
 
-        void init();
+        virtual void init();
 
         void printConfiguration();
 
