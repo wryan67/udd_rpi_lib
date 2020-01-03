@@ -66,8 +66,6 @@ Color::Color(const char* hexbytes) {
         sscanf(buf, "%x", &intensity);
         color.opacity = intensity;
     }
-
-    printf("hexcolor: r:%d g:%d b:%d\n", color.red, color.green, color.blue);
 }
 
 

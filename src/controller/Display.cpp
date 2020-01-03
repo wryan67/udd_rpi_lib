@@ -9,9 +9,7 @@
 
 namespace udd {
 
-    Display::Display() {
-
-    }
+    Display::Display() {}
     Display::Display(DisplayConfigruation config) {
         this->config = config;
         openDisplay();
@@ -60,7 +58,7 @@ namespace udd {
         printf("width:             %d\n", config.width);
         printf("height:            %d\n", config.height);
         printf("xOffset:           %d\n", config.xOffset);
-        printf("yOffset:           %d\n", config.yOffest);
+        printf("yOffset:           %d\n", config.yOffset);
         printf("cs:                %d\n", config.CS);
         printf("dc:                %d\n", config.DC);
         printf("rst:               %d\n", config.RST);
@@ -110,12 +108,19 @@ namespace udd {
     }
 
     void Display::showImage(Image image, Rotation rotation) {
+        int width  = config.width  + config.xOffset;
+        int height = config.height + config.yOffset;
+
+
 
         setScreenWindow(0, 0, config.width, config.height);
         digitalWrite(config.DC, 1);
 
         _word  row[config.width];
         _byte* rowPointer = (_byte*)(row);
+
+        
+
 
         for (int y = 0; y < config.height; y++) {
             for (int x = 0; x < config.width; ++x) {
@@ -175,6 +180,17 @@ namespace udd {
 
         wiringPiSPIDataRW(0, d2, len);
     }
+
+    void Display::pause() {
+        digitalWrite(config.CS, 1);
+        digitalWrite(config.DC, 1);
+    }
+
+    void Display::resume() {
+        digitalWrite(config.CS, 0);
+        digitalWrite(config.DC, 0);
+    }
+
 
     /*
     void Display::writeWord(_word data) {

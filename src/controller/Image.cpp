@@ -67,9 +67,6 @@ void Image::printPixel(int x, int y) {
     ColorType* xp = getPixel(x, y);
 
     _word cx = color2word(xp);
-
-    printf("r:%-3d g:%-3d b:%-3d %08x\n", xp->red, xp->green, xp->blue, cx);
-
 }
 
 ColorType* Image::getPixel(int x, int y) {
@@ -407,6 +404,4 @@ void Image::drawCircle(int x, int y, int radius, Color color, FillPattern patter
             }
         }
     }
-
-
 }

@@ -20,7 +20,7 @@ namespace udd {
         int height = 320;
 
         int xOffset = 0;
-        int yOffest = 0;
+        int yOffset = 0;
 
         //                wiringPi 
         int CS = 21;
@@ -52,7 +52,6 @@ namespace udd {
 
         void reset();
 
-        _word color2word(ColorType* xp);
 
         void clear(Color color);
 
@@ -60,6 +59,7 @@ namespace udd {
         void showImage(Image image);
 
         virtual void init();
+        virtual _word color2word(ColorType* xp);
 
         void printConfiguration();
 
@@ -69,6 +69,8 @@ namespace udd {
         void hidden();
 
         void writeBytes(_byte* data, uint32_t len);
+        void pause();
+        void resume();
         void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
         void writeByte(_byte data);

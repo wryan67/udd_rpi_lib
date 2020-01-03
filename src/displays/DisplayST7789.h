@@ -3,10 +3,10 @@
 
 namespace udd {
 
-    class DisplayST7789 : public Display {
+    class DisplayST7789R : public Display {
     public:
-        DisplayST7789();
-        DisplayST7789(DisplayConfigruation config);
+        DisplayST7789R();
+        DisplayST7789R(DisplayConfigruation config);
 
     protected:
         void init();

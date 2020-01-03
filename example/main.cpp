@@ -7,12 +7,17 @@
 
 #include <Display.h>
 #include <DisplayST7789.h>
+#include <DisplayST7735R.h>
 
 
 using namespace udd;
 
-DisplayConfigruation config;
-DisplayST7789 d1;
+DisplayConfigruation d1Config;
+DisplayST7789R d1;
+
+DisplayConfigruation d2Config;
+DisplayST7735R d2;
+
 
 unsigned long long currentTimeMillis();
 
@@ -67,8 +72,8 @@ bool frame(int frameCount, long long start) {
     }
     ++fps;
 
-    int imageWidth  = config.height;
-    int imageHeight = config.width;
+    int imageWidth  = d1Config.height;
+    int imageHeight = d1Config.width;
 
     Image image = Image(imageWidth, imageHeight, BLACK);
 
@@ -130,12 +135,63 @@ int main(void)
     digitalWrite(11, HIGH);
 
 
-    config.spiSpeed = 65000000;
-
-
-    d1 = DisplayST7789(config);
+    d2Config.width    = 240;
+    d2Config.height   = 320;
+    d1Config.CS       = 21;
+    d1Config.DC       = 22;
+    d1Config.RST      = 23;
+    d1Config.BLK      = 7;
+    d1Config.spiSpeed = 65000000;
+         
+    d1 = DisplayST7789R(d1Config);
     d1.printConfiguration();
+    d1.clear(BLACK);
+    d1.pause();
 
+    printf("--------------------------------------------\n");
+    printf("-----d2 config------------------------------\n");
+
+
+
+    d2Config.width    = 128;
+    d2Config.height   = 128;
+    d2Config.CS       = 24;
+    d2Config.RST      = 29;
+    d2Config.DC       = 25;
+    d2Config.xOffset = 2;
+    d2Config.yOffset = 1;
+    d2Config.spiSpeed = 65000000;
+
+    d2 = DisplayST7735R(d2Config);
+    d2.printConfiguration();
+
+    d2.clear(WHITE);
+    delay(500);
+    d2.clear(RED);
+    delay(500);
+    d2.clear(GREEN);
+    delay(500);
+    d2.clear(BLUE);
+    delay(500);
+    d2.clear(BLACK);
+
+    Image d2Image = Image(d2Config.width, d2Config.height, BLACK);
+
+    Color pallet[10] = {
+        RED, YELLOW, GREEN, BLUE, MAGENTA, CYAN
+    };
+
+    for (int i = 0; i < 6; ++i) {
+        d2Image.drawRectangle(20+ i*10, 0, i*10 + 30, 128, pallet[i], FILL, SOLID, 1);
+    }
+    d2Image.drawText(0, 0, "Hello World", &Font12, BLACK, WHITE);
+
+    
+    d2.showImage(d2Image, DEGREE_90);
+
+    d2.pause();
+    d1.resume();
+// ---------------
     d1.clear(WHITE);
     delay(10);
     d1.clear(RED);
@@ -146,10 +202,11 @@ int main(void)
     delay(10);
     d1.clear(BLACK);
 
+
+    
+
     Image image = Image(320, 240, BLACK);
     image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
-
-
 
     long count = 0;
     while (true) {
@@ -161,7 +218,6 @@ int main(void)
         long long start = currentTimeMillis();
 
         while (frame(++count, start));
-
         
     }
 
