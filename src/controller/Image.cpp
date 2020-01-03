@@ -72,7 +72,6 @@ void Image::printPixel(int x, int y) {
 ColorType* Image::getPixel(int x, int y) {
 
     if (x<0 || x > width || y<0 || y>height) {
-        fprintf(stderr, "access outside image area x=%d, y=%d\n", x, y); fflush(stderr);
         return NULL;
     }
 

@@ -91,19 +91,19 @@ namespace udd {
     void Display::clear(Color color) {
         ColorType ct = color.toType();
 
-        _word  row[config.width];
+        _word  row[config.width+config.xOffset];
         _byte* rowPointer = (_byte*)(row);
         _word  cx = color2word(&ct);
 
-        for (int x = 0; x < config.width; x++) {
+        for (int x = 0; x < config.width+config.xOffset; x++) {
             row[x] = cx;
         }
 
-        setScreenWindow(0, 0, config.width, config.height);
+        setScreenWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset);
         digitalWrite(config.DC, 1);
 
-        for (int y = 0; y < config.height; y++) {
-            writeBytes(rowPointer, config.width * 2);
+        for (int y = 0; y < config.height+config.yOffset; y++) {
+            writeBytes(rowPointer, (config.width+config.xOffset) * 2);
         }
     }
 
@@ -113,24 +113,27 @@ namespace udd {
 
 
 
-        setScreenWindow(0, 0, config.width, config.height);
+        setScreenWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
 
         _word  row[config.width];
         _byte* rowPointer = (_byte*)(row);
 
-        
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; ++x) {
+                ColorType* ct= image.getPixel(x-config.xOffset,y-config.yOffset,rotation);
 
-
-        for (int y = 0; y < config.height; y++) {
-            for (int x = 0; x < config.width; ++x) {
-                ColorType* ct= image.getPixel(x,y,rotation);
-                
-                row[x] = color2word(ct);
+                if (ct == NULL) {
+                    row[x] = 0;
+                } else {
+                    row[x] = color2word(ct);
+                }
             }
 
-            writeBytes(rowPointer, config.width * 2);
+            writeBytes(rowPointer, (config.width + config.xOffset) * 2);
         }
+        digitalWrite(config.CS, 1);
     }
 
 

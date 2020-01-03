@@ -186,7 +186,8 @@ int main(void)
     }
     d2Image.drawText(0, 0, "Hello World", &Font12, BLACK, WHITE);
 
-    
+    d2Image.drawRectangle(0, 0, d2Config.width-1, d2Config.height-1, WHITE, NONE, SOLID, 1);
+
     d2.showImage(d2Image, DEGREE_90);
 
     d2.pause();
