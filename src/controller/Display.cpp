@@ -35,7 +35,8 @@ namespace udd {
 
         visable();
 
-        this->init();
+        init();
+        pause();
     }
 
     void Display::reset() {

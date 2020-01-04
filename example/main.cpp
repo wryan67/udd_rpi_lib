@@ -14,10 +14,12 @@
 using namespace udd;
 
 DisplayConfigruation d1Config;
-DisplayST7789R d1;
-
 DisplayConfigruation d2Config;
-DisplayST7735R d2;
+DisplayConfigruation d3Config;
+
+DisplayST7789R *d1 = new DisplayST7789R();
+DisplayST7735R *d2 = new DisplayST7735R();
+DisplayST7735R *d3 = new DisplayST7735R();
 
 
 unsigned long long currentTimeMillis();
@@ -115,26 +117,115 @@ bool frame(int frameCount, long long start) {
     sprintf(message, "%d-fps", lastFPS);
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
 
-    d1.showImage(image,DEGREE_270);
+    d1->showImage(image,DEGREE_270);
 
 
     image.close();
 
     return ((now - start) < 6000);
+
 }
+void* d1ImageDemo(void*) {
+
+    Image image = Image(320, 240, BLACK);
+    image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+
+    long count = 0;
+    while (true) {
+        d1->clear(WHITE);
+        delay(10);
+        d1->clear(RED);
+        delay(10);
+        d1->clear(BLUE);
+        delay(10);
+        d1->clear(GREEN);
+        delay(10);
+        d1->clear(BLACK);
+
+        d1->showImage(image, DEGREE_270);
+
+        delay(1000);
+
+        long long start = currentTimeMillis();
+
+        while (frame(++count, start));
+
+    }
+}
+
+void* d3ImageDemo(void*) {
+
+
+}
+
+void configureD1() {
+    printf("--------------------------------------------\n");
+    printf("-----d1 config------------------------------\n");
+    d2Config.width = 240;
+    d2Config.height = 320;
+    d1Config.spiSpeed = 90000000;
+
+    d1Config.CS = 21;
+    d1Config.DC = 22;
+    d1Config.RST = 23;
+    d1Config.BLK = 7;
+
+    d1->openDisplay(d1Config);
+    d1->printConfiguration();
+}
+
+void configureD2() {
+    printf("--------------------------------------------\n");
+    printf("-----d2 config------------------------------\n");
+    d2Config.width = 128;
+    d2Config.height = 128;
+
+    d2Config.CS = 24;
+    d2Config.DC = 25;
+    d2Config.RST = 26;
+    d2Config.BLK = 7;
+
+    d2Config.xOffset = 2;
+    d2Config.yOffset = 1;
+    d2Config.spiSpeed = 10000000;
+
+    d2->openDisplay(d2Config);
+    d2->printConfiguration();
+}
+
+void configureD3() {
+    printf("--------------------------------------------\n");
+    printf("-----d3 config------------------------------\n");
+    d3Config.width = 128;
+    d3Config.height = 128;
+
+    d3Config.CS = 27;
+    d3Config.DC = 28;
+    d3Config.RST = 29;
+    d3Config.BLK = 7;
+
+    d3Config.xOffset = 2;
+    d3Config.yOffset = 1;
+    d3Config.spiSpeed = 35000000;
+
+    d3->openDisplay(d3Config);
+    d3->printConfiguration();
+}
+
 
 void *d2ImageDemo(void *) {
 
+
     while (true) {
-        d2.clear(WHITE);
+        d2->clear(WHITE);
         delay(100);
-        d2.clear(RED);
+        d2->clear(RED);
         delay(100);
-        d2.clear(GREEN);
+        d2->clear(GREEN);
         delay(100);
-        d2.clear(BLUE);
+        d2->clear(BLUE);
         delay(100);
-        d2.clear(BLACK);
+        d2->clear(BLACK);
 
         Image d2Image = Image(d2Config.width, d2Config.height, BLACK);
 
@@ -149,11 +240,11 @@ void *d2ImageDemo(void *) {
 
         d2Image.drawRectangle(0, 0, d2Config.width - 1, d2Config.height - 1, WHITE, NONE, SOLID, 1);
 
-        d2.showImage(d2Image, DEGREE_90);
+        d2->showImage(d2Image, DEGREE_90);
 
         delay(2000);
         d2Image.loadBMP("../images/MotorBike-128x128.bmp", 0, 0);
-        d2.showImage(d2Image, DEGREE_90);
+        d2->showImage(d2Image, DEGREE_90);
 
         delay(4000);
         d2Image.close();
@@ -165,81 +256,42 @@ int main(void)
 {
 	wiringPiSetup();
 
-    // just incase there's somehting attached to these pins
+    // just incase there's somehting attached to the standard cs pins
     pinMode(10, OUTPUT);
     pinMode(11, OUTPUT);
     digitalWrite(10, HIGH);
     digitalWrite(11, HIGH);
 
+       int         demos = 3;
+    pthread_t   threads[demos];
+    char        message[demos][256];
 
-    d2Config.width    = 240;
-    d2Config.height   = 320;
-    d1Config.CS       = 24;
-    d1Config.DC       = 25;
-    d1Config.RST      = 26;
-    d1Config.BLK      = 7;
-    d1Config.spiSpeed = 65000000;
-         
-    d1.openDisplay(d1Config);
-    d1.printConfiguration();
-    d1.clear(BLACK);
-    d1.pause();
-
-    
-    printf("--------------------------------------------\n");
-    printf("-----d2 config------------------------------\n");
-
-    
-
-    d2Config.width    = 128;
-    d2Config.height   = 128;
-    d2Config.CS       = 21;
-    d2Config.DC       = 22;
-    d2Config.RST      = 23;
-    d2Config.xOffset = 2;
-    d2Config.yOffset = 1;
-    d2Config.spiSpeed = 35000000;
-
-    d2.openDisplay(d2Config);
-    d2.printConfiguration();
-    d2.init();
-    d2.pause();
-
-    
-    pthread_t thread1;
-    const char message1[256] = "d2 image demo";
-    pthread_create(&thread1, NULL, d2ImageDemo, (void*)message1);
-    
-// ---------------
-    d1.resume();
-    d1.clear(WHITE);
-    delay(10);
-    d1.clear(RED);
-    delay(10);
-    d1.clear(BLUE);
-    delay(10);
-    d1.clear(GREEN);
-    delay(10);
-    d1.clear(BLACK);
-
-
-
-    Image image = Image(320, 240, BLACK);
-    image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
-
-    long count = 0;
-    while (true) {
-        
-        d1.showImage(image, DEGREE_270);
-
-        delay(1000);
-
-        long long start = currentTimeMillis();
-
-        while (frame(++count, start));
-        
+    for (int i = 0; i < demos; ++i) {
+        sprintf(message[i], "demo thread %d", i);
     }
 
+    configureD1();
+    configureD2();
+    configureD3();
+
+    printf("--------------------------------------------\n");
+    printf("-----d2 config------------------------------\n");
+    d2->printConfiguration();
+
+    // need to pause everyting in multi-thread envionment
+    d1->pause();
+    d2->pause();
+    d3->pause();
+
+    pthread_create(&threads[0], NULL, d1ImageDemo, (void*)message[0]);
+    pthread_create(&threads[1], NULL, d2ImageDemo, (void*)message[1]);
+//    pthread_create(&thread[2], NULL, d2ImageDemo, (void*)message[2]);
+
+    printf("press control-c to quit\n"); 
+
+    while (true) {
+        delay(1000);
+    }
 
     return 0;
 }

@@ -44,9 +44,9 @@ namespace udd {
         Display();
         virtual ~Display() {}
 
-        DisplayConfigruation config;
         int handle = -1;
 
+        DisplayConfigruation config;
     public:
         virtual void init() {
             printf("init failed, base method called instead of child\n");
