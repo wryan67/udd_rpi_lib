@@ -5,115 +5,101 @@ namespace udd {
     LCD_DIS sLCD_DIS;
 
     DisplayST7735R::DisplayST7735R() : Display() {}
-    DisplayST7735R::DisplayST7735R(DisplayConfigruation config) : Display(config) {
-        this->config.displayType = ST7735;
-    }
      
-    void DisplayST7735R::init() {
+    void DisplayST7735R::init()  {
         reset();
 
-        //ST7735R Frame Rate
-        writeCommand(0xB1);
-        writeByte(0x01);
-        writeByte(0x2C);
-        writeByte(0x2D);
+        printf("init st7735\n");
 
-        writeCommand(0xB2);
-        writeByte(0x01);
-        writeByte(0x2C);
-        writeByte(0x2D);
-
-        writeCommand(0xB3);
-        writeByte(0x01);
-        writeByte(0x2C);
-        writeByte(0x2D);
-        writeByte(0x01);
-        writeByte(0x2C);
-        writeByte(0x2D);
-
-        writeCommand(0xB4); //Column inversion
-        writeByte(0x07);
-
-        //ST7735R Power Sequence
-        writeCommand(0xC0);
-        writeByte(0xA2);
-        writeByte(0x02);
-        writeByte(0x84);
-        writeCommand(0xC1);
-        writeByte(0xC5);
-
-        writeCommand(0xC2);
-        writeByte(0x0A);
+        writeCommand(0x36);
         writeByte(0x00);
 
-        writeCommand(0xC3);
-        writeByte(0x8A);
-        writeByte(0x2A);
-        writeCommand(0xC4);
-        writeByte(0x8A);
-        writeByte(0xEE);
-
-        writeCommand(0xC5); //VCOM
-        writeByte(0x0E);
-
-        //ST7735R Gamma Sequence
-        writeCommand(0xe0);
-        writeByte(0x0f);
-        writeByte(0x1a);
-        writeByte(0x0f);
-        writeByte(0x18);
-        writeByte(0x2f);
-        writeByte(0x28);
-        writeByte(0x20);
-        writeByte(0x22);
-        writeByte(0x1f);
-        writeByte(0x1b);
-        writeByte(0x23);
-        writeByte(0x37);
-        writeByte(0x00);
-        writeByte(0x07);
-        writeByte(0x02);
-        writeByte(0x10);
-
-        writeCommand(0xe1);
-        writeByte(0x0f);
-        writeByte(0x1b);
-        writeByte(0x0f);
-        writeByte(0x17);
-        writeByte(0x33);
-        writeByte(0x2c);
-        writeByte(0x29);
-        writeByte(0x2e);
-        writeByte(0x30);
-        writeByte(0x30);
-        writeByte(0x39);
-        writeByte(0x3f);
-        writeByte(0x00);
-        writeByte(0x07);
-        writeByte(0x03);
-        writeByte(0x10);
-
-        writeCommand(0xF0); //Enable test command
-        writeByte(0x01);
-
-        writeCommand(0xF6); //Disable ram power save mode
-        writeByte(0x00);
-
-        writeCommand(0x3A); //65k mode
+        writeCommand(0x3A);
         writeByte(0x05);
 
+        writeCommand(0x21);
 
-        LCD_SCAN_DIR LCD_ScanDir = SCAN_DIR_DFT;//SCAN_DIR_DFT = D2U_L2R
-        initScanDir(LCD_ScanDir);
+        writeCommand(0x2A);
+        writeByte(0x00);
+        writeByte(0x00);
+        writeByte(0x01);
+        writeByte(0x3F);
 
-        delay(200);
+        writeCommand(0x2B);
+        writeByte(0x00);
+        writeByte(0x00);
+        writeByte(0x00);
+        writeByte(0xEF);
 
-        //sleep out
+        writeCommand(0xB2);
+        writeByte(0x0C);
+        writeByte(0x0C);
+        writeByte(0x00);
+        writeByte(0x33);
+        writeByte(0x33);
+
+        writeCommand(0xB7);
+        writeByte(0x35);
+
+        writeCommand(0xBB);
+        writeByte(0x1F);
+
+        writeCommand(0xC0);
+        writeByte(0x2C);
+
+        writeCommand(0xC2);
+        writeByte(0x01);
+
+        writeCommand(0xC3);
+        writeByte(0x12);
+
+        writeCommand(0xC4);
+        writeByte(0x20);
+
+        writeCommand(0xC6);
+        writeByte(0x0F);
+
+        writeCommand(0xD0);
+        writeByte(0xA4);
+        writeByte(0xA1);
+
+        writeCommand(0xE0);
+        writeByte(0xD0);
+        writeByte(0x08);
+        writeByte(0x11);
+        writeByte(0x08);
+        writeByte(0x0C);
+        writeByte(0x15);
+        writeByte(0x39);
+        writeByte(0x33);
+        writeByte(0x50);
+        writeByte(0x36);
+        writeByte(0x13);
+        writeByte(0x14);
+        writeByte(0x29);
+        writeByte(0x2D);
+
+        writeCommand(0xE1);
+        writeByte(0xD0);
+        writeByte(0x08);
+        writeByte(0x10);
+        writeByte(0x08);
+        writeByte(0x06);
+        writeByte(0x06);
+        writeByte(0x39);
+        writeByte(0x44);
+        writeByte(0x51);
+        writeByte(0x0B);
+        writeByte(0x16);
+        writeByte(0x14);
+        writeByte(0x2F);
+        writeByte(0x31);
+        writeCommand(0x21);
+
         writeCommand(0x11);
-        delay(120);
 
-        //Turn on the LCD display
         writeCommand(0x29);
+
     }
 
     void DisplayST7735R::initScanDir(LCD_SCAN_DIR Scan_dir) {
@@ -132,6 +118,7 @@ namespace udd {
 
         // Gets the scan direction of GRAM
         uint16_t MemoryAccessReg_Data = 0;  //0x36
+
         switch (Scan_dir) {
         case L2R_U2D:
             MemoryAccessReg_Data = 0X00 | 0x00;//x Scan direction | y Scan direction

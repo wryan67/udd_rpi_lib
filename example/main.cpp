@@ -4,6 +4,7 @@
 #include <sys/time.h>
 #include <math.h>
 #include <fonts.h>
+#include <pthread.h>
 
 #include <Display.h>
 #include <DisplayST7789.h>
@@ -92,11 +93,11 @@ bool frame(int frameCount, long long start) {
     }
 
 
-
+/*
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, GRAY,        NONE,  DOTTED, 3);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, LIGHT_GRAY,  NONE,  SOLID,  2);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, WHITE,       NONE,  SOLID,  1);
-
+*/
 
 
     Color lineColor[9] = {
@@ -121,7 +122,45 @@ bool frame(int frameCount, long long start) {
 
     image.close();
 
-    return ((now - start) < 4000);
+    return ((now - start) < 6000);
+}
+
+void *d2ImageDemo(void *) {
+
+    while (true) {
+        d2.clear(WHITE);
+        delay(100);
+        d2.clear(RED);
+        delay(100);
+        d2.clear(GREEN);
+        delay(100);
+        d2.clear(BLUE);
+        delay(100);
+        d2.clear(BLACK);
+
+        Image d2Image = Image(d2Config.width, d2Config.height, BLACK);
+
+        Color pallet[10] = {
+            RED, YELLOW, GREEN, BLUE, MAGENTA, CYAN
+        };
+
+        for (int i = 0; i < 6; ++i) {
+            d2Image.drawRectangle(20 + i * 10, 0, i * 10 + 30, 128, pallet[i], FILL, SOLID, 1);
+        }
+        d2Image.drawText(0, 0, "Hello World", &Font12, BLACK, WHITE);
+
+        d2Image.drawRectangle(0, 0, d2Config.width - 1, d2Config.height - 1, WHITE, NONE, SOLID, 1);
+
+        d2.showImage(d2Image, DEGREE_90);
+
+        delay(2000);
+        d2Image.loadBMP("../images/MotorBike-128x128.bmp", 0, 0);
+        d2.showImage(d2Image, DEGREE_90);
+
+        delay(4000);
+        d2Image.close();
+    }
+
 }
 
 int main(void)
@@ -137,62 +176,44 @@ int main(void)
 
     d2Config.width    = 240;
     d2Config.height   = 320;
-    d1Config.CS       = 21;
-    d1Config.DC       = 22;
-    d1Config.RST      = 23;
+    d1Config.CS       = 24;
+    d1Config.DC       = 25;
+    d1Config.RST      = 26;
     d1Config.BLK      = 7;
     d1Config.spiSpeed = 65000000;
          
-    d1 = DisplayST7789R(d1Config);
+    d1.openDisplay(d1Config);
     d1.printConfiguration();
     d1.clear(BLACK);
     d1.pause();
 
+    
     printf("--------------------------------------------\n");
     printf("-----d2 config------------------------------\n");
 
-
+    
 
     d2Config.width    = 128;
     d2Config.height   = 128;
-    d2Config.CS       = 24;
-    d2Config.RST      = 29;
-    d2Config.DC       = 25;
+    d2Config.CS       = 21;
+    d2Config.DC       = 22;
+    d2Config.RST      = 23;
     d2Config.xOffset = 2;
     d2Config.yOffset = 1;
-    d2Config.spiSpeed = 65000000;
+    d2Config.spiSpeed = 35000000;
 
-    d2 = DisplayST7735R(d2Config);
+    d2.openDisplay(d2Config);
     d2.printConfiguration();
-
-    d2.clear(WHITE);
-    delay(500);
-    d2.clear(RED);
-    delay(500);
-    d2.clear(GREEN);
-    delay(500);
-    d2.clear(BLUE);
-    delay(500);
-    d2.clear(BLACK);
-
-    Image d2Image = Image(d2Config.width, d2Config.height, BLACK);
-
-    Color pallet[10] = {
-        RED, YELLOW, GREEN, BLUE, MAGENTA, CYAN
-    };
-
-    for (int i = 0; i < 6; ++i) {
-        d2Image.drawRectangle(20+ i*10, 0, i*10 + 30, 128, pallet[i], FILL, SOLID, 1);
-    }
-    d2Image.drawText(0, 0, "Hello World", &Font12, BLACK, WHITE);
-
-    d2Image.drawRectangle(0, 0, d2Config.width-1, d2Config.height-1, WHITE, NONE, SOLID, 1);
-
-    d2.showImage(d2Image, DEGREE_90);
-
+    d2.init();
     d2.pause();
-    d1.resume();
+
+    
+    pthread_t thread1;
+    const char message1[256] = "d2 image demo";
+    pthread_create(&thread1, NULL, d2ImageDemo, (void*)message1);
+    
 // ---------------
+    d1.resume();
     d1.clear(WHITE);
     delay(10);
     d1.clear(RED);
@@ -204,7 +225,6 @@ int main(void)
     d1.clear(BLACK);
 
 
-    
 
     Image image = Image(320, 240, BLACK);
     image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);

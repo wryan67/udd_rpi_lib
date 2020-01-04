@@ -48,7 +48,7 @@
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
-      <LibraryDependencies>wiringPi</LibraryDependencies>
+      <LibraryDependencies>wiringPi; pthread</LibraryDependencies>
     </Link>
     <RemotePostBuildEvent>
       <Command>gpio export 17 out</Command>
@@ -96,11 +96,16 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\BlueAngle4-320x240.bmp" />
+    <Image Include="images\BlueAngles3.png" />
+    <Image Include="images\BlueAngles4.png" />
+    <Image Include="images\BlueAngles5.png" />
+    <Image Include="images\MotorBike-128x128.bmp" />
+    <Image Include="images\MotorBike.png" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);src;src/fonts;src/bmp;src/controller;src/displays</AdditionalIncludeDirectories>
-      <CppLanguageStandard>gnu++1y</CppLanguageStandard>
+      <CppLanguageStandard>gnu++11</CppLanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

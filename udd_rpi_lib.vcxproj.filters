@@ -32,5 +32,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\BlueAngle4-320x240.bmp" />
+    <Image Include="images\MotorBike-128x128.bmp" />
+    <Image Include="images\MotorBike.png" />
+    <Image Include="images\BlueAngles3.png" />
+    <Image Include="images\BlueAngles4.png" />
+    <Image Include="images\BlueAngles5.png" />
   </ItemGroup>
 </Project>

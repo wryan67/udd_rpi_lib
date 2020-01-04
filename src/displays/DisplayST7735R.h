@@ -29,7 +29,10 @@ namespace udd {
         D2U_L2R,
         D2U_R2L,
     }LCD_SCAN_DIR;
-#define SCAN_DIR_DFT  U2D_R2L  //Default scan direction = L2R_U2D
+//#define SCAN_DIR_DFT  U2D_R2L  //Default scan direction = L2R_U2D
+
+#define SCAN_DIR_DFT  D2U_R2L  //Default scan direction = L2R_U2D
+
 
     typedef struct {
         LENGTH LCD_Dis_Column;	//COLUMN
@@ -46,10 +49,8 @@ namespace udd {
     class DisplayST7735R : public Display {
     public:
         DisplayST7735R();
-        DisplayST7735R(DisplayConfigruation config);
 
-    protected:
-        void init();
+        void init() override;
         void initScanDir(LCD_SCAN_DIR direction);
 
         _word color2word(ColorType* xp);

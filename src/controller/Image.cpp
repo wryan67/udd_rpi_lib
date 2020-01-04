@@ -67,6 +67,8 @@ void Image::printPixel(int x, int y) {
     ColorType* xp = getPixel(x, y);
 
     _word cx = color2word(xp);
+
+    printf("pixel(%d, %d)='#%2x%2x%2x  displayWord=%04x\n", x,y, xp->red, xp->green, xp->blue, cx);
 }
 
 ColorType* Image::getPixel(int x, int y) {
@@ -92,6 +94,7 @@ ColorType* Image::getPixel(int x, int y, Rotation rotation) {
 
     default:
         fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);
+        return getPixel(x, y);
     }
 }
 
@@ -145,8 +148,6 @@ void Image::drawLine(int x1, int y1, int x2, int y2, Color color, LineStyle styl
     ry = y1;
     x = x1;
     y = y1;
-
-    int step = (style == DOTTED) ? 2 : 1;
 
     for (i = 0; i <= longestLeg; ++i) {
         bool visible = true;
@@ -307,7 +308,7 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
                 perror("get bmpdata:\r\n");
                 break;
             }
-            int imageOffset = x + (bmpInfoHeader.biHeight - y - 1) * Image_Width_Byte;
+            unsigned int imageOffset = x + (bmpInfoHeader.biHeight - y - 1) * Image_Width_Byte;
             if (imageOffset > sizeof(bmpImage)) {
                 fprintf(stderr, "image out of bounds");
                 exit(9);
@@ -375,7 +376,7 @@ void Image::arcPoint(int x, int y, int radius, double degree, int* xPoint, int* 
 
 void Image::drawCircle(int x, int y, int radius, Color color, FillPattern pattern, LineStyle lineStyle, int width) {
 
-    double xPoint, yPoint, degree;
+    double xPoint, yPoint;
 
     int lx=-1, ly=-1;
     int ct = 0;

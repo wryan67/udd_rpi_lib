@@ -8,7 +8,8 @@
 
 namespace udd {
 
-
+    extern pthread_mutex_t screenLock;
+    extern bool initDisplay;
 
     struct DisplayConfigurationStruct {
         DisplayType    displayType = ST7789;
@@ -41,14 +42,19 @@ namespace udd {
     class Display {
     protected:
         Display();
-        Display(DisplayConfigruation config);
+        virtual ~Display() {}
 
         DisplayConfigruation config;
-        int handle;
+        int handle = -1;
 
     public:
+        virtual void init() {
+            printf("init failed, base method called instead of child\n");
+            exit(0);
+        }
+        virtual _word color2word(ColorType* xp);
 
-        void openDisplay();
+        void openDisplay(DisplayConfigruation configuratrion);
 
         void reset();
 
@@ -58,8 +64,6 @@ namespace udd {
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);
 
-        virtual void init();
-        virtual _word color2word(ColorType* xp);
 
         void printConfiguration();
 

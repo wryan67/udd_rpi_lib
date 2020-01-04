@@ -4,9 +4,6 @@
 namespace udd {
 
     DisplayST7789R::DisplayST7789R() : Display() {}
-    DisplayST7789R::DisplayST7789R(DisplayConfigruation config) : Display(config) {
-        this->config.displayType = ST7789;
-    }
 
     void DisplayST7789R::init() {
         reset();
@@ -100,7 +97,6 @@ namespace udd {
 
         writeCommand(0x29);
     }
-
 
 
 
