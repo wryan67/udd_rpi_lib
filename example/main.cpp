@@ -93,11 +93,9 @@ bool frame(int frameCount, long long start) {
     }
 
 
-/*
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, GRAY,        NONE,  DOTTED, 3);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, LIGHT_GRAY,  NONE,  SOLID,  2);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, WHITE,       NONE,  SOLID,  1);
-*/
 
 
     Color lineColor[9] = {
