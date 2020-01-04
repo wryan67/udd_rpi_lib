@@ -145,7 +145,7 @@ void *d2ImageDemo(void *) {
         for (int i = 0; i < 6; ++i) {
             d2Image.drawRectangle(20 + i * 10, 0, i * 10 + 30, 128, pallet[i], FILL, SOLID, 1);
         }
-        d2Image.drawText(0, 0, "Hello World", &Font12, BLACK, WHITE);
+        d2Image.drawText(2, 2, "Hello World!!!", &Font12, BLACK, WHITE);
 
         d2Image.drawRectangle(0, 0, d2Config.width - 1, d2Config.height - 1, WHITE, NONE, SOLID, 1);
 
