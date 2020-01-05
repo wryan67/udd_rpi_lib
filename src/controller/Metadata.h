@@ -5,7 +5,7 @@ namespace udd {
 
 // screen stuff
     enum DisplayType {
-        ST7789, ST7735
+        UNKNOWN_DISPLAY, ST7789, ST7735
     };
 
     enum InterfaceType {

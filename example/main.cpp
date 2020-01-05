@@ -17,9 +17,9 @@ DisplayConfigruation d1Config;
 DisplayConfigruation d2Config;
 DisplayConfigruation d3Config;
 
-DisplayST7789R *d1 = new DisplayST7789R();
-DisplayST7735R *d2 = new DisplayST7735R();
-DisplayST7735R *d3 = new DisplayST7735R();
+DisplayST7789R d1 = DisplayST7789R();
+DisplayST7735R d2 = DisplayST7735R();
+DisplayST7735R d3 = DisplayST7735R();
 
 
 unsigned long long currentTimeMillis();
@@ -78,13 +78,13 @@ bool frame(int frameCount, long long start) {
     int imageWidth  = d1Config.height;
     int imageHeight = d1Config.width;
 
-    Image image = Image(imageWidth, imageHeight, BLACK);
-
+  
     int minX=0, minY = 0;
     int maxX = imageWidth-1;
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
+    Image image = Image(d1Config.height, d1Config.width, BLACK);
 
     image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
@@ -94,11 +94,10 @@ bool frame(int frameCount, long long start) {
         image.drawLine(1, y, maxX, y, BROWN, SOLID, 1);
     }
 
-
+    
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, GRAY,        NONE,  DOTTED, 3);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, LIGHT_GRAY,  NONE,  SOLID,  2);
     image.drawCircle(maxX / 2, maxY / 2, maxY / 4, WHITE,       NONE,  SOLID,  1);
-
 
     Color lineColor[9] = {
         //1      2     3        4      5         6        7       8    
@@ -117,12 +116,12 @@ bool frame(int frameCount, long long start) {
     sprintf(message, "%d-fps", lastFPS);
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
 
-    d1->showImage(image,DEGREE_270);
+    d1.showImage(image,DEGREE_270);
 
 
     image.close();
 
-    return ((now - start) < 6000);
+    return ((now - start) < 8000);
 
 }
 void* d1ImageDemo(void*) {
@@ -132,17 +131,17 @@ void* d1ImageDemo(void*) {
 
     long count = 0;
     while (true) {
-        d1->clear(WHITE);
+        d1.clear(WHITE);
         delay(10);
-        d1->clear(RED);
+        d1.clear(RED);
         delay(10);
-        d1->clear(BLUE);
+        d1.clear(BLUE);
         delay(10);
-        d1->clear(GREEN);
+        d1.clear(GREEN);
         delay(10);
-        d1->clear(BLACK);
+        d1.clear(BLACK);
 
-        d1->showImage(image, DEGREE_270);
+        d1.showImage(image, DEGREE_270);
 
         delay(1000);
 
@@ -154,8 +153,36 @@ void* d1ImageDemo(void*) {
 }
 
 void* d3ImageDemo(void*) {
+    while (true) {
+        d3.clear(WHITE);
+        delay(10);
+        d3.clear(RED);
+        delay(10);
+        d3.clear(BLUE);
 
+        Image d3Image = Image(d3Config.width, d3Config.height, BLACK);
 
+        Color pallet[10] = {
+            RED, YELLOW, GREEN, BLUE, MAGENTA, CYAN
+        };
+
+        for (int i = 0; i < 6; ++i) {
+            d3Image.drawRectangle(20 + i * 10, 0, i * 10 + 30, 128, pallet[i], FILL, SOLID, 1);
+        }
+        d3Image.drawText(2, 2, "Hello World!!!", &Font12, BLACK, WHITE);
+
+        d3Image.drawRectangle(0, 0, d3Config.width - 1, d3Config.height - 1, WHITE, NONE, SOLID, 1);
+
+        d3.showImage(d3Image, DEGREE_90);
+
+        delay(2000);
+        d3Image.loadBMP("../images/MotorBike-128x128.bmp", 0, 0);
+        d3.showImage(d3Image, DEGREE_90);
+
+        delay(4000);
+        d3Image.close();
+
+    }
 }
 
 void configureD1() {
@@ -170,14 +197,14 @@ void configureD1() {
     d1Config.RST = 23;
     d1Config.BLK = 7;
 
-    d1->openDisplay(d1Config);
-    d1->printConfiguration();
+    d1.openDisplay(d1Config);
+    d1.printConfiguration();
 }
 
 void configureD2() {
     printf("--------------------------------------------\n");
     printf("-----d2 config------------------------------\n");
-    d2Config.width = 128;
+    d2Config.width  = 128;
     d2Config.height = 128;
 
     d2Config.CS = 24;
@@ -187,29 +214,29 @@ void configureD2() {
 
     d2Config.xOffset = 2;
     d2Config.yOffset = 1;
-    d2Config.spiSpeed = 10000000;
+    d2Config.spiSpeed = 35000000;
 
-    d2->openDisplay(d2Config);
-    d2->printConfiguration();
+    d2.openDisplay(d2Config);
+    d2.printConfiguration();
 }
 
 void configureD3() {
     printf("--------------------------------------------\n");
     printf("-----d3 config------------------------------\n");
-    d3Config.width = 128;
+    d3Config.width  = 128;
     d3Config.height = 128;
 
-    d3Config.CS = 27;
-    d3Config.DC = 28;
+    d3Config.CS  = 27;
+    d3Config.DC  = 28;
     d3Config.RST = 29;
     d3Config.BLK = 7;
 
     d3Config.xOffset = 2;
     d3Config.yOffset = 1;
-    d3Config.spiSpeed = 35000000;
+    d3Config.spiSpeed = 10000000;
 
-    d3->openDisplay(d3Config);
-    d3->printConfiguration();
+    d3.openDisplay(d3Config);
+    d3.printConfiguration();
 }
 
 
@@ -217,15 +244,15 @@ void *d2ImageDemo(void *) {
 
 
     while (true) {
-        d2->clear(WHITE);
+        d2.clear(WHITE);
         delay(100);
-        d2->clear(RED);
+        d2.clear(RED);
         delay(100);
-        d2->clear(GREEN);
+        d2.clear(GREEN);
         delay(100);
-        d2->clear(BLUE);
+        d2.clear(BLUE);
         delay(100);
-        d2->clear(BLACK);
+        d2.clear(BLACK);
 
         Image d2Image = Image(d2Config.width, d2Config.height, BLACK);
 
@@ -240,11 +267,11 @@ void *d2ImageDemo(void *) {
 
         d2Image.drawRectangle(0, 0, d2Config.width - 1, d2Config.height - 1, WHITE, NONE, SOLID, 1);
 
-        d2->showImage(d2Image, DEGREE_90);
+        d2.showImage(d2Image, DEGREE_90);
 
         delay(2000);
         d2Image.loadBMP("../images/MotorBike-128x128.bmp", 0, 0);
-        d2->showImage(d2Image, DEGREE_90);
+        d2.showImage(d2Image, DEGREE_90);
 
         delay(4000);
         d2Image.close();
@@ -272,20 +299,12 @@ int main(void)
 
     configureD1();
     configureD2();
-    configureD3();
+//    configureD3();
 
-    printf("--------------------------------------------\n");
-    printf("-----d2 config------------------------------\n");
-    d2->printConfiguration();
-
-    // need to pause everyting in multi-thread envionment
-    d1->pause();
-    d2->pause();
-    d3->pause();
 
     pthread_create(&threads[0], NULL, d1ImageDemo, (void*)message[0]);
     pthread_create(&threads[1], NULL, d2ImageDemo, (void*)message[1]);
-//    pthread_create(&thread[2], NULL, d2ImageDemo, (void*)message[2]);
+//    pthread_create(&threads[2], NULL, d3ImageDemo, (void*)message[2]);
 
     printf("press control-c to quit\n"); 
 

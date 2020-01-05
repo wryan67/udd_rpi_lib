@@ -4,18 +4,17 @@
 
 #include "Metadata.h"
 #include "Image.h"
+#include <mutex>
 
 
 namespace udd {
-
-    extern pthread_mutex_t screenLock;
     extern bool initDisplay;
 
     struct DisplayConfigurationStruct {
-        DisplayType    displayType = ST7789;
+        DisplayType    displayType    = UNKNOWN_DISPLAY;
         InterfaceType  interfacedType = SPI;
         Rotation       screenRotation = DEGREE_0;
-        ScreenMirror   screenMirror = NORMAL;
+        ScreenMirror   screenMirror   = NORMAL;
 
         int width = 240;
         int height = 320;
@@ -34,13 +33,17 @@ namespace udd {
 
         int spiChannel = 0;
         int spiSpeed = 10000000;
-
     };
 
     typedef DisplayConfigurationStruct      DisplayConfigruation;
 
     class Display {
+    private:
+        int displayId = -1;
+        static std::recursive_mutex screenLock;
+
     protected:
+
         Display();
         virtual ~Display() {}
 

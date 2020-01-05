@@ -65,6 +65,7 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\controller\IdGenerator.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\controller\Metadata.cpp" />
@@ -81,6 +82,7 @@
     <ClCompile Include="src\controller\Display.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\controller\IdGenerator.h" />
     <ClInclude Include="src\displays\DisplayST7735R.h" />
     <ClInclude Include="src\displays\DisplayST7789.h" />
     <ClInclude Include="src\bmp\GUI_BMPfile.h" />
@@ -106,6 +108,8 @@
     <ClCompile>
       <AdditionalIncludeDirectories>%(ClCompile.AdditionalIncludeDirectories);src;src/fonts;src/bmp;src/controller;src/displays</AdditionalIncludeDirectories>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
+      <Optimization>Custom</Optimization>
+      <AdditionalOptions>-O2</AdditionalOptions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

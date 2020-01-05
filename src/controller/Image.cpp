@@ -66,20 +66,22 @@ void Image::drawPixel(int x, int y, Color color) {
 void Image::printPixel(int x, int y) {
     ColorType* xp = getPixel(x, y);
 
-    _word cx = color2word(xp);
-
-    printf("pixel(%d, %d)='#%2x%2x%2x  displayWord=%04x\n", x,y, xp->red, xp->green, xp->blue, cx);
+    if (xp == NULL) {
+        printf("pixel(%d, %d)=undefined\n", x, y);
+    }else {
+        printf("pixel(%d, %d)='#%2x%2x%2x  displayWord=%04x\n", x, y, 
+            xp->red, xp->green, xp->blue, color2word(xp));
+    }
 }
 
 ColorType* Image::getPixel(int x, int y) {
 
-    if (x<0 || x > width || y<0 || y>height) {
+    if (x<0 || x >= width || y<0 || y>=height) {
         return NULL;
     }
 
     long offset = (y * width) + x;
     ColorType* xp = canvas + offset;
-
 
     return xp;
 }

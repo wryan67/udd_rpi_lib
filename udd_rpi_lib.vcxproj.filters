@@ -15,6 +15,7 @@
     <ClCompile Include="src\controller\Metadata.cpp" />
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
+    <ClCompile Include="src\controller\IdGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fonts\fonts.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="src\controller\Metadata.h" />
     <ClInclude Include="src\displays\DisplayST7789.h" />
     <ClInclude Include="src\displays\DisplayST7735R.h" />
+    <ClInclude Include="src\controller\IdGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />

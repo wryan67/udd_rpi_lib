@@ -1,25 +1,17 @@
 #include "Display.h"
 #include "Image.h"
+#include "IdGenerator.h"
 
 #include <unistd.h>
 #include <string.h>
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
-#include <pthread.h>
 
 namespace udd {
-    bool initDisplay = false;
-    pthread_mutex_t screenLock;
+    std::recursive_mutex Display::screenLock;
 
     Display::Display() {
-        if (!initDisplay) {
-            initDisplay = true;
-            if (pthread_mutex_init(&screenLock, NULL) != 0) {
-                printf("\nDisplay::screen lock mutex init has failed\n");
-                exit(2);
-            }
-            printf("mutex initialized\n"); fflush(stdout);
-        }
+        displayId = IdGenerator::next(); 
     }
 
 
@@ -40,7 +32,6 @@ namespace udd {
     }
 
     void Display::reset() {
-        printf("CS=%d  DC=%d  RST=%d\n", config.CS, config.DC, config.RST);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 1);
         digitalWrite(config.RST, 1);
@@ -65,9 +56,8 @@ namespace udd {
         return (buf >> 8) | buf << 8;
     }
 
-
-
     void Display::printConfiguration() {
+        printf("displayId:         %d\n", displayId);
         printf("width:             %d\n", config.width);
         printf("height:            %d\n", config.height);
         printf("xOffset:           %d\n", config.xOffset);
@@ -80,10 +70,7 @@ namespace udd {
         printf("spiChannel:        %d\n", config.spiChannel);
         printf("spiSpeed:          %d\n", config.spiSpeed);
         printf("handle:            %d\n", handle);
-
     }
-
-
 
     void Display::closeSPI() {
         close(handle);
@@ -105,7 +92,8 @@ namespace udd {
     }
 
     void Display::clear(Color color) {
-        pthread_mutex_lock(&screenLock);
+        screenLock.lock();
+
         openSPI();
         resume();
 
@@ -126,32 +114,34 @@ namespace udd {
             writeBytes(rowPointer, (config.width+config.xOffset) * 2);
         }
         pause();
-        pthread_mutex_unlock(&screenLock);
-
+        screenLock.unlock();
     }
     
 
+
     void Display::showImage(Image image, Rotation rotation) {
-        pthread_mutex_lock(&screenLock);
+
+        screenLock.lock();
         openSPI();
 
-        int width  = config.width  + config.xOffset;
+        int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
         setScreenWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-        _word  row[config.width];
+        _word  row[config.width + config.xOffset];
         _byte* rowPointer = (_byte*)(row);
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; ++x) {
-                ColorType* ct= image.getPixel(x-config.xOffset,y-config.yOffset,rotation);
+                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
                     row[x] = 0;
-                } else {
+                }
+                else {
                     row[x] = color2word(ct);
                 }
             }
@@ -159,8 +149,8 @@ namespace udd {
             writeBytes(rowPointer, (config.width + config.xOffset) * 2);
         }
         digitalWrite(config.CS, 1);
-        pthread_mutex_unlock(&screenLock);
 
+        screenLock.unlock();
     }
 
 
@@ -168,7 +158,6 @@ namespace udd {
     void Display::showImage(Image image) {
         showImage(image, DEGREE_0);
     }
-
 
 
 

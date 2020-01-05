@@ -4,8 +4,8 @@
 
 struct ColorStruct {
     _byte red;
-    _byte blue;
     _byte green;
+    _byte blue;
     _byte opacity;
     _byte filler[4];
 };
@@ -42,6 +42,10 @@ extern Color ORANGE;
 
 extern Color LIGHT_BLUE;
 extern Color LIGHT_GRAY;
+
+extern Color DARK_BLUE;
+extern Color DARK_RED;
+extern Color DARK_GREEN;
 
 extern Color DARK_GRAY_BLUE;
 

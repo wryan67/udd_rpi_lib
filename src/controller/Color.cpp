@@ -97,6 +97,11 @@ Color GRAY              = Color("#808080");
 Color BROWN             = Color(165,  42,  42);
 Color ORANGE            = Color(255, 128,   0);
 
+Color DARK_RED          = Color(128,   0,   0);
+Color DARK_GREEN        = Color(0,   128,   0);
+Color DARK_BLUE         = Color(0,     0, 128);
+
+
 Color LIGHT_BLUE        = Color(204, 228, 255);
 Color LIGHT_GRAY        = Color("#E0E0E0");
 
