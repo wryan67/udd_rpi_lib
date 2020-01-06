@@ -1,0 +1,10 @@
+src/controller/Metadata.h
+src/fonts/fonts.h
+src/controller/inttypes.h
+src/controller/Color.h
+src/bmp/GUI_BMPfile.h
+src/controller/Image.h
+src/controller/Display.h
+src/displays/DisplayST7789.h
+src/displays/DisplayST7735R.h
+src/controller/IdGenerator.h
