@@ -1,15 +1,10 @@
-#include <wiringPi.h>
 #include <stdio.h>
-#include <Image.h>
-#include <sys/time.h>
 #include <math.h>
-#include <fonts.h>
 #include <pthread.h>
+#include <sys/time.h>
+#include <wiringPi.h>
 
-#include <Display.h>
-#include <DisplayST7789.h>
-#include <DisplayST7735R.h>
-
+#include <udd.h>
 
 using namespace udd;
 
