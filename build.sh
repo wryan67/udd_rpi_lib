@@ -107,7 +107,7 @@ examineObjects() {
 
 
 #:###################:#
-#:#  build          #:#
+#:#  build objects  #:#
 #:###################:#
 build() {
 
@@ -115,6 +115,14 @@ build() {
   mkdir -p $OBJ
 
   examineObjects
+}
+
+
+#:######################:#
+#:#  build executable  #:#
+#:######################:#
+executable() {
+  [ "$INSTALL" != 1 ] && install
 
   LAST=`ls -1tr "$EXE" "$MAIN" 2>&1 | tail -1`
   [ "$LAST" != "$EXE" ] && RELINK=1
@@ -210,6 +218,7 @@ INSTALL=0
 PACKAGE=0
 REMOVE=0
 RELINK=0
+EXECUTABLE=0
 
 if [ "$*" = "" ];then
   BUILD=1
@@ -227,6 +236,9 @@ do
                ;;
     install)   PACKAGE=1
                INSTALL=1
+               EXECUTABLE=1
+               ;;
+    exe)       EXECUTABLE=1
                ;;
     remove)    REMOVE=1
                ;;
@@ -235,10 +247,11 @@ do
   esac
 done
 
-[ $CLEAN = 1 ]   && clean
-[ $BUILD = 1 ]   && build
-[ $PACKAGE = 1 ] && package
-[ $INSTALL = 1 ] && install
-[ $REMOVE = 1 ]  && remove
+[ $CLEAN = 1 ]       && clean
+[ $BUILD = 1 ]       && build
+[ $PACKAGE = 1 ]     && package
+[ $INSTALL = 1 ]     && install
+[ $EXECUTABLE = 1 ]  && executable
+[ $REMOVE = 1 ]      && remove
 
 exit 0
