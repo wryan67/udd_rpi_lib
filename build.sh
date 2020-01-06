@@ -136,25 +136,25 @@ build() {
 package() {
   mkdir -p $LIB 
 
-  echo Buliding source for static library for sake of runtime speed
-  DYNAMIC=""
-  clean objects
-  build
-
-  OBJECTS=$(find $OBJ -type f)
-
-  echo Packagiang $LIBNAME.a
-  ar rcs $LIB/$LIBNAME.a $OBJECTS || die
-  ranlib $LIB/$LIBNAME.a  || die
-
   echo Buliding source for dynamic library for sake of size and compatibility
   DYNAMIC="-fPIC"
   clean objects
   build
 
   echo Packagiang $LIBNAME.so
+  OBJECTS=$(find $OBJ -type f)
   ${CC} -shared -Wl,-soname,$LIBNAME.so -o $LIB/$LIBNAME.so.$VERSION ${OBJECTS}  || die
 
+
+  echo Buliding source for static library for sake of runtime speed
+  DYNAMIC=""
+  clean objects
+  build
+
+  echo Packagiang $LIBNAME.a
+  OBJECTS=$(find $OBJ -type f)
+  ar rcs $LIB/$LIBNAME.a $OBJECTS || die
+  ranlib $LIB/$LIBNAME.a  || die
 }
 
 #:###################:#
@@ -192,7 +192,7 @@ install() {
 #:###################:#
 #:#  un-install     #:#
 #:###################:#
-uninstall() {
+remove() {
   echo "[Un-install]"
   rm -f ${DESTDIR}${PREFIX}/include/$HEADER_NAME
   rm -f ${DESTDIR}${PREFIX}/lib/$LIBNAME.*
@@ -208,7 +208,7 @@ CLEAN=0
 BUILD=0
 INSTALL=0
 PACKAGE=0
-UNINSTALL=0
+REMOVE=0
 RELINK=0
 
 if [ "$*" = "" ];then
@@ -228,7 +228,7 @@ do
     install)   PACKAGE=1
                INSTALL=1
                ;;
-    uninstall) UNINSTALL=1
+    remove)    REMOVE=1
                ;;
     *)         BUILD=1
                ;;
@@ -239,5 +239,6 @@ done
 [ $BUILD = 1 ]   && build
 [ $PACKAGE = 1 ] && package
 [ $INSTALL = 1 ] && install
+[ $REMOVE = 1 ]  && remove
 
 exit 0

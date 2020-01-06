@@ -41,6 +41,9 @@ package: chmod
 install: chmod
 	@./build.sh install
 
+remove: chmod
+	@./build.sh remove
+
 chmod: 
 	@chmod 755 build.sh
      
