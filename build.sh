@@ -38,16 +38,28 @@ TMP=/tmp/build.$$
 
 C="gcc"
 CC="g++"
-CFLAGS="-c -O2 -std=c11"
+CFLAGS="-c -O2 -std=c11 -Wall"
 CCFLAGS="-c -O2 -std=gnu++11 -Wall -Dversion=$VERSION"
 LDFLAGS="-pthread -lwiringPi -lm -luuid  -Wl,--no-undefined -Wl,-z,now"
 INCLUDES=`find $SRC -type d | awk '{printf("-I%s ",$0);}'`
 
 
 #:###################:#
-    die() { 
+#:#    Die          #:#
 #:###################:#
+die() { 
   exit 2
+}
+
+#:###################:#
+#:#    Clean        #:#
+#:###################:#
+clean() { 
+  if [ "$1" = "objects" ];then
+    rm -rf $OBJ || die
+  else 
+    rm -rf $BIN $OBJ $LIB || die
+  fi
 }
 
 #:###################:#
@@ -62,7 +74,7 @@ compile() {
 
   RELINK=1
   echo compiling "$SOURCE"
-  eval \${$1} \${$2} $INCLUDES "$SOURCE" -o "$OBJECT"
+  eval \${$1} \${$2} $DYNAMIC $INCLUDES "$SOURCE" -o "$OBJECT"
   RET=$?
 
   if [ $RET != 0 ];then
@@ -112,7 +124,7 @@ build() {
     echo linking "$EXE"
     OBJECTS=$(find $OBJ -type f)
     echo $CC $LDFLAGS $INCLUDES $OBJECTS $MAIN -o "$EXE" 
-         $CC $LDFLAGS $INCLUDES $OBJECTS $MAIN -o "$EXE" 
+         $CC $LDFLAGS $INCLUDES $OBJECTS $MAIN -o "$EXE"  || die
   else 
     echo "all objects are up to date"
   fi
@@ -122,18 +134,26 @@ build() {
 #:#  package        #:#
 #:###################:#
 package() {
-  mkdir -p $LIB
+  mkdir -p $LIB 
+
+  echo Buliding source for static library for sake of runtime speed
+  DYNAMIC=""
+  clean objects
+  build
 
   OBJECTS=$(find $OBJ -type f)
-  STATIC=$LIB/$LIBNAME.a
-  DYNAMIC=$LIB/$LIBNAME.so.$VERSION
 
   echo Packagiang $LIBNAME.a
-  ar rcs ${STATIC} $OBJECTS || die
-  ranlib ${STATIC}  || die
+  ar rcs $LIB/$LIBNAME.a $OBJECTS || die
+  ranlib $LIB/$LIBNAME.a  || die
+
+  echo Buliding source for dynamic library for sake of size and compatibility
+  DYNAMIC="-fPIC"
+  clean objects
+  build
 
   echo Packagiang $LIBNAME.so
-  ${CC} -shared -Wl,-soname,$LIBNAME.so -o $DYNAMIC -lpthread ${OBJECTS}  || die
+  ${CC} -shared -Wl,-soname,$LIBNAME.so -o $LIB/$LIBNAME.so.$VERSION ${OBJECTS}  || die
 
 }
 
@@ -160,7 +180,10 @@ install() {
   mkdir -p   ${DESTDIR}${PREFIX}/lib || die
   chmod a+rx ${DESTDIR}${PREFIX}/lib || die
 
+  STATIC=$LIBNAME.a
   DYNAMIC=$LIBNAME.so.$VERSION
+
+  cp $LIB/$STATIC   ${DESTDIR}${PREFIX}/lib/$STATIC 
   cp $LIB/$DYNAMIC  ${DESTDIR}${PREFIX}/lib/$DYNAMIC 
   ln -sf            ${DESTDIR}${PREFIX}/lib/$DYNAMIC  ${DESTDIR}/lib/$LIBNAME.so
   ldconfig
@@ -200,11 +223,9 @@ do
                ;;
     build)     BUILD=1
                ;;
-    package)   BUILD=1
-               PACKAGE=1
+    package)   PACKAGE=1
                ;;
-    install)   BUILD=1
-               PACKAGE=1
+    install)   PACKAGE=1
                INSTALL=1
                ;;
     uninstall) UNINSTALL=1
@@ -214,8 +235,8 @@ do
   esac
 done
 
-[ $CLEAN = 1 ] && rm -rf $BIN $OBJ $LIB
-[ $BUILD = 1 ] && build
+[ $CLEAN = 1 ]   && clean
+[ $BUILD = 1 ]   && build
 [ $PACKAGE = 1 ] && package
 [ $INSTALL = 1 ] && install
 
