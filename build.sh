@@ -24,8 +24,6 @@ SRC=$BASE/src
 BIN=$BASE/bin
 LIB=$BASE/lib
 OBJ=$BASE/obj
-EXE=$BIN/demo
-MAIN=$BASE/example/main.cpp
 
 HEADER_NAME="udd.h"
 LIBNAME=libwiringPiUDDrpi
@@ -40,7 +38,7 @@ C="gcc"
 CC="g++"
 CFLAGS="-c -O2 -std=c11 -Wall"
 CCFLAGS="-c -O2 -std=gnu++11 -Wall -Dversion=$VERSION"
-LDFLAGS="-pthread -lwiringPi -lm -luuid  -Wl,--no-undefined -Wl,-z,now"
+LDFLAGS="-pthread -lwiringPi -lm -Wl,--no-undefined -Wl,-z,now"
 INCLUDES=`find $SRC -type d | awk '{printf("-I%s ",$0);}'`
 
 
@@ -116,7 +114,13 @@ build() {
 
   examineObjects
 }
-
+#:##########################:#
+#:#  echo what I'm doing   #:#
+#:##########################:#
+userEcho() {
+  echo $*
+  eval $* || die
+}
 
 #:######################:#
 #:#  build executable  #:#
@@ -124,18 +128,12 @@ build() {
 executable() {
   [ "$INSTALL" != 1 ] && install
 
-  LAST=`ls -1tr "$EXE" "$MAIN" 2>&1 | tail -1`
-  [ "$LAST" != "$EXE" ] && RELINK=1
-  
+  echo linking demos
+  STATIC=${DESTDIR}${PREFIX}/lib/$LIBNAME.a
+  DYNAMIC=`echo $LIBNAME | sed 's/^lib//'`
 
-  if [ $RELINK = 1 ];then
-    echo linking "$EXE"
-    OBJECTS=$(find $OBJ -type f)
-    echo $CC $LDFLAGS $INCLUDES $OBJECTS $MAIN -o "$EXE" 
-         $CC $LDFLAGS $INCLUDES $OBJECTS $MAIN -o "$EXE"  || die
-  else 
-    echo "all objects are up to date"
-  fi
+  userEcho $CC -lwiringPi -lpthread  example/2displays.cpp $STATIC -o $BIN/demo2
+  userEcho $CC -lwiringPi -l$DYNAMIC example/1display.cpp         -o $BIN/demo1
 }
 
 #:###################:#
