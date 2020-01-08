@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="example\main.cpp" />
     <ClCompile Include="src\fonts\font8.c" />
     <ClCompile Include="src\fonts\font12.c" />
     <ClCompile Include="src\fonts\font12CN.c" />
@@ -16,6 +15,7 @@
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
     <ClCompile Include="src\controller\IdGenerator.cpp" />
+    <ClCompile Include="example\2displays.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fonts\fonts.h" />
@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\BlueAngle4-320x240.bmp" />

@@ -65,12 +65,12 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="example\2displays.cpp" />
     <ClCompile Include="src\controller\IdGenerator.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\controller\Metadata.cpp" />
     <ClCompile Include="src\controller\Color.cpp" />
-    <ClCompile Include="example\main.cpp" />
     <ClCompile Include="src\fonts\font12.c" />
     <ClCompile Include="src\fonts\font12CN.c" />
     <ClCompile Include="src\fonts\font16.c" />
@@ -94,6 +94,7 @@
     <ClInclude Include="src\controller\inttypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="src\fonts\Release_Notes.html" />
   </ItemGroup>
   <ItemGroup>

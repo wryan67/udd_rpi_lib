@@ -10,16 +10,11 @@ using namespace udd;
 
 DisplayConfigruation d1Config;
 DisplayConfigruation d2Config;
-DisplayConfigruation d3Config;
 
 DisplayST7789R d1 = DisplayST7789R();
 DisplayST7735R d2 = DisplayST7735R();
-DisplayST7735R d3 = DisplayST7735R();
-
 
 unsigned long long currentTimeMillis();
-
-
 long long lastTime = currentTimeMillis();
 long long lastSecond;
 int fps, lastFPS = 0;
@@ -56,7 +51,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-bool frame(int frameCount, long long start) {
+bool demoSineWave(int frameCount, long long start, Image image) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 
@@ -72,15 +67,13 @@ bool frame(int frameCount, long long start) {
 
     int imageWidth  = d1Config.height;
     int imageHeight = d1Config.width;
-
   
     int minX=0, minY = 0;
     int maxX = imageWidth-1;
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
-    Image image = Image(d1Config.height, d1Config.width, BLACK);
-
+    image.clear(BLACK);
     image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
     // line markers
@@ -113,16 +106,16 @@ bool frame(int frameCount, long long start) {
 
     d1.showImage(image,DEGREE_270);
 
-
-    image.close();
-
     return ((now - start) < 8000);
-
 }
-void* d1ImageDemo(void*) {
 
-    Image image = Image(320, 240, BLACK);
-    image.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+void* display1Demo(void*) {
+
+    Image bmp = Image(320, 240, BLACK);
+    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+
+    Image chart = Image(d1Config.height, d1Config.width, BLACK);
+
 
     long count = 0;
     while (true) {
@@ -136,55 +129,22 @@ void* d1ImageDemo(void*) {
         delay(10);
         d1.clear(BLACK);
 
-        d1.showImage(image, DEGREE_270);
+        d1.showImage(bmp, DEGREE_270);
 
         delay(1000);
 
         long long start = currentTimeMillis();
 
-        while (frame(++count, start));
-
+        while (demoSineWave(++count, start, chart));
     }
 }
 
-void* d3ImageDemo(void*) {
-    while (true) {
-        d3.clear(WHITE);
-        delay(10);
-        d3.clear(RED);
-        delay(10);
-        d3.clear(BLUE);
 
-        Image d3Image = Image(d3Config.width, d3Config.height, BLACK);
-
-        Color pallet[10] = {
-            RED, YELLOW, GREEN, BLUE, MAGENTA, CYAN
-        };
-
-        for (int i = 0; i < 6; ++i) {
-            d3Image.drawRectangle(20 + i * 10, 0, i * 10 + 30, 128, pallet[i], FILL, SOLID, 1);
-        }
-        d3Image.drawText(2, 2, "Hello World!!!", &Font12, BLACK, WHITE);
-
-        d3Image.drawRectangle(0, 0, d3Config.width - 1, d3Config.height - 1, WHITE, NONE, SOLID, 1);
-
-        d3.showImage(d3Image, DEGREE_90);
-
-        delay(2000);
-        d3Image.loadBMP("../images/MotorBike-128x128.bmp", 0, 0);
-        d3.showImage(d3Image, DEGREE_90);
-
-        delay(4000);
-        d3Image.close();
-
-    }
-}
-
-void configureD1() {
+void configureDisplay1() {
     printf("--------------------------------------------\n");
     printf("-----d1 config------------------------------\n");
-    d2Config.width = 240;
-    d2Config.height = 320;
+    d1Config.width = 240;
+    d1Config.height = 320;
     d1Config.spiSpeed = 90000000;
 
     d1Config.CS = 21;
@@ -196,7 +156,7 @@ void configureD1() {
     d1.printConfiguration();
 }
 
-void configureD2() {
+void configureDisplay2() {
     printf("--------------------------------------------\n");
     printf("-----d2 config------------------------------\n");
     d2Config.width  = 128;
@@ -215,29 +175,8 @@ void configureD2() {
     d2.printConfiguration();
 }
 
-void configureD3() {
-    printf("--------------------------------------------\n");
-    printf("-----d3 config------------------------------\n");
-    d3Config.width  = 128;
-    d3Config.height = 128;
 
-    d3Config.CS  = 27;
-    d3Config.DC  = 28;
-    d3Config.RST = 29;
-    d3Config.BLK = 7;
-
-    d3Config.xOffset = 2;
-    d3Config.yOffset = 1;
-    d3Config.spiSpeed = 10000000;
-
-    d3.openDisplay(d3Config);
-    d3.printConfiguration();
-}
-
-
-void *d2ImageDemo(void *) {
-
-
+void *display2Demo(void *) {
     while (true) {
         d2.clear(WHITE);
         delay(100);
@@ -262,6 +201,15 @@ void *d2ImageDemo(void *) {
 
         d2Image.drawRectangle(0, 0, d2Config.width - 1, d2Config.height - 1, WHITE, NONE, SOLID, 1);
 
+        Color rings[4]{
+            RED, WHITE, RED, WHITE
+        };
+
+        for (int r = 0; r < 40; ++r) {
+            d2Image.drawCircle(d2Config.height - 45, d2Config.width - 45, r,  rings[r / 10], NONE, SOLID, 3);
+        }   d2Image.drawCircle(d2Config.height - 45, d2Config.width - 45, 40, BLACK, NONE, SOLID, 1);
+
+
         d2.showImage(d2Image, DEGREE_90);
 
         delay(2000);
@@ -271,20 +219,19 @@ void *d2ImageDemo(void *) {
         delay(4000);
         d2Image.close();
     }
-
 }
 
 int main(void)
 {
-	wiringPiSetup();
+	wiringPiSetup();  // use wiring pi numbers
 
-    // just incase there's somehting attached to the standard cs pins
+    // just incase there's somehting attached to the standard spi cs pins
     pinMode(10, OUTPUT);
     pinMode(11, OUTPUT);
     digitalWrite(10, HIGH);
     digitalWrite(11, HIGH);
 
-       int         demos = 3;
+    int         demos = 3;
     pthread_t   threads[demos];
     char        message[demos][256];
 
@@ -292,14 +239,11 @@ int main(void)
         sprintf(message[i], "demo thread %d", i);
     }
 
-    configureD1();
-    configureD2();
-//    configureD3();
+    configureDisplay1();
+    configureDisplay2();
 
-
-    pthread_create(&threads[0], NULL, d1ImageDemo, (void*)message[0]);
-    pthread_create(&threads[1], NULL, d2ImageDemo, (void*)message[1]);
-//    pthread_create(&threads[2], NULL, d3ImageDemo, (void*)message[2]);
+    pthread_create(&threads[0], NULL, display1Demo, (void*)message[0]);
+    pthread_create(&threads[1], NULL, display2Demo, (void*)message[1]);
 
     printf("press control-c to quit\n"); 
 
