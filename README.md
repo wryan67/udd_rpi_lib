@@ -10,6 +10,6 @@ This library provides a common, user friendly, interface for accessing various t
 
 Here is a video showing [dual displays in action](https://www.youtube.com/watch?v=ayDWNnZb_Fs)
 
-![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/images/2displays.jpg)
+![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/images/2displays.jpg): https://www.youtube.com/watch?v=ayDWNnZb_Fs
 
 
