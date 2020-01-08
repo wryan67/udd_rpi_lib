@@ -1,3 +1,15 @@
+/* 
+Dual display demo
+Wade Ryan
+2020/01/07
+
+Compiling:
+
+$ g++ -lwiringPi -lpthread 2displays.cpp /usr/local/lib/libwiringPiUDDrpi.a -o demo2
+
+*/
+
+
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>

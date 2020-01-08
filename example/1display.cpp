@@ -1,3 +1,14 @@
+/*
+Single display demo
+Wade Ryan
+2020/01/07
+
+Compiling:
+
+$ g++ -lwiringPi -lwiringPiUDDrpi 1display.cpp -o demo1
+
+*/
+
 #include <stdio.h>
 #include <math.h>
 #include <pthread.h>
