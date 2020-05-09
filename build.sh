@@ -26,6 +26,7 @@ LIB=$BASE/lib
 OBJ=$BASE/obj
 
 HEADER_NAME="udd.h"
+HEADER_ORDER="udd.headers"
 LIBNAME=libwiringPiUDDrpi
 VERSION=`cat $BASE/version 2>/dev/null`
 [ "$VERSION" = "" ] && VERSION=0.1
@@ -177,7 +178,7 @@ install() {
 
   find $SRC -name "*.h" | while read FILENAME; do basename $FILENAME; done | awk '{printf("include.*%s\n",$0)}' >> $TMP.headers.dat
   
-  cat $(cat $HEADER_NAME) | egrep -avf $TMP.headers.dat >> ${DESTDIR}${PREFIX}/include/$HEADER_NAME
+  cat $(cat $HEADER_ORDER) | egrep -avf $TMP.headers.dat >> ${DESTDIR}${PREFIX}/include/$HEADER_NAME
 
   chmod 0644 ${DESTDIR}${PREFIX}/include/$HEADER_NAME
   rm -f $TMP.headers.dat
