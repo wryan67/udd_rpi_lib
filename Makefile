@@ -30,20 +30,20 @@
 all: compile
 
 clean: chmod
-	@./build.sh clean
+	@sudo ./build.sh clean
 
 compile: chmod
-	@./build.sh compile
+	@sudo ./build.sh compile
 	
 package: chmod
-	@./build.sh package
+	@sudo ./build.sh package
 	
 install: chmod
-	@./build.sh install
+	@sudo ./build.sh install
 
 remove: chmod
-	@./build.sh remove
+	@sudo ./build.sh remove
 
 chmod: 
-	@chmod 755 build.sh
+	@sudo chmod 755 build.sh
      
