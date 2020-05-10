@@ -118,6 +118,30 @@ bool demoSineWave(int frameCount, long long start, Image image) {
     return ((now - start) < 8000);
 }
 
+long c=0;
+
+void rainbow() {
+    long long start = currentTimeMillis();
+    long long elapsed = 0;
+
+    while (elapsed<30*1000) {
+        int color=++c%256;
+        elapsed = currentTimeMillis() - start;
+
+        for (int x=0; x<d1Config.width; ++x) {
+            for (int y=0; y<d1Config.height; ++y) {
+                Color clr=Color(++color%256);
+                // printf("wheel=%3d r=%3d g=%3d b=%3d\n",color%256,clr.color.red, clr.color.green, clr.color.blue);
+                Pixel px=Pixel(x,y,clr);
+                d1.setPixel(px);
+                usleep(66);
+            }
+        }
+        d1.render();
+    }
+
+}
+
 void display1Demo() {
 
     printf("tag00\n"); fflush(stdout);
@@ -131,28 +155,26 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
-        //d1.clear(WHITE);
-        //delay(500);
+        printf("WHITE\n");
+        d1.clear(WHITE);
+        delay(250);
 
         printf("RED\n");
         d1.clear(RED);
-        delay(1000);
-
-        printf("BLUE\n");
-        d1.clear(BLUE);
-        delay(1000);
+        delay(250);
 
         printf("GREEN\n");
         d1.clear(GREEN);
-        delay(1000);
+        delay(250);
 
-        //d1.clear(BLACK);
-//        d1.showImage(bmp, DEGREE_270);
-        // delay(1000);
+        printf("BLUE\n");
+        d1.clear(BLUE);
+        delay(250);
 
-        long long start = currentTimeMillis();
+        rainbow();
 
-  //      while (demoSineWave(++count, start, chart));
+        // long long start = currentTimeMillis();
+        //  while (demoSineWave(++count, start, chart));
     }
 }
 
@@ -168,7 +190,7 @@ void configureDisplay1() {
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
-    d1Config.brightness =       8;
+    d1Config.brightness =       32;
 
     d1.openDisplay(d1Config);
     d1.printConfiguration();

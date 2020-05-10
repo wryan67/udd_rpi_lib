@@ -1,4 +1,4 @@
-#include <DisplayNeoPixel.h>
+#include "DisplayNeoPixel.h"
 
 namespace udd {
     DisplayNeoPixel::DisplayNeoPixel() : Display() {}
@@ -38,14 +38,15 @@ namespace udd {
 
     void DisplayNeoPixel::setPixel(Pixel pixel) {
         int color=pixel.color.rgb24();
-        // printf("neopixel::setPixel x=%3d y=%3d, color=0x%6x\n",pixel.point);
-        neopixel_setPixel(pixel.point.x*pixel.point.y,color);
+        // printf("neopixel::setPixel x=%3d y=%3d, color=0x%6x\n",pixel.point.x,pixel.point.y,pixel.color.rgb24());
+
+        int pos = pixel.point.x * config.width + pixel.point.y;
+
+        neopixel_setPixel(pos,color);
     }
 
 
     void DisplayNeoPixel::clear(Color color) {
-
-        printf("neopixel::witch=%d height=%d\n", config.width, config.height);
 
         for (int x=0;x<config.width;++x) {
             for (int y=0;y<config.height;++y) {
@@ -54,4 +55,9 @@ namespace udd {
         }
         neopixel_render();
     }
+
+    void DisplayNeoPixel::render() {
+        neopixel_render();
+    }
+
 }

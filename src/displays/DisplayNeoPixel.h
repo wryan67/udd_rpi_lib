@@ -26,6 +26,7 @@ namespace udd {
         DisplayNeoPixel();
         void openDisplay(DisplayConfigruation configuration);
         void printConfiguration();
+        void render();
 
         void addGhostPixel(Point point);
         void addGhostPixels(std::vector<Point> points);

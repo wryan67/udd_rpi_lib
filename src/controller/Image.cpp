@@ -2,7 +2,7 @@
 #include "fonts.h"
 #include <math.h>
 
-#include <GUI_BMPfile.h>
+#include "GUI_BMPfile.h"
 
 using namespace udd;
 

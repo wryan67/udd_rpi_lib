@@ -87,6 +87,31 @@ int32_t Color::rgb24() {
 }
 
 
+Color::Color(int clr) {
+    color.opacity = 255;
+    
+    if (clr<0 || clr>255) {
+        return;
+    }
+
+    if (clr<85) {
+            color.red=clr*3;
+            color.green=255-clr*3;
+            color.blue=0;
+    } else if (clr<170) {
+            clr-= 85;
+            color.red = 255 - clr * 3;
+            color.green = 0;
+            color.blue = clr * 3;
+    } else {
+            clr -= 170;
+            color.red = 0;
+            color.green = clr * 3;
+            color.blue = 255 - clr * 3;
+    }
+}
+
+
 void Color::print() {
 
     printf("color::print: 0x%02x%02x%02x\n", this->color.red, this->color.blue,this->color.green);
