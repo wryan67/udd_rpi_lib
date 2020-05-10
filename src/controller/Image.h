@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include <Color.h>
-#include <inttypes.h>
+#include "inttypes.h"
 #include <fonts.h>
 
 #include "Metadata.h"
@@ -45,7 +45,7 @@ namespace udd {
 
         ColorType* getPixel(int x, int y, udd::Rotation rotation);
 
-        ColorType* getPixel(int x, int y);
+        ColorType* getPixelColor(int x, int y);
 
     private:
         ColorType* canvas;

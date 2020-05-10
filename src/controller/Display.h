@@ -1,6 +1,6 @@
 #pragma once
-#include <inttypes.h>
-#include <Color.h>
+#include "inttypes.h"
+#include "Color.h"
 
 #include "Metadata.h"
 #include "Image.h"
@@ -33,16 +33,22 @@ namespace udd {
 
         int spiChannel = 0;
         int spiSpeed = 10000000;
+
+// NeoPixel
+        int stripType;
+        int targetFreq;
+        int dmaChannel;
+        int gpioPin; 
     };
 
     typedef DisplayConfigurationStruct      DisplayConfigruation;
 
     class Display {
     private:
-        int displayId = -1;
         static std::recursive_mutex screenLock;
 
     protected:
+        int displayId = -1;
 
         Display();
         virtual ~Display() {}

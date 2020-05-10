@@ -27,7 +27,7 @@ OBJ=$BASE/obj
 
 HEADER_NAME="udd.h"
 HEADER_ORDER="udd.headers"
-LIBNAME=libwiringPiUDDrpi
+LIBNAME=wiringPiUDDrpi
 VERSION=`cat $BASE/version 2>/dev/null`
 [ "$VERSION" = "" ] && VERSION=0.1
 
@@ -39,7 +39,7 @@ C="gcc"
 CC="g++"
 CFLAGS="-c -O2 -std=c11 -Wall"
 CCFLAGS="-c -O2 -std=gnu++11 -Wall -Dversion=$VERSION"
-LDFLAGS="-pthread -lwiringPi -lm -Wl,--no-undefined -Wl,-z,now"
+LDFLAGS="-pthread -lwiringPi -lNeoPixelRPi -lm -Wl,--no-undefined -Wl,-z,now"
 INCLUDES=`find $SRC -type d | awk '{printf("-I%s ",$0);}'`
 
 
@@ -130,11 +130,28 @@ executable() {
   [ "$INSTALL" != 1 ] && install
 
   echo linking demos
-  STATIC=${DESTDIR}${PREFIX}/lib/$LIBNAME.a
-  DYNAMIC=`echo $LIBNAME | sed 's/^lib//'`
+  STATIC=${DESTDIR}${PREFIX}/lib/lib$LIBNAME.a
+  DYNAMIC=`echo lib$LIBNAME | sed 's/^lib//'`
 
-  userEcho $CC -lwiringPi -lpthread  example/2displays.cpp $STATIC -o $BIN/demo2
-  userEcho $CC -lwiringPi -l$DYNAMIC example/1display.cpp         -o $BIN/demo1
+  LAST=$(ls -1tr "$OBJECT" "$SOURCE" "$HEADER" 2>/dev/null | tail -1)
+
+  if [ -s $STATIC ];then
+    for EXE in  demo1 demo2 
+    do
+      LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
+      if [ $LAST != "$BIN/$EXE" ];then
+        userEcho $CC -lwiringPi -lNeoPixelRPi -lpthread  example/$EXE.cpp $STATIC -o $BIN/$EXE
+      fi
+    done
+  fi
+
+  for EXE in neopixel
+  do
+    LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
+    if [ $LAST != "$BIN/$EXE" ];then
+      userEcho $CC -lwiringPi -lNeoPixelRPi -l$LIBNAME -lpthread  example/$EXE.cpp -o $BIN/$EXE
+    fi
+  done
 }
 
 #:###################:#
@@ -143,25 +160,28 @@ executable() {
 package() {
   mkdir -p $LIB 
 
+  ls -tr $LIB/* | tail -1 | grep '\.a' > /dev/null
+  A=$?
+
   echo Buliding source for dynamic library for sake of size and compatibility
   DYNAMIC="-fPIC"
-  clean objects
+  [ $A = 0 ] && clean objects
   build
 
-  echo Packagiang $LIBNAME.so
+  echo Packagiang lib$LIBNAME.so
   OBJECTS=$(find $OBJ -type f)
-  ${CC} -shared -Wl,-soname,$LIBNAME.so -o $LIB/$LIBNAME.so.$VERSION ${OBJECTS}  || die
+  ${CC} -shared -Wl,-soname,lib$LIBNAME.so -o $LIB/lib$LIBNAME.so.$VERSION ${OBJECTS}  || die
 
-
+  [ $PACKAGESO = 1 ] && return
   echo Buliding source for static library for sake of runtime speed
   DYNAMIC=""
   clean objects
   build
 
-  echo Packagiang $LIBNAME.a
+  echo Packagiang lib$LIBNAME.a
   OBJECTS=$(find $OBJ -type f)
-  ar rcs $LIB/$LIBNAME.a $OBJECTS || die
-  ranlib $LIB/$LIBNAME.a  || die
+  ar rcs $LIB/lib$LIBNAME.a $OBJECTS || die
+  ranlib $LIB/lib$LIBNAME.a  || die
 }
 
 #:###################:#
@@ -183,16 +203,20 @@ install() {
   chmod 0644 ${DESTDIR}${PREFIX}/include/$HEADER_NAME
   rm -f $TMP.headers.dat
 
-  echo "[Install Dynamic Lib]"
+  echo "[Install Libraries]"
   mkdir -p   ${DESTDIR}${PREFIX}/lib || die
   chmod a+rx ${DESTDIR}${PREFIX}/lib || die
 
-  STATIC=$LIBNAME.a
-  DYNAMIC=$LIBNAME.so.$VERSION
+  STATIC=lib$LIBNAME.a
+  DYNAMIC=lib$LIBNAME.so.$VERSION
 
-  cp $LIB/$STATIC   ${DESTDIR}${PREFIX}/lib/$STATIC 
+  rm -f ${DESTDIR}/lib/lib$LIBNAME.so ${DESTDIR}${PREFIX}/lib/$DYNAMIC ${DESTDIR}${PREFIX}/lib/$STATIC 
   cp $LIB/$DYNAMIC  ${DESTDIR}${PREFIX}/lib/$DYNAMIC 
-  ln -sf            ${DESTDIR}${PREFIX}/lib/$DYNAMIC  ${DESTDIR}/lib/$LIBNAME.so
+  ln -sf            ${DESTDIR}${PREFIX}/lib/$DYNAMIC  ${DESTDIR}/lib/lib$LIBNAME.so
+
+  if [ -s $LIB/$STATIC ];then  
+    cp $LIB/$STATIC ${DESTDIR}${PREFIX}/lib/$STATIC 
+  fi
   ldconfig
 }
 
@@ -202,7 +226,7 @@ install() {
 remove() {
   echo "[Un-install]"
   rm -f ${DESTDIR}${PREFIX}/include/$HEADER_NAME
-  rm -f ${DESTDIR}${PREFIX}/lib/$LIBNAME.*
+  rm -f ${DESTDIR}${PREFIX}/lib/lib$LIBNAME.*
   ldconfig
 }
 
@@ -215,6 +239,7 @@ CLEAN=0
 BUILD=0
 INSTALL=0
 PACKAGE=0
+PACKAGESO=0
 REMOVE=0
 RELINK=0
 EXECUTABLE=0
@@ -232,6 +257,11 @@ do
     build)     BUILD=1
                ;;
     package)   PACKAGE=1
+               ;;
+    packageso) BUILD=1
+               PACKAGE=1
+               INSTALL=1
+               PACKAGESO=1
                ;;
     install)   PACKAGE=1
                INSTALL=1
@@ -253,4 +283,5 @@ done
 [ $EXECUTABLE = 1 ]  && executable
 [ $REMOVE = 1 ]      && remove
 
+sudo chown -R `logname`:`ls -lad . | awk '{print $4}'` .
 exit 0

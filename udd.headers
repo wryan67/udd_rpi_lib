@@ -1,10 +1,13 @@
-src/controller/Metadata.h
-src/fonts/fonts.h
 src/controller/inttypes.h
 src/controller/Color.h
+src/controller/Point.h
+src/controller/Pixel.h
+src/controller/Metadata.h
 src/bmp/GUI_BMPfile.h
+src/fonts/fonts.h
 src/controller/Image.h
 src/controller/Display.h
 src/displays/DisplayST7789.h
 src/displays/DisplayST7735R.h
+src/displays/DisplayNeoPixel.h
 src/controller/IdGenerator.h

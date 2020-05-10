@@ -44,6 +44,9 @@ install: chmod
 exe: chmod
 	@sudo ./build.sh exe
 
+so: chmod
+	@sudo ./build.sh packageso install
+
 remove: chmod
 	@sudo ./build.sh remove
 

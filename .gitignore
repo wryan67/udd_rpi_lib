@@ -12,6 +12,9 @@ demo
 *libwiringPi*.so*
 utility/mcp23x17
 example/example
+.vscode/**
+lib/**
+*.save
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

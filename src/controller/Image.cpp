@@ -27,7 +27,7 @@ Image::Image(int width, int height, Color backgroundColor) {
 void Image::clear(Color backgroundColor) {
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
-            ColorType* xp = getPixel(x, y);
+            ColorType* xp = getPixelColor(x, y);
             xp->red = backgroundColor.color.red;
             xp->green = backgroundColor.color.green;
             xp->blue = backgroundColor.color.blue;
@@ -46,7 +46,7 @@ void Image::drawPixel(int x, int y, Color color) {
     if (x >= width) return;
     if (y >= height) return;
 
-    ColorType* xp = getPixel(x, y);
+    ColorType* xp = getPixelColor(x, y);
 
     xp->red = color.color.red;
     xp->green = color.color.green;
@@ -64,7 +64,7 @@ void Image::drawPixel(int x, int y, Color color) {
 
 
 void Image::printPixel(int x, int y) {
-    ColorType* xp = getPixel(x, y);
+    ColorType* xp = getPixelColor(x, y);
 
     if (xp == NULL) {
         printf("pixel(%d, %d)=undefined\n", x, y);
@@ -74,7 +74,7 @@ void Image::printPixel(int x, int y) {
     }
 }
 
-ColorType* Image::getPixel(int x, int y) {
+ColorType* Image::getPixelColor(int x, int y) {
 
     if (x<0 || x >= width || y<0 || y>=height) {
         return NULL;
@@ -89,14 +89,14 @@ ColorType* Image::getPixel(int x, int y) {
 
 ColorType* Image::getPixel(int x, int y, Rotation rotation) {
     switch (rotation) {
-    case DEGREE_0:    return getPixel(x, y); 
-    case DEGREE_90:   return getPixel(y, height - x -1);
-    case DEGREE_180:  return getPixel(width - x  -1, height - y-1);
-    case DEGREE_270:  return getPixel(width -y -1, x);
+    case DEGREE_0:    return getPixelColor(x, y); 
+    case DEGREE_90:   return getPixelColor(y, height - x -1);
+    case DEGREE_180:  return getPixelColor(width - x  -1, height - y-1);
+    case DEGREE_270:  return getPixelColor(width -y -1, x);
 
     default:
         fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);
-        return getPixel(x, y);
+        return getPixelColor(x, y);
     }
 }
 

@@ -82,6 +82,25 @@ ColorType Color::toType() {
 }
 
 
+int32_t Color::rgb24() {
+    printf("color::rgb24: 0x%02x%02x%02x\n", color.red, color.blue, color.green);
+    return (color.red<<16)+(color.green<<8)+(color.blue);
+}
+
+
+void Color::print() {
+
+    printf("color::print: 0x%02x%02x%02x\n", this->color.red, this->color.blue,this->color.green);
+    printf("color::print: 0x%02x%02x%02x\n", color.red, color.blue, color.green);
+
+    printf("color::print: 0x%3d%3d%3d\n", this->color.red, this->color.blue,this->color.green);
+    printf("color::print: 0x%3d%3d%3d\n", color.red, color.blue, color.green);
+
+}
+
+
+
+
 // Original 8
 Color BLACK             = Color(0,     0,   0);
 Color RED               = Color(255,   0,   0);

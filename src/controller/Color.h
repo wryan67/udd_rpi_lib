@@ -1,6 +1,6 @@
 #pragma once
 
-#include <inttypes.h>
+#include "inttypes.h"
 
 struct ColorStruct {
     _byte red;
@@ -22,7 +22,10 @@ public:
     Color(_byte red, _byte blue, _byte green);
     Color(const char *hexbytes);
     Color(_byte red, _byte blue, _byte green, _byte opacity);
+    
     ColorType toType();
+    int32_t   rgb24();
+    void      print();
 };
 
 

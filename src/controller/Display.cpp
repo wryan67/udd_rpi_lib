@@ -62,6 +62,7 @@ namespace udd {
         printf("height:            %d\n", config.height);
         printf("xOffset:           %d\n", config.xOffset);
         printf("yOffset:           %d\n", config.yOffset);
+
         printf("cs:                %d\n", config.CS);
         printf("dc:                %d\n", config.DC);
         printf("rst:               %d\n", config.RST);
