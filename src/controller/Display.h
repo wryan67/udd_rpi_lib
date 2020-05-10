@@ -1,6 +1,7 @@
 #pragma once
 #include "inttypes.h"
 #include "Color.h"
+#include "Pixel.h"
 
 #include "Metadata.h"
 #include "Image.h"
@@ -56,8 +57,12 @@ namespace udd {
 
         int handle = -1;
 
-        DisplayConfigruation config;
+        Image vImage;
+
+        
     public:
+        DisplayConfigruation config;
+        
         virtual void init() {
             printf("init failed, base method called instead of child\n");
             exit(0);
@@ -88,6 +93,7 @@ namespace udd {
         void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
         void writeByte(_byte data);
+        void setPixel(Pixel pixel);
         //void writeWord(_word data);
     };
 

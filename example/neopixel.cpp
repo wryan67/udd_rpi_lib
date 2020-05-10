@@ -118,14 +118,14 @@ bool demoSineWave(int frameCount, long long start, Image image) {
     return ((now - start) < 8000);
 }
 
-long c=0;
+long rainbowColor=0;
 
 void rainbow() {
     long long start = currentTimeMillis();
     long long elapsed = 0;
 
     while (elapsed<30*1000) {
-        int color=++c%256;
+        int color=++rainbowColor%256;
         elapsed = currentTimeMillis() - start;
 
         for (int x=0; x<d1Config.width; ++x) {
@@ -137,18 +137,35 @@ void rainbow() {
                 usleep(66);
             }
         }
-        d1.render();
+        d1.render(d1Config.screenRotation);
     }
-
 }
+
+
+long gryoPosition=0;
+void gyro() {
+    long long start = currentTimeMillis();
+    long long elapsed = 0;
+
+    Image bmp = Image(11, 11, BLACK);
+
+
+    while (elapsed<30*1000) {
+        int color=++gryoPosition%2;
+        elapsed = currentTimeMillis() - start;
+
+        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
+
+        d1.showImage(bmp);
+        delay(5000);
+    }
+}
+
 
 void display1Demo() {
 
-    printf("tag00\n"); fflush(stdout);
-    Image bmp = Image(320, 240, BLACK);
-    printf("tag01\n"); fflush(stdout);
-    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
-    printf("tag02\n"); fflush(stdout);
+//    Image bmp = Image(320, 240, BLACK);
+//    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
 
 //    Image chart = Image(d1Config.height, d1Config.width, BLACK);
 
@@ -171,10 +188,25 @@ void display1Demo() {
         d1.clear(BLUE);
         delay(250);
 
-        rainbow();
+//        rainbow();
+
+//        gyro();
 
         // long long start = currentTimeMillis();
         //  while (demoSineWave(++count, start, chart));
+
+
+        printf("Graduated Colors\n");
+        int c=0;
+        for (int y=0;y<d1.config.height;++y) {
+            Color color=Color(c); c+=24;
+            for (int x=0;x<d1.config.width;++x) {
+                d1.setPixel(Pixel(x,y,color));
+            }
+        }
+        d1.render(d1Config.screenRotation);
+        exit(0);
+
     }
 }
 
@@ -190,10 +222,54 @@ void configureDisplay1() {
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
-    d1Config.brightness =       32;
+    d1Config.brightness =       10;
+    d1Config.screenRotation  =  udd::DEGREE_0;
 
     d1.openDisplay(d1Config);
     d1.printConfiguration();
+
+
+// bottom row (0)
+//  These are physicall there right now
+//  d1.addGhostPixel(Point( 0, 0));
+//  d1.addGhostPixel(Point( 1, 0));
+//  d1.addGhostPixel(Point( 2, 0));
+
+    d1.addGhostPixel(Point( 8, 0));
+    d1.addGhostPixel(Point( 9, 0));
+    d1.addGhostPixel(Point(10, 0));
+
+// row 1
+    d1.addGhostPixel(Point( 0, 1));
+    d1.addGhostPixel(Point( 1, 1));
+
+    d1.addGhostPixel(Point( 9, 1));
+    d1.addGhostPixel(Point(10, 1));
+
+// row 2
+    d1.addGhostPixel(Point( 0, 2));
+    d1.addGhostPixel(Point(10, 2));
+
+// row 8
+    d1.addGhostPixel(Point( 0, 8));
+    d1.addGhostPixel(Point(10, 8));
+
+
+// row 9
+    d1.addGhostPixel(Point( 0, 9));
+    d1.addGhostPixel(Point( 1, 9));
+
+    d1.addGhostPixel(Point( 9, 9));
+    d1.addGhostPixel(Point(10, 9));
+
+// top row (10)
+    d1.addGhostPixel(Point( 0,10));
+    d1.addGhostPixel(Point( 1,10));
+    d1.addGhostPixel(Point( 2,10));
+
+    d1.addGhostPixel(Point( 8,10));
+    d1.addGhostPixel(Point( 9,10));
+    d1.addGhostPixel(Point(10,10));
 }
 
 

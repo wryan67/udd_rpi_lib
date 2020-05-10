@@ -10,3 +10,7 @@ Pixel::Pixel(int x, int y, Color color) {
     this->point = Point(x,y);
 }
 
+Pixel::Pixel(int x, int y, ColorType color) {
+    this->color = color;
+    this->point = Point(x,y);
+}

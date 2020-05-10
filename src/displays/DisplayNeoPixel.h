@@ -15,8 +15,6 @@
 #include <vector>
 
 
-
-
 namespace udd {
 
     class DisplayNeoPixel : public Display {
@@ -26,17 +24,16 @@ namespace udd {
         DisplayNeoPixel();
         void openDisplay(DisplayConfigruation configuration);
         void printConfiguration();
-        void render();
+        void render(Rotation rotation);
 
         void addGhostPixel(Point point);
         void addGhostPixels(std::vector<Point> points);
 
         void clear(Color color);
 
-        void setPixel(Pixel pixel);
-
-        // void showImage(Image image, Rotation rotation);
-        // void showImage(Image image);
+        // void setPixel(int pos, ColorType *color);
+        void showImage(Image image, Rotation rotation);
+        void showImage(Image image);
 
 
     private:

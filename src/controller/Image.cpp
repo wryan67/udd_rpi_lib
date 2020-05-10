@@ -6,7 +6,11 @@
 
 using namespace udd;
 
-
+Image::Image() {
+    width=0;
+    height=0;    
+    backgroundColor=BLACK;
+}
 
 
 

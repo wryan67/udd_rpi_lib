@@ -16,6 +16,8 @@ namespace udd {
 
     class Image {
     public:
+        Image();
+        
         Image(int width, int height, Color backgroundColor);
 
         void clear(Color backgroundColor);
@@ -47,6 +49,7 @@ namespace udd {
 
         ColorType* getPixelColor(int x, int y);
 
+        
     private:
         ColorType* canvas;
 

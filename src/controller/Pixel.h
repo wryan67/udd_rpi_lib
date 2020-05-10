@@ -11,6 +11,7 @@ public:
 
     Pixel();
     Pixel(int x, int y, Color color);
+    Pixel(int x, int y, ColorType color);
 };
 
 

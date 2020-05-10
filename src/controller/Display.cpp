@@ -15,8 +15,10 @@ namespace udd {
     }
 
 
+
     void Display::openDisplay(DisplayConfigruation configuration) {
         this->config = configuration;
+        this->vImage = Image(config.width, config.height, BLACK);
 
         openSPI();
 
@@ -29,6 +31,8 @@ namespace udd {
 
         init();
         pause();
+
+
     }
 
     void Display::reset() {
@@ -225,5 +229,9 @@ namespace udd {
         digitalWrite(config.CS, 1);
     }
     */
+
+   void Display::setPixel(Pixel pixel) {
+       this->vImage.drawPoint(pixel.point.x, pixel.point.y, pixel.color,1);
+   }
 
 }
