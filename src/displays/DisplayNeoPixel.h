@@ -7,7 +7,7 @@
 #define SK6812W_STRIP                            SK6812_STRIP_GRBW
 
 
-#include <Display.h>
+#include "Display.h"
 #include "Pixel.h"
 
 #include <neopixel.h>

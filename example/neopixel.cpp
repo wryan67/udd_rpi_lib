@@ -40,7 +40,7 @@ unsigned long long currentTimeMillis() {
 
 
 void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
-    bool first = true;;
+    bool first = true;
     int lx = -1, ly = -1;
     double vx = 0;
     float vmax = 2;
@@ -133,21 +133,20 @@ void display1Demo() {
     while (true) {
         //d1.clear(WHITE);
         //delay(500);
+
         printf("RED\n");
-        RED.rgb24();
-        RED.print();
-        Color(111,000,111).print();
         d1.clear(RED);
-        delay(500);
+        delay(1000);
 
         printf("BLUE\n");
-
         d1.clear(BLUE);
-        delay(500);
-        d1.clear(GREEN);
-        //delay(500);
-        //d1.clear(BLACK);
+        delay(1000);
 
+        printf("GREEN\n");
+        d1.clear(GREEN);
+        delay(1000);
+
+        //d1.clear(BLACK);
 //        d1.showImage(bmp, DEGREE_270);
         // delay(1000);
 
@@ -169,6 +168,7 @@ void configureDisplay1() {
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
+    d1Config.brightness =       8;
 
     d1.openDisplay(d1Config);
     d1.printConfiguration();

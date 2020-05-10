@@ -39,6 +39,7 @@ namespace udd {
         int targetFreq;
         int dmaChannel;
         int gpioPin; 
+        int brightness;
     };
 
     typedef DisplayConfigurationStruct      DisplayConfigruation;

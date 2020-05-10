@@ -136,7 +136,7 @@ executable() {
   LAST=$(ls -1tr "$OBJECT" "$SOURCE" "$HEADER" 2>/dev/null | tail -1)
 
   if [ -s $STATIC ];then
-    for EXE in  demo1 demo2 
+    for EXE in  demo1 demo2 neopixel
     do
       LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
       if [ $LAST != "$BIN/$EXE" ];then
@@ -145,13 +145,13 @@ executable() {
     done
   fi
 
-  for EXE in neopixel
-  do
-    LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
-    if [ $LAST != "$BIN/$EXE" ];then
-      userEcho $CC -lwiringPi -lNeoPixelRPi -l$LIBNAME -lpthread  example/$EXE.cpp -o $BIN/$EXE
-    fi
-  done
+#  for EXE in neopixel
+#  do
+#    LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
+#    if [ $LAST != "$BIN/$EXE" ];then
+#      userEcho $CC -lwiringPi -lNeoPixelRPi -l$LIBNAME -lpthread  example/$EXE.cpp -o $BIN/$EXE
+#    fi
+#  done
 }
 
 #:###################:#
@@ -160,22 +160,23 @@ executable() {
 package() {
   mkdir -p $LIB 
 
-  ls -tr $LIB/* | tail -1 | grep '\.a' > /dev/null
-  A=$?
+  if [ $STATICONLY = 0 ];then
+    ls -tr $LIB/* | tail -1 | grep '\.a' > /dev/null
+    A=$?
 
-  echo Buliding source for dynamic library for sake of size and compatibility
-  DYNAMIC="-fPIC"
-  [ $A = 0 ] && clean objects
-  build
+    echo Buliding source for dynamic library for sake of size and compatibility
+    DYNAMIC="-fPIC"
+    [ $A = 0 ] && clean objects
+    build
 
-  echo Packagiang lib$LIBNAME.so
-  OBJECTS=$(find $OBJ -type f)
-  ${CC} -shared -Wl,-soname,lib$LIBNAME.so -o $LIB/lib$LIBNAME.so.$VERSION ${OBJECTS}  || die
+    echo Packagiang lib$LIBNAME.so
+    OBJECTS=$(find $OBJ -type f)
+    ${CC} -shared -Wl,-soname,lib$LIBNAME.so -o $LIB/lib$LIBNAME.so.$VERSION ${OBJECTS}  || die
+    clean objects
+  fi
 
-  [ $PACKAGESO = 1 ] && return
   echo Buliding source for static library for sake of runtime speed
   DYNAMIC=""
-  clean objects
   build
 
   echo Packagiang lib$LIBNAME.a
@@ -211,8 +212,10 @@ install() {
   DYNAMIC=lib$LIBNAME.so.$VERSION
 
   rm -f ${DESTDIR}/lib/lib$LIBNAME.so ${DESTDIR}${PREFIX}/lib/$DYNAMIC ${DESTDIR}${PREFIX}/lib/$STATIC 
-  cp $LIB/$DYNAMIC  ${DESTDIR}${PREFIX}/lib/$DYNAMIC 
-  ln -sf            ${DESTDIR}${PREFIX}/lib/$DYNAMIC  ${DESTDIR}/lib/lib$LIBNAME.so
+  if [ -s $LIB/$DYNAMIC ];then 
+    cp $LIB/$DYNAMIC  ${DESTDIR}${PREFIX}/lib/$DYNAMIC 
+    ln -sf            ${DESTDIR}${PREFIX}/lib/$DYNAMIC  ${DESTDIR}/lib/lib$LIBNAME.so
+  fi
 
   if [ -s $LIB/$STATIC ];then  
     cp $LIB/$STATIC ${DESTDIR}${PREFIX}/lib/$STATIC 
@@ -239,10 +242,10 @@ CLEAN=0
 BUILD=0
 INSTALL=0
 PACKAGE=0
-PACKAGESO=0
 REMOVE=0
 RELINK=0
 EXECUTABLE=0
+STATICONLY=0
 
 if [ "$*" = "" ];then
   BUILD=1
@@ -258,10 +261,10 @@ do
                ;;
     package)   PACKAGE=1
                ;;
-    packageso) BUILD=1
+    static)    STATICONLY=1
                PACKAGE=1
                INSTALL=1
-               PACKAGESO=1
+               EXECUTABLE=1
                ;;
     install)   PACKAGE=1
                INSTALL=1

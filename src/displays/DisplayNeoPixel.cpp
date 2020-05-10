@@ -1,4 +1,4 @@
-#include "DisplayNeoPixel.h"
+#include <DisplayNeoPixel.h>
 
 namespace udd {
     DisplayNeoPixel::DisplayNeoPixel() : Display() {}
@@ -7,6 +7,7 @@ namespace udd {
         this->config = configuration;
 
         neopixel_init(config.stripType, config.targetFreq, config.dmaChannel, config.gpioPin, config.width * config.height);        
+        neopixel_setBrighness(config.brightness);
     }
 
     void DisplayNeoPixel::printConfiguration() {
@@ -37,21 +38,14 @@ namespace udd {
 
     void DisplayNeoPixel::setPixel(Pixel pixel) {
         int color=pixel.color.rgb24();
-        printf("x=%3d y=%3d; color=%d\n",pixel.point.x, pixel.point.y,color);
-
+        // printf("neopixel::setPixel x=%3d y=%3d, color=0x%6x\n",pixel.point);
         neopixel_setPixel(pixel.point.x*pixel.point.y,color);
     }
 
 
     void DisplayNeoPixel::clear(Color color) {
 
-        printf("neopixel::clear red=%3d green=%3d blue=%3d\n", color.color.red, color.color.green, color.color.blue);
-
-
-
-        printf("neopixel::clear color=%d\n", color.rgb24());
-        
-        exit(8);
+        printf("neopixel::witch=%d height=%d\n", config.width, config.height);
 
         for (int x=0;x<config.width;++x) {
             for (int y=0;y<config.height;++y) {

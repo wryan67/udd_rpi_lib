@@ -83,8 +83,7 @@ ColorType Color::toType() {
 
 
 int32_t Color::rgb24() {
-    printf("color::rgb24: 0x%02x%02x%02x\n", color.red, color.blue, color.green);
-    return (color.red<<16)+(color.green<<8)+(color.blue);
+    return (color.green<<16)+(color.red<<8)+(color.blue);
 }
 
 
