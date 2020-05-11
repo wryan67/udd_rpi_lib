@@ -307,13 +307,12 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
     }
 
 
-    printf("rowSize=%d\n",rowSize);
-
     uint16_t x, y;
     unsigned char rowData[rowSize];
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
 
-    for (y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
+    for (uint16_t iy = 0; iy < bmpInfoHeader.biHeight; iy++) {//Total display column
+        y=bmpInfoHeader.biHeight-iy-1;
 
         if (fread(rowData, rowSize, 1, fp) != 1) {
             perror("get bmpdata:\r\n");
@@ -322,7 +321,7 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
 
         for (x = 0 ; x < bmpInfoHeader.biWidth; ++x) {//Show a line in the line
         
-            unsigned int imageOffset = 3 * (bmpInfoHeader.biWidth-x-1);
+            unsigned int imageOffset = 3 * x;
 
             if (imageOffset+2 > rowSize) {
                 fprintf(stderr, "image out of bounds");

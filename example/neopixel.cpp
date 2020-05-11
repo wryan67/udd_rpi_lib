@@ -124,7 +124,7 @@ void rainbow() {
     long long start = currentTimeMillis();
     long long elapsed = 0;
 
-    while (elapsed<30*1000) {
+    while (elapsed<10*1000) {
         int color=++rainbowColor%256;
         elapsed = currentTimeMillis() - start;
 
@@ -150,21 +150,65 @@ void gyro() {
     Image bmp = Image(11, 11, BLACK);
 
 
-    while (elapsed<30*1000) {
+    int mirrorScreen=0;
+
+    while (elapsed<12*1000) {
         int color=++gryoPosition%2;
         elapsed = currentTimeMillis() - start;
 
+
+        Rotation degree=DEGREE_0;
+
+        ScreenMirror mirror=(mirrorScreen++%2==0)?NORMAL:HORIZONTAL; 
+
+
         bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
-        d1.showImage(bmp);
-        delay(5000);
+        d1.showImage(bmp,degree,mirror);
+        delay(2000);
 
-        bmp.loadBMP("images/gyro/gyro-1a.bmp", 0, 0);
-        d1.showImage(bmp);
-        delay(5000);
+        bmp.loadBMP("images/gyro/gyro-1.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(500);
 
+        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(250);
+
+        bmp.loadBMP("images/gyro/gyro-1.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(250);
+
+        bmp.loadBMP("images/gyro/gyro-2.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(250);
+
+        bmp.loadBMP("images/gyro/gyro-3.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(500);
+
+        bmp.loadBMP("images/gyro/gyro-4.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(750);
+
+        bmp.loadBMP("images/gyro/gyro-3.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(500);
     
+        bmp.loadBMP("images/gyro/gyro-4.bmp", 0, 0);
+        d1.showImage(bmp,degree,mirror);
+        delay(250);
 
-        exit(0);
+
+        bmp.loadBMP("images/gyro/tilt.bmp", 0, 0);
+        for (int i=0;i<6;++i) {
+
+            d1.showImage(bmp,DEGREE_0,mirror);
+            delay(333);
+            
+            d1.showImage(bmp,DEGREE_180,mirror);
+            delay(333);
+        }
+
     }
 }
 
@@ -173,6 +217,8 @@ void display1Demo() {
 
 //    Image bmp = Image(320, 240, BLACK);
 //    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
+
+    Image bmp = Image(11, 11, DARK_BLUE);
 
     Image chart = Image(d1Config.height, d1Config.width, BLACK);
 
@@ -197,8 +243,8 @@ void display1Demo() {
 
 
 
-        // long long start = currentTimeMillis();
-        // while (demoSineWave(++count, start, chart));
+//        long long start = currentTimeMillis();
+//        while (demoSineWave(++count, start, chart));
 
 
         printf("Graduated Colors\n");
@@ -210,7 +256,7 @@ void display1Demo() {
             }
         }
 
-//     rainbow();
+        rainbow();
 
 
         d1.render(d1Config.screenRotation);
@@ -218,7 +264,22 @@ void display1Demo() {
 
         gyro();
 
-        exit(0);
+        int radius=5;
+
+        bmp.drawCircle(5,5,radius,YELLOW,FILL,SOLID,1);
+        bmp.drawCircle(5,5,radius-1,DARK_BLUE,FILL,SOLID,1);
+        bmp.drawText(3,2,"1",&Font8,DARK_BLUE,WHITE);
+
+        d1.showImage(bmp);
+        delay(3000);
+
+        bmp.drawText(3,2,"2",&Font8,DARK_BLUE,WHITE);
+        d1.showImage(bmp);
+        delay(2500);
+
+        bmp.drawText(3,2,"3",&Font8,DARK_BLUE,WHITE);
+        d1.showImage(bmp);
+        delay(5000);
 
     }
 }
@@ -235,7 +296,7 @@ void configureDisplay1() {
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
-    d1Config.brightness =       10;
+    d1Config.brightness =       15;
     d1Config.screenRotation  =  udd::DEGREE_0;
 
     d1.openDisplay(d1Config);
@@ -287,13 +348,22 @@ void configureDisplay1() {
 
 
 
-int main(void)
+int main(int argc, char **argv)
 {
 	wiringPiSetup();  // use wiring pi numbers
 
     configureDisplay1();
     
     printf("press control-c to quit\n");
+
+
+    if (argc>1) {
+        Image bmp = Image(11, 11, BLACK);
+        bmp.loadBMP(argv[1], 0, 0);
+        d1.showImage(bmp);
+        exit(0);
+    }
+
 
     display1Demo();
 

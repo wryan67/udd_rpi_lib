@@ -32,6 +32,7 @@ namespace udd {
         void clear(Color color);
 
         // void setPixel(int pos, ColorType *color);
+        void showImage(Image image, Rotation rotation, ScreenMirror mirror);
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);
 

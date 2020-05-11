@@ -51,7 +51,7 @@ namespace udd {
         render(config.screenRotation);
     }
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
+    void DisplayNeoPixel::showImage(Image image, Rotation rotation, ScreenMirror mirror) {
 
         int row=0;
         int pos=0;
@@ -59,7 +59,6 @@ namespace udd {
             int direction=((++row)%2);
             for (int xi = 0; xi < config.width; ++xi) {
                 int x=(direction)?xi:config.width-xi-1;  // data pin zig zags
-                
 
                 bool skip=false;
                 for (Point p : ghostPixels) {
@@ -71,6 +70,15 @@ namespace udd {
                 if (skip) {  // ghost pixel (exists in bmp, but no physical NeoPixel available)
                     continue;
                 }
+
+
+                if (mirror==HORIZONTAL) {
+                    x=config.width-x-1;
+                } else if (mirror==VERTICAL) {
+                    y=config.height-y-1;
+                }
+                
+
 
                 int xp=x - config.xOffset;
                 int yp=y - config.yOffset;
@@ -87,6 +95,11 @@ namespace udd {
             }
         }
         neopixel_render();
+    }
+
+
+    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
+        showImage(image, rotation, NORMAL);
     }
 
 
