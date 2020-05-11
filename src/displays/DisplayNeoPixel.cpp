@@ -51,19 +51,18 @@ namespace udd {
         render(config.screenRotation);
     }
 
-    void DisplayNeoPixel::render(Rotation rotation) {
-
-
-        
-    //    int clr=(color->green<<16)+(color->red<<8)+(color->blue);
-
-      //  int color=pixel.color.rgb24();
+    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
 
         printf("rendering...\n");
 
+        int row=0;
         int pos=0;
         for (int y = 0; y < config.height; y++) {
-            for (int x = 0; x < config.width; ++x) {
+            int direction=((++row)%2);
+            for (int xi = 0; xi < config.width; ++xi) {
+                int x=(direction)?xi:config.width-xi-1;  // data pin zig zags
+                
+
                 bool skip=false;
                 for (Point p : ghostPixels) {
                     if (p.x==x && p.y==y) {
@@ -71,12 +70,14 @@ namespace udd {
                         break;
                     }
                 }
-                if (skip) {
-                    printf(" [    ]");
+                if (skip) {  // ghost pixel (exists in bmp, but no physical NeoPixel available)
+                    printf(" [           ]");
                     continue;
                 }
 
-                ColorType* color = vImage.getPixel(x - config.xOffset, y - config.yOffset, rotation);
+                int xp=x - config.xOffset;
+                int yp=y - config.yOffset;
+                ColorType* color = image.getPixel(xp, yp, rotation);
                     
 
                 if (color == NULL) {
@@ -84,18 +85,14 @@ namespace udd {
                     neopixel_setPixel(pos,0);
                 } else {
                     int clr=(color->green<<16)+(color->red<<8)+(color->blue);
-                    printf(" %02x%02x%02x",color->red, color->blue, color->green);
+                    printf(" (%02d,%02d)%02x%02x%02x",xp,yp,color->red, color->blue, color->green);
                     neopixel_setPixel(pos,clr);
                 }
                 ++pos;
             }
             printf("\n");
 
-//            writeBytes(rowPointer, (config.width + config.xOffset) * 2);
         }
-
-
-
         neopixel_render();
     }
 
@@ -104,23 +101,9 @@ namespace udd {
         showImage(image, DEGREE_0);
     }
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
-
-        int width = config.width + config.xOffset;
-        int height = config.height + config.yOffset;
-
-        printf("width=%d height=%d xOffset=%d yOffset=%d\n",config.width, config.height, config.xOffset,config.yOffset);
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; ++x) {
-                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-                vImage.drawPoint(x,y,*ct,1);
-            }
-        }
-
-
-        printf("\n");
-        render(config.screenRotation);
+    void DisplayNeoPixel::render(Rotation rotation) {
+        showImage(vImage, rotation);
     }
+   
 
 }

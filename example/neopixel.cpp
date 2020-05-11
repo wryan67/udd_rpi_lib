@@ -134,10 +134,10 @@ void rainbow() {
                 // printf("wheel=%3d r=%3d g=%3d b=%3d\n",color%256,clr.color.red, clr.color.green, clr.color.blue);
                 Pixel px=Pixel(x,y,clr);
                 d1.setPixel(px);
-                usleep(66);
             }
         }
         d1.render(d1Config.screenRotation);
+        usleep(66);
     }
 }
 
@@ -157,7 +157,14 @@ void gyro() {
         bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
 
         d1.showImage(bmp);
-        delay(5000);
+        //delay(5000);
+
+        bmp.printPixel(0,0);
+        bmp.printPixel(0,1);
+        bmp.printPixel(0,2);
+        bmp.printPixel(0,3);
+
+        exit(0);
     }
 }
 
@@ -190,7 +197,6 @@ void display1Demo() {
 
 //        rainbow();
 
-//        gyro();
 
         // long long start = currentTimeMillis();
         //  while (demoSineWave(++count, start, chart));
@@ -205,6 +211,10 @@ void display1Demo() {
             }
         }
         d1.render(d1Config.screenRotation);
+
+
+        gyro();
+
         exit(0);
 
     }

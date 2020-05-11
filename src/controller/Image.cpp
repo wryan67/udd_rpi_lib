@@ -73,7 +73,7 @@ void Image::printPixel(int x, int y) {
     if (xp == NULL) {
         printf("pixel(%d, %d)=undefined\n", x, y);
     }else {
-        printf("pixel(%d, %d)='#%2x%2x%2x  displayWord=%04x\n", x, y, 
+        printf("pixel(%d, %d)='#%02x%02x%02x  displayWord=%04x\n", x, y, 
             xp->red, xp->green, xp->blue, color2word(xp));
     }
 }
@@ -292,10 +292,7 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
     fread(&bmpFileHeader, sizeof(BMPFILEHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 14
     fread(&bmpInfoHeader, sizeof(BMPINFOHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 50
 
-    uint32_t Image_Width_Byte = bmpInfoHeader.biWidth * 3;
-    uint32_t Bmp_Width_Byte = Image_Width_Byte;//Raw data RGB888
-    uint8_t bmpImage[bmpInfoHeader.biWidth * bmpInfoHeader.biHeight * 3 ];
-    memset(bmpImage, 0x00, sizeof(bmpImage));
+    uint32_t rowSize = ((31 + (bmpInfoHeader.biWidth * bmpInfoHeader.biBitCount))/32)*4;
 
     // Determine if it is a monochrome bitmap
     int readbyte = bmpInfoHeader.biBitCount;
@@ -304,42 +301,47 @@ void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
         fprintf(stderr, "Bmp image is not a 4-color bitmap!\n");
         exit(0);
     }
-    // Read image data into the cache
+    if (bmpInfoHeader.biCompression!=0) {
+        fprintf(stderr, "Bmp images cannot be compressed!\n");
+        exit(0);
+    }
+
+
+    printf("rowSize=%d\n",rowSize);
+
     uint16_t x, y;
-    uint8_t Rdata;
+    unsigned char rowData[rowSize];
     fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
+
     for (y = 0; y < bmpInfoHeader.biHeight; y++) {//Total display column
-        for (x = 0; x < Bmp_Width_Byte; x++) {//Show a line in the line
-            if (fread((char*)&Rdata, 1, 1, fp) != 1) {
-                perror("get bmpdata:\r\n");
-                break;
-            }
-            unsigned int imageOffset = x + (bmpInfoHeader.biHeight - y - 1) * Image_Width_Byte;
-            if (imageOffset > sizeof(bmpImage)) {
+
+        if (fread(rowData, rowSize, 1, fp) != 1) {
+            perror("get bmpdata:\r\n");
+            break;
+        }
+
+        for (x = 0; x <bmpInfoHeader.biWidth; x++) {//Show a line in the line
+        
+            unsigned int imageOffset = 3 * x;
+
+            if (imageOffset+2 > rowSize) {
                 fprintf(stderr, "image out of bounds");
                 exit(9);
             }
-            bmpImage[imageOffset] = Rdata;
-        }
-    }
-    fclose(fp);
-
-    // Refresh the image to the display buffer based on the displayed orientation
-
-    for (y = 0; y < bmpInfoHeader.biHeight; y++) {
-        for (x = 0; x < bmpInfoHeader.biWidth; x++) {
-            if (x > width || y > height) {
-                continue;
-            }
-
-            uint8_t blue   = bmpImage[x * 3 + y * Image_Width_Byte + 0];
-            uint8_t green  = bmpImage[x * 3 + y * Image_Width_Byte + 1];
-            uint8_t red    = bmpImage[x * 3 + y * Image_Width_Byte + 2];
+  
+            unsigned char blue   = rowData[imageOffset++];
+            unsigned char green  = rowData[imageOffset++];
+            unsigned char red    = rowData[imageOffset++];
 
             Color color = Color(red, green, blue);
+            
             drawPixel(Xstart + x, Ystart + y, color);
         }
     }
+
+    fclose(fp);    
+
+    //exit(0);
     return;
 }
 
