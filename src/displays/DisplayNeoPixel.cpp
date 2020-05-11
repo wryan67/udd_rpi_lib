@@ -53,8 +53,6 @@ namespace udd {
 
     void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
 
-        printf("rendering...\n");
-
         int row=0;
         int pos=0;
         for (int y = 0; y < config.height; y++) {
@@ -71,7 +69,6 @@ namespace udd {
                     }
                 }
                 if (skip) {  // ghost pixel (exists in bmp, but no physical NeoPixel available)
-                    printf(" [           ]");
                     continue;
                 }
 
@@ -81,17 +78,13 @@ namespace udd {
                     
 
                 if (color == NULL) {
-                    printf(" ------");
                     neopixel_setPixel(pos,0);
                 } else {
                     int clr=(color->green<<16)+(color->red<<8)+(color->blue);
-                    printf(" (%02d,%02d)%02x%02x%02x",xp,yp,color->red, color->blue, color->green);
                     neopixel_setPixel(pos,clr);
                 }
                 ++pos;
             }
-            printf("\n");
-
         }
         neopixel_render();
     }

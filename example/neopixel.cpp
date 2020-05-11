@@ -154,15 +154,15 @@ void gyro() {
         int color=++gryoPosition%2;
         elapsed = currentTimeMillis() - start;
 
-        bmp.loadBMP("images/gyro/gyro-1a.bmp", 0, 0);
-
+        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
         d1.showImage(bmp);
-        //delay(5000);
+        delay(5000);
 
-        bmp.printPixel(0,0);
-        bmp.printPixel(0,1);
-        bmp.printPixel(0,2);
-        bmp.printPixel(0,3);
+        bmp.loadBMP("images/gyro/gyro-1a.bmp", 0, 0);
+        d1.showImage(bmp);
+        delay(5000);
+
+    
 
         exit(0);
     }
@@ -174,7 +174,7 @@ void display1Demo() {
 //    Image bmp = Image(320, 240, BLACK);
 //    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
 
-//    Image chart = Image(d1Config.height, d1Config.width, BLACK);
+    Image chart = Image(d1Config.height, d1Config.width, BLACK);
 
 
     long count = 0;
@@ -195,11 +195,10 @@ void display1Demo() {
         d1.clear(BLUE);
         delay(250);
 
-//        rainbow();
 
 
         // long long start = currentTimeMillis();
-        //  while (demoSineWave(++count, start, chart));
+        // while (demoSineWave(++count, start, chart));
 
 
         printf("Graduated Colors\n");
@@ -210,8 +209,12 @@ void display1Demo() {
                 d1.setPixel(Pixel(x,y,color));
             }
         }
-        d1.render(d1Config.screenRotation);
 
+//     rainbow();
+
+
+        d1.render(d1Config.screenRotation);
+        delay(1000);
 
         gyro();
 
