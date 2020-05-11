@@ -14,4 +14,4 @@ Here is a video showing [dual displays in action](https://www.youtube.com/watch?
 
 ![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/images/2displays.jpg): https://www.youtube.com/watch?v=ayDWNnZb_Fs
 
-https://youtu.be/jrF-sLwCGfo
+![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/readme/A26B52E7-CFD9-49FC-AE46-D9560006D6A8.jpeg):https://youtu.be/jrF-sLwCGfo
