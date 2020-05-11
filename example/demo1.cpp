@@ -138,7 +138,7 @@ void display1Demo() {
         delay(10);
         d1.clear(BLACK);
 
-        d1.showImage(bmp, DEGREE_270);
+        d1.showImage(bmp, DEGREE_90);
 
         delay(1000);
 

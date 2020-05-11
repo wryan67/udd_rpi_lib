@@ -154,7 +154,7 @@ void gyro() {
         int color=++gryoPosition%2;
         elapsed = currentTimeMillis() - start;
 
-        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
+        bmp.loadBMP("images/gyro/gyro-1a.bmp", 0, 0);
 
         d1.showImage(bmp);
         //delay(5000);
