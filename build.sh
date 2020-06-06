@@ -40,6 +40,8 @@ CC="g++"
 CFLAGS="-c -O2 -std=c11 -Wall"
 CCFLAGS="-c -O2 -std=gnu++11 -Wall -Dversion=$VERSION"
 LDFLAGS="-pthread -lwiringPi -lNeoPixelRPi -lm -Wl,--no-undefined -Wl,-z,now"
+EXELIBS="-lwiringPi -lNeoPixelRPi -lpthread -lwiringPiADS1115rpi"
+
 INCLUDES=`find $SRC -type d | awk '{printf("-I%s ",$0);}'`
 
 
@@ -136,11 +138,11 @@ executable() {
   LAST=$(ls -1tr "$OBJECT" "$SOURCE" "$HEADER" 2>/dev/null | tail -1)
 
   if [ -s $STATIC ];then
-    for EXE in  demo1 demo2 neopixel
+    for EXE in  demo1 demo2 neopixel neopixel2
     do
       LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
       if [ $LAST != "$BIN/$EXE" ];then
-        userEcho $CC -lwiringPi -lNeoPixelRPi -lpthread  example/$EXE.cpp $STATIC -o $BIN/$EXE
+        userEcho $CC $EXELIBS example/$EXE.cpp $STATIC -o $BIN/$EXE
       fi
     done
   fi
@@ -255,7 +257,12 @@ for COMMAND in $*
 do
   typeset -l $COMMAND
   case $COMMAND in
+    help)      echo "phases:  clean compile package install exe remove"
+               exit 0
+               ;;
     clean)     CLEAN=1
+               ;;
+    compile)   BUILD=1
                ;;
     build)     BUILD=1
                ;;

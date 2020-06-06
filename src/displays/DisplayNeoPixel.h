@@ -24,6 +24,7 @@ namespace udd {
         DisplayNeoPixel();
         void openDisplay(DisplayConfigruation configuration);
         void printConfiguration();
+        void setBrightness(int brightness);
         void render(Rotation rotation);
 
         void addGhostPixel(Point point);
@@ -31,11 +32,9 @@ namespace udd {
 
         void clear(Color color);
 
-        // void setPixel(int pos, ColorType *color);
         void showImage(Image image, Rotation rotation, ScreenMirror mirror);
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);
-
 
     private:
         std::vector<Point> ghostPixels={};

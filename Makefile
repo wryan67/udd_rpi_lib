@@ -29,6 +29,9 @@
 
 all: compile
 
+help:    
+	sudo ./build.sh help
+
 clean: chmod
 	@sudo ./build.sh clean
 

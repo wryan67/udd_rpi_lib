@@ -11,7 +11,7 @@ namespace udd {
 
 
         neopixel_init(config.stripType, config.targetFreq, config.dmaChannel, config.gpioPin, config.width * config.height);        
-        neopixel_setBrighness(config.brightness);
+        neopixel_setBrightness(config.brightness);
     }
 
     void DisplayNeoPixel::printConfiguration() {
@@ -31,6 +31,10 @@ namespace udd {
 
     }
 
+    void DisplayNeoPixel::setBrightness(int brightness) {
+        config.brightness=brightness;
+        neopixel_setBrightness(config.brightness);
+    }
     void DisplayNeoPixel::addGhostPixel(Point point) {
         this->ghostPixels.push_back(Point(point.x,point.y));
     }
