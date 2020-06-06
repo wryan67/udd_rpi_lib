@@ -142,20 +142,21 @@ void rainbow() {
 }
 
 
-long gryoPosition=0;
 void gyro() {
     long long start = currentTimeMillis();
     long long elapsed = 0;
 
     Image bmp = Image(11, 11, BLACK);
+    Image tilt0 = Image(11, 11, BLACK);
+    Image tilt1 = Image(11, 11, BLACK);
 
+    tilt0.loadBMP("images/gyro/tilt0.bmp", 0, 0);
+    tilt1.loadBMP("images/gyro/tilt1.bmp", 0, 0);
 
     int mirrorScreen=0;
 
     while (elapsed<12*1000) {
-        int color=++gryoPosition%2;
         elapsed = currentTimeMillis() - start;
-
 
         Rotation degree=DEGREE_0;
 
@@ -199,16 +200,14 @@ void gyro() {
         delay(250);
 
 
-        bmp.loadBMP("images/gyro/tilt.bmp", 0, 0);
-        for (int i=0;i<6;++i) {
+        for (int i=0;i<10;++i) {
 
-            d1.showImage(bmp,DEGREE_0,mirror);
-            delay(333);
-            
-            d1.showImage(bmp,DEGREE_180,mirror);
-            delay(333);
+            d1.showImage(tilt0,DEGREE_0,NORMAL);
+            delay(200); 
+
+            d1.showImage(tilt1,DEGREE_0,NORMAL);
+            delay(200);
         }
-
     }
 }
 
@@ -292,11 +291,11 @@ void configureDisplay1() {
     d1Config.width =            11;
     d1Config.height =           11;
 
-    d1Config.stripType =        WS2812_STRIP; 
+    d1Config.stripType =        WS2811_STRIP_GRB; 
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
-    d1Config.brightness =       15;
+    d1Config.brightness =       16;
     d1Config.screenRotation  =  udd::DEGREE_0;
 
     d1.openDisplay(d1Config);
@@ -305,9 +304,9 @@ void configureDisplay1() {
 
 // bottom row (0)
 //  These are physicall there right now
-//  d1.addGhostPixel(Point( 0, 0));
-//  d1.addGhostPixel(Point( 1, 0));
-//  d1.addGhostPixel(Point( 2, 0));
+    d1.addGhostPixel(Point( 0, 0));
+    d1.addGhostPixel(Point( 1, 0));
+    d1.addGhostPixel(Point( 2, 0));
 
     d1.addGhostPixel(Point( 8, 0));
     d1.addGhostPixel(Point( 9, 0));
