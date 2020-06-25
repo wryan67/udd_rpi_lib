@@ -36,7 +36,12 @@ int fps, lastFPS = 0;
 int ADS1115_ADDRESS=0x48;
 float vRef = 3.3;
 
-int brightness=16;
+int minBrightness=8;
+int nomBrightness=32;
+int maxBrightness=254;
+
+float minVBrightness=0.5;
+float maxVBrightness=2.0;
 
 unsigned long long currentTimeMillis() {
     struct timeval currentTime;
@@ -145,7 +150,6 @@ void rainbow() {
                 d1.setPixel(px);
             }
         }
-        d1.setBrightness(brightness);
         d1.render(d1Config.screenRotation);
         usleep(66);
     }
@@ -363,6 +367,7 @@ pthread_t threadCreate(void *(*method)(void *), const char *description) {
 
 void* setBrightness(void *) {
   int handle = wiringPiI2CSetup(ADS1115_ADDRESS);
+  int brightness;
 
   while (true) {
     float volts[4];
@@ -379,10 +384,21 @@ void* setBrightness(void *) {
     long long cTime=currentTimeMillis();
     int elapsed = cTime - startTime;
 
-    printf("%lld %7d %8.2f %8.2f %8.2f %8.2f\n", cTime, elapsed, volts[0], volts[1], volts[2], volts[3]);
+    if (volts[1]<1.0)  {
+        brightness=minBrightness;
+    } else if (volts[1]<3.0) {
+        brightness=nomBrightness;
+    } else {
+        brightness=maxBrightness;
+    }
+
+
+    d1.setBrightness(brightness);
+
+    printf("%lld %7d %8.2f %8.2f brightness=%d\n", 
+           cTime, elapsed, volts[0], volts[1], brightness);
     fflush(stdout);
 
-    brightness=16;
     delay(1000);
   }
 }
