@@ -115,4 +115,51 @@ namespace udd {
         pause();
         screenLock.unlock();
     }
+
+    void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
+
+        screenLock.lock();
+        openSPI();
+
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
+
+        setScreenWindow(0, 0, width, height);
+        digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
+
+        _word  row[config.width + config.xOffset];
+        _byte* rowPointer = (_byte*)(row);
+
+        int _color = 0;
+        writeCommand(0x10);  // black/white
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; ++x) {
+                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
+
+                if (ct == NULL) {
+                    _color = 0;
+                }
+                else {
+                    if (WHITE.equals(ct)) {
+                        _color = 0;
+                    } else if (BLACK.equals(ct)) {
+                        _color = 1;
+                    }
+                    else if (RED.equals(ct)) {
+                        _color = 2;
+                    } 
+
+                    _color = color2word(ct);
+                }
+            }
+
+            writeData(rowPointer, (config.width + config.xOffset) * 2);
+        }
+        digitalWrite(config.CS, 1);
+
+        screenLock.unlock();
+    }
+
 }

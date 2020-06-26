@@ -126,7 +126,7 @@ namespace udd {
         digitalWrite(config.DC, 1);
 
         for (int y = 0; y < config.height+config.yOffset; y++) {
-            writeBytes(rowPointer, (config.width+config.xOffset) * 2);
+            writeData(rowPointer, (config.width+config.xOffset) * 2);
         }
         pause();
         screenLock.unlock();
@@ -161,7 +161,7 @@ namespace udd {
                 }
             }
 
-            writeBytes(rowPointer, (config.width + config.xOffset) * 2);
+            writeData(rowPointer, (config.width + config.xOffset) * 2);
         }
         digitalWrite(config.CS, 1);
 
@@ -206,7 +206,7 @@ namespace udd {
         digitalWrite(config.CS, 1);
     }
 
-    void Display::writeBytes(_byte* data, uint32_t len) {
+    void Display::writeData(_byte* data, uint32_t len) {
         _byte d2[len];
 
         memcpy(&d2, data, len); // wpi write back to buffer!

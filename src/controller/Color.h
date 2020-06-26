@@ -29,6 +29,8 @@ public:
     int32_t   rgb24();
     void      print();
     bool      equals(Color otherColor);
+    bool      equals(ColorType otherColor);
+
 };
 
 
