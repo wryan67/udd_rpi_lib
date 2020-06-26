@@ -122,6 +122,11 @@ namespace udd {
         showImage(image, DEGREE_0);
     }
 
+    void addBit(int bit, _byte* byte, int val) {
+        int orVal = val << bit;
+        (*byte) = (*byte) | orVal;
+    }
+
 
     void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
 
@@ -138,30 +143,32 @@ namespace udd {
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-        _word  row[config.width + config.xOffset];
-        _byte* rowPointer = (_byte*)(row);
 
         writeCommand(0x10);  // black/white
 
         for (int y = 0; y < height; y++) {
-            int bit = 0;
+            int  bit = 0;
+            _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
-                    writeData(0xff); //white
+                    addBit((++bit)%8, &out, 1); //white
                 } else {
                     if (WHITE.equals(ct)) {
-                        writeData(0xff);
+                        addBit((++bit) % 8, &out, 1);
                     }
                     else if (BLACK.equals(ct)) {
-                        writeData(0x00);
+                        addBit((++bit) % 8, &out, 0);
                     }
                     else if (RED.equals(ct)) {
-                        writeData(0xff);
+                        addBit((++bit) % 8, &out, 1);
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
+                }
+                if (bit % 8 == 0) {
+                    writeData(out);
                 }
             }
             //writeData(rowPointer, (config.width + config.xOffset) );
@@ -171,6 +178,8 @@ namespace udd {
         writeCommand(0x13);
 
         for (int y = 0; y < height; y++) {
+            int  bit = 0;
+            _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
@@ -188,19 +197,22 @@ namespace udd {
 
 
                 if (ct == NULL) {
-                    writeData(0xff); //white
+                    addBit((++bit) % 8, &out, 1);  // black/white
                 } else {
                     if (WHITE.equals(ct)) {
-                        writeData(0xff);
+                        addBit((++bit) % 8, &out, 1); //black/white
                     }
                     else if (BLACK.equals(ct)) {
-                        writeData(0xFF);
+                        addBit((++bit) % 8, &out, 1);  //black/white
                     }
                     else if (RED.equals(ct)) {
-                        writeData(0x00);
+                        addBit((++bit) % 8, &out, 0);
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
+                }
+                if (bit % 8 == 0) {
+                    writeData(out);
                 }
             }
             //writeData(rowPointer, (config.width + config.xOffset));

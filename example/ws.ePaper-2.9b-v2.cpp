@@ -125,7 +125,7 @@ void display1Demo() {
 
     Image chart = Image(d1Config.width, d1Config.height, WHITE);
 
-    bool doSolids = true;
+    bool doSolids = false;
     long count = 0;
     while (true) {
         
@@ -145,9 +145,9 @@ void display1Demo() {
             printf("clear screen - white\n");
             d1.clear(WHITE);
             delay(2 * 1000);
+            continue;
         }
 
-        continue;
         printf("draw boxes\n");
 
         chart.clear(WHITE);
