@@ -126,6 +126,8 @@ namespace udd {
         screenLock.lock();
         openSPI();
 
+        fprintf(stderr, "ePaper showImage()\n");
+
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
@@ -143,21 +145,21 @@ namespace udd {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
-                    row[x] = 0xff; //white
+                    writeData(0xff); //white
                 }
                 else {
                     if (WHITE.equals(ct)) {
-                        row[x] = 0xff;
+                        writeData(0xff);
                     }
                     else if (BLACK.equals(ct)) {
-                        row[x] = 0x00;
+                        writeData(0x00);
                     }
                     else if (RED.equals(ct)) {
-                        row[x] = 0xff;
+                        writeData(0xff);
                     }
                 }
             }
-            writeData(rowPointer, (config.width + config.xOffset) );
+            //writeData(rowPointer, (config.width + config.xOffset) );
         }
 
         writeCommand(0x92);  // red begin
@@ -168,21 +170,21 @@ namespace udd {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
-                    row[x] = 0xff; //white
+                    writeData(0xff); //white
                 }
                 else {
                     if (WHITE.equals(ct)) {
-                        row[x] = 0xff;
+                        writeData(0xff);
                     }
                     else if (BLACK.equals(ct)) {
-                        row[x] = 0xFF;
+                        writeData(0xFF);
                     }
                     else if (RED.equals(ct)) {
-                        row[x] = 0x00;
+                        writeData(0x00);
                     }
                 }
             }
-            writeData(rowPointer, (config.width + config.xOffset));
+            //writeData(rowPointer, (config.width + config.xOffset));
         }
 
 
