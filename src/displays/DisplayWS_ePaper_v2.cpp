@@ -62,34 +62,46 @@ namespace udd {
          int cmd=0x12;  // white;
 
         if (color.equals(RED)) {
+            printf("ePaper.clear red\n");
             cmd = 0x13;
         }
         else if (color.equals(BLACK)) {
+            printf("ePaper.clear black\n");
             cmd = 0x10;
         }
 
 
-        if (cmd != 0x13) {
-            writeCommand(0x10);
-            for (int y = 0; y < config.height; ++y) {
-                for (int x = 0; x < config.width; ++x) {
-                    writeByte((cmd==0x10)?0xFF:0x00);
-                }
-            }
-        } else {
-            writeCommand(0x13);
-            for (int y = 0; y < config.height; ++y) {
-                for (int x = 0; x < config.width; ++x) {
-                    writeByte(0xFF);
+        writeCommand(0x10);
+        for (int y = 0; y < config.height; ++y) {
+            for (int x = 0; x < config.width; ++x) {
+                switch (cmd) {
+                case 0x12:  writeByte(0xFF);  //white
+                            break;
+                case 0x13:  writeByte(0x00);  //red
+                            break;
+                case 0x10:  writeByte(0x00);  //black
+                            break;
                 }
             }
         }
+        writeCommand(0x92);
+        writeCommand(0x13);
 
-
+        for (int y = 0; y < config.height; ++y) {
+            for (int x = 0; x < config.width; ++x) {
+                switch (cmd) {
+                case 0x12:  writeByte(0x00);  //white
+                    break;
+                case 0x13:  writeByte(0xff);  //red
+                    break;
+                case 0x10:  writeByte(0x00);  //black
+                    break;
+                }
+            }
+        }
         writeCommand(0x92);
         writeCommand(0x12);
-        readBusy();
-        
+        readBusy();     
         
         pause();
         screenLock.unlock();
