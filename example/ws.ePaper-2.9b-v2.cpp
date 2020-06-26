@@ -127,6 +127,8 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
+        
+/*
         printf("clear screen - white\n");
         d1.clear(WHITE);
         delay(2 * 1000);
@@ -142,15 +144,17 @@ void display1Demo() {
         printf("clear screen - white\n");
         d1.clear(WHITE);
         delay(2 * 1000);
+  */
 
         printf("draw boxes\n");
 
-        chart.drawRectangle(0, 0, 40, 40, BLACK, NONE, SOLID, 1);
-        chart.drawRectangle(20, 20, 60, 60, RED, NONE, SOLID, 1);
+        chart.clear(WHITE);
+        chart.drawRectangle( 1,  1, 40, 40, BLACK, NONE, SOLID, 1);
+        chart.drawRectangle(20, 20, 60, 60, RED,   NONE, SOLID, 1);
 
         d1.showImage(chart);
 
-        delay(30 * 1000);
+        delay(60 * 1000);
 
         long long start = currentTimeMillis();
 
