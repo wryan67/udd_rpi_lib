@@ -131,12 +131,12 @@ void display1Demo() {
         d1.clear(WHITE);
         delay(30 * 1000);
 
-        printf("clear screen - red\n");
-        d1.clear(RED);
-        delay(30 * 1000);
-
         printf("clear screen - black\n");
         d1.clear(BLACK);
+        delay(30 * 1000);
+
+        printf("clear screen - red\n");
+        d1.clear(RED);
         delay(30 * 1000);
 
         printf("clear screen - white\n");
