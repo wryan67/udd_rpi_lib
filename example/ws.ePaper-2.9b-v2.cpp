@@ -127,17 +127,26 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
-        d1.clear(WHITE);
-        delay(1000);
-        d1.clear(RED);
-        delay(1000);
-        d1.clear(BLACK);
-        delay(1000);
+        printf("clear screen - white\n");
         d1.clear(WHITE);
         delay(1000);
 
-        chart.drawLine( 0,  0, 40, 40, BLACK, SOLID, 1);
-        chart.drawLine(20, 20, 60, 60, RED, SOLID, 1);
+        printf("clear screen - red\n");
+        d1.clear(RED);
+        delay(1000);
+
+        printf("clear screen - black\n");
+        d1.clear(BLACK);
+        delay(1000);
+
+        printf("clear screen - white\n");
+        d1.clear(WHITE);
+        delay(1000);
+
+        printf("draw boxes\n");
+
+        chart.drawRectangle(0, 0, 40, 40, BLACK, NONE, SOLID, 1);
+        chart.drawRectangle(20, 20, 60, 60, RED, NONE, SOLID, 1);
 
         d1.showImage(chart);
 

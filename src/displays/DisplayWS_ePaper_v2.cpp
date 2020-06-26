@@ -65,7 +65,7 @@ namespace udd {
             cmd = 0x13;
         }
         else if (color.equals(BLACK)) {
-            cmd = 0x13;
+            cmd = 0x10;
         }
 
         writeCommand(cmd);
