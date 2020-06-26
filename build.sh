@@ -19,6 +19,8 @@
 set -a
 
 
+DEMOS=`for i in example/*.cpp;do basename $i .cpp;done`
+
 BASE="."
 SRC=$BASE/src
 BIN=$BASE/bin
@@ -138,7 +140,7 @@ executable() {
   LAST=$(ls -1tr "$OBJECT" "$SOURCE" "$HEADER" 2>/dev/null | tail -1)
 
   if [ -s $STATIC ];then
-    for EXE in  demo1 demo2 neopixel neopixel2
+    for EXE in $DEMOS 
     do
       LAST=$(ls -1tr "example/$EXE.cpp" "$BIN/$EXE" 2>/dev/null | tail -1)
       if [ $LAST != "$BIN/$EXE" ];then
@@ -163,7 +165,7 @@ package() {
   mkdir -p $LIB 
 
   if [ $STATICONLY = 0 ];then
-    ls -tr $LIB/* | tail -1 | grep '\.a' > /dev/null
+    ls -tr $LIB/* 2>/dev/null | tail -1 | grep '\.a' > /dev/null
     A=$?
 
     echo Buliding source for dynamic library for sake of size and compatibility
@@ -293,5 +295,5 @@ done
 [ $EXECUTABLE = 1 ]  && executable
 [ $REMOVE = 1 ]      && remove
 
-sudo chown -R `logname`:`ls -lad . | awk '{print $4}'` .
+sudo chown -R `logname`:`ls -lad . 2>/dev/null | awk '{print $4}'` .
 exit 0
