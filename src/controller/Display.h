@@ -61,7 +61,7 @@ namespace udd {
 
         Image vImage;
 
-        std::recursive_mutex Display::screenLock;
+        std::recursive_mutex screenLock;
 
 
         
