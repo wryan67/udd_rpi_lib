@@ -5,7 +5,7 @@ Wade Ryan
 
 Compiling:
 
-$ g++ -lwiringPi -lwiringPiUDDrpi demoWS.ePaper-2.9b-v2.cpp -o demoWS.ePaper-2.9b-v2
+$ g++ -lwiringPi -lwiringPiUDDrpi ws.ePaper-2.9b-v2.cpp -o ws.ePaper-2.9b-v2
 
 */
 
@@ -154,9 +154,9 @@ void configureDisplay1() {
     d1Config.width = 196;
     d1Config.height = 128;
 //  d1Config.spiSpeed = 90000000;
-    d1Config.spiSpeed = 35000000;
+    d1Config.spiSpeed = 10000000;
 
-    d1Config.CS  = 11;
+    d1Config.CS  = 10;
     d1Config.DC  =  6;
     d1Config.RST =  0;
     d1Config.busyPin = 5;

@@ -67,7 +67,7 @@
   <ItemGroup>
     <ClCompile Include="example\demo1.cpp" />
     <ClCompile Include="example\demo2.cpp" />
-    <ClCompile Include="example\demoWS.ePaper-2.9b-v2.cpp" />
+    <ClCompile Include="example\ws.ePaper-2.9b-v2.cpp" />
     <ClCompile Include="example\neopixel.cpp" />
     <ClCompile Include="example\neopixel2.cpp" />
     <ClCompile Include="src\controller\IdGenerator.cpp" />
