@@ -59,7 +59,7 @@ namespace udd {
         openSPI();
         resume();
 
-         int cmd=0x12;  // clear screen;
+         int cmd=0x12;  // white;
 
         if (color.equals(RED)) {
             cmd = 0x13;
@@ -68,17 +68,27 @@ namespace udd {
             cmd = 0x10;
         }
 
-        writeCommand(cmd);
 
-        if (cmd != 0x12) {
+        if (cmd != 0x13) {
+            writeCommand(0x10);
+            for (int y = 0; y < config.height; ++y) {
+                for (int x = 0; x < config.width; ++x) {
+                    writeByte((cmd==0x10)?0xFF:0x00);
+                }
+            }
+        } else {
+            writeCommand(0x13);
             for (int y = 0; y < config.height; ++y) {
                 for (int x = 0; x < config.width; ++x) {
                     writeByte(0xFF);
                 }
             }
-            writeCommand(0x12);
         }
 
+
+        writeCommand(0x92);
+        writeCommand(0x12);
+        readBusy();
         
         
         pause();
