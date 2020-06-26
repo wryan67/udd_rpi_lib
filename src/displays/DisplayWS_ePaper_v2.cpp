@@ -122,8 +122,7 @@ namespace udd {
     }
 
     void addBit(int bit, _byte* byte, int val) {
-        int orVal = val << (7-bit);
-        (*byte) = (*byte) | orVal;
+        (*byte) = (*byte) | (val << (7 - bit));
     }
 
 
@@ -181,19 +180,6 @@ namespace udd {
             _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-
-                if (x == 2) {
-                    writeData(0x00); //red
-                    continue;
-                }
-                if (y == 2) {
-                    writeData(0x0); //red
-                    continue;
-                }
-
-                writeData(0xff); // white/black
-                continue;
-
 
                 if (ct == NULL) {
                     addBit(bits % 8, &out, 1);
