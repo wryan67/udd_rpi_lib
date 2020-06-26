@@ -151,6 +151,7 @@ void display1Demo() {
         chart.clear(WHITE);
         chart.drawRectangle( 1,  1, 40, 40, BLACK, NONE, SOLID, 1);
         chart.drawRectangle(20, 20, 60, 60, RED,   NONE, SOLID, 1);
+        chart.drawLine(0, 0, d1Config.height, d1Config.height, BLACK, SOLID, 1);
 
         printf("-------------------------------\n");
         printf("degree_0\n");
@@ -182,7 +183,7 @@ void display1Demo() {
 void configureDisplay1() {
     printf("--------------------------------------------\n");
     printf("-----d1 config------------------------------\n");
-    d1Config.width = 196;
+    d1Config.width = 296;
     d1Config.height = 128;
 //  d1Config.spiSpeed = 90000000;
     d1Config.spiSpeed = 10000000;
