@@ -39,7 +39,7 @@ namespace udd {
     }
 
 
-    void DisplayWS_ePaper_v2::reset(void) {
+    void DisplayWS_ePaper_v2::reset() {
         printf("reset pin=%d\n", config.RST); fflush(stdout);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 1);

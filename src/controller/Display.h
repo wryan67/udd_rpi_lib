@@ -90,6 +90,7 @@ namespace udd {
 
         void writeBytes(_byte* data, uint32_t len);
         void pause();
+        void reset();
         void resume();
         void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
