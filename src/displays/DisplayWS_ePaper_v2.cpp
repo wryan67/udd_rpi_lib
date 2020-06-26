@@ -6,13 +6,12 @@ namespace udd {
     DisplayWS_ePaper_v2::DisplayWS_ePaper_v2() : Display() {}
 
     void DisplayWS_ePaper_v2::init() {
-        printf("reset"); fflush(stdout);
         reset();
 
         writeCommand(0x04);
         readBusy();
 
-        printf("init"); fflush(stdout);
+        printf("init\n"); fflush(stdout);
 
         writeCommand(0x00);//panel setting
         writeByte(0x0f);//LUT from OTP?128x296
@@ -36,6 +35,19 @@ namespace udd {
             busy = digitalRead(config.busyPin);
             busy = !(busy & 0x01);
         } while (busy);
+        delay(200);
+    }
+
+
+    void DisplayWS_ePaper_v2::reset(void) {
+        printf("reset pin=%d\n", config.RST); fflush(stdout);
+        digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 1);
+        digitalWrite(config.RST, 1);
+        delay(200);
+        digitalWrite(config.RST, 0);
+        delay(10);
+        digitalWrite(config.RST, 1);
         delay(200);
     }
 

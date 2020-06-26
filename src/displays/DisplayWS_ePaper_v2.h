@@ -10,6 +10,7 @@ namespace udd {
         DisplayWS_ePaper_v2();
 
         void init() override;
+        void reset() override;
         void readBusy();
     };
 }

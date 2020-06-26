@@ -193,14 +193,15 @@ namespace udd {
     }
 
     void Display::writeCommand(_byte data) {
-        digitalWrite(config.CS, 0);
         digitalWrite(config.DC, 0);
+        digitalWrite(config.CS, 0);
         wiringPiSPIDataRW(0, &data, 1);
+        digitalWrite(config.CS, 1);
     }
 
     void Display::writeByte(_byte data) {
-        digitalWrite(config.CS, 0);
         digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
         wiringPiSPIDataRW(0, &data, 1);
         digitalWrite(config.CS, 1);
     }
