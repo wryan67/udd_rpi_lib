@@ -21,7 +21,7 @@ using namespace udd;
 
 DisplayConfigruation d1Config;
 
-DisplayST7789R d1 = DisplayST7789R();
+DisplayWS_ePaper_v2 d1 = DisplayWS_ePaper_v2();
 
 unsigned long long currentTimeMillis();
 long long lastTime = currentTimeMillis();
@@ -120,31 +120,30 @@ bool demoSineWave(int frameCount, long long start, Image image) {
 
 void display1Demo() {
 
-    Image bmp = Image(320, 240, BLACK);
-    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+    Image bmp = Image(196, 128, WHITE);
+//    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
 
     Image chart = Image(d1Config.height, d1Config.width, BLACK);
-
 
     long count = 0;
     while (true) {
         d1.clear(WHITE);
-        delay(10);
+        delay(1000);
         d1.clear(RED);
-        delay(10);
-        d1.clear(BLUE);
-        delay(10);
-        d1.clear(GREEN);
-        delay(10);
+        delay(1000);
         d1.clear(BLACK);
+        delay(1000);
 
-        d1.showImage(bmp, DEGREE_90);
+        chart.drawLine( 0,  0, 40, 40, BLACK, SOLID, 1);
+        chart.drawLine(20, 20, 60, 60, RED, SOLID, 1);
+
+        d1.showImage(chart);
 
         delay(1000);
 
         long long start = currentTimeMillis();
 
-        while (demoSineWave(++count, start, chart));
+//        while (demoSineWave(++count, start, chart));
     }
 }
 
