@@ -120,10 +120,10 @@ bool demoSineWave(int frameCount, long long start, Image image) {
 
 void display1Demo() {
 
-    Image bmp = Image(196, 128, WHITE);
+//    Image bmp = Image(196, 128, WHITE);
 //    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
 
-    Image chart = Image(d1Config.height, d1Config.width, BLACK);
+    Image chart = Image(d1Config.height, d1Config.width, WHITE);
 
     long count = 0;
     while (true) {
@@ -152,9 +152,25 @@ void display1Demo() {
         chart.drawRectangle( 1,  1, 40, 40, BLACK, NONE, SOLID, 1);
         chart.drawRectangle(20, 20, 60, 60, RED,   NONE, SOLID, 1);
 
-        d1.showImage(chart, DEGREE_90);
+        printf("-------------------------------\n");
+        printf("degree_0\n");
+        d1.showImage(chart, DEGREE_0);
+        delay(30 * 1000);
 
-        delay(60 * 1000);
+        printf("-------------------------------\n");
+        printf("degree_90\n");
+        d1.showImage(chart, DEGREE_90);
+        delay(30 * 1000);
+
+        printf("-------------------------------\n");
+        printf("degree_180\n");
+        d1.showImage(chart, DEGREE_180);
+        delay(30 * 1000);
+
+        printf("-------------------------------\n");
+        printf("degree_270\n");
+        d1.showImage(chart, DEGREE_270);
+        delay(30 * 1000);
 
         long long start = currentTimeMillis();
 

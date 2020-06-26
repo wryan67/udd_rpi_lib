@@ -146,8 +146,7 @@ namespace udd {
 
                 if (ct == NULL) {
                     writeData(0xff); //white
-                }
-                else {
+                } else {
                     if (WHITE.equals(ct)) {
                         writeData(0xff);
                     }
@@ -171,8 +170,7 @@ namespace udd {
 
                 if (ct == NULL) {
                     writeData(0xff); //white
-                }
-                else {
+                } else {
                     if (WHITE.equals(ct)) {
                         writeData(0xff);
                     }
