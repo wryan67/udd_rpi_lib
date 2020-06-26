@@ -30,6 +30,7 @@ public:
     void      print();
     bool      equals(Color otherColor);
     bool      equals(ColorType otherColor);
+    bool      equals(ColorType *otherColor);
 
 };
 

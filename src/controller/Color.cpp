@@ -94,6 +94,18 @@ bool Color::equals(ColorType otherColor) {
     return true;
 }
 
+bool Color::equals(ColorType *otherColor) {
+    if (this->color.blue != otherColor->blue) {
+        return false;
+    }
+    if (this->color.red != otherColor->red) {
+        return false;
+    }
+    if (this->color.green != otherColor->green) {
+        return false;
+    }
+    return true;
+}
 
 
 Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {

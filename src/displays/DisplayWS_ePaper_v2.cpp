@@ -131,7 +131,6 @@ namespace udd {
         _word  row[config.width + config.xOffset];
         _byte* rowPointer = (_byte*)(row);
 
-        int _color = 0;
         writeCommand(0x10);  // black/white
 
         for (int y = 0; y < height; y++) {
@@ -139,26 +138,54 @@ namespace udd {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
-                    _color = 0;
+                    row[x] = 0xff; //white
                 }
                 else {
                     if (WHITE.equals(ct)) {
-                        _color = 0;
-                    } else if (BLACK.equals(ct)) {
-                        _color = 1;
+                        row[x] = 0xff;
+                    }
+                    else if (BLACK.equals(ct)) {
+                        row[x] = 0x00;
                     }
                     else if (RED.equals(ct)) {
-                        _color = 2;
-                    } 
-
-                    _color = color2word(ct);
+                        row[x] = 0xff;
+                    }
                 }
             }
-
-            writeData(rowPointer, (config.width + config.xOffset) * 2);
+            writeData(rowPointer, (config.width + config.xOffset) );
         }
-        digitalWrite(config.CS, 1);
 
+        writeCommand(0x92);  // red begin
+        writeCommand(0x13);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; ++x) {
+                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
+
+                if (ct == NULL) {
+                    row[x] = 0xff; //white
+                }
+                else {
+                    if (WHITE.equals(ct)) {
+                        row[x] = 0xff;
+                    }
+                    else if (BLACK.equals(ct)) {
+                        row[x] = 0xFF;
+                    }
+                    else if (RED.equals(ct)) {
+                        row[x] = 0x00;
+                    }
+                }
+            }
+            writeData(rowPointer, (config.width + config.xOffset));
+        }
+
+
+        writeCommand(0x92); // red end
+        writeCommand(0x12);
+        readBusy();
+
+        digitalWrite(config.CS, 1);
         screenLock.unlock();
     }
 
