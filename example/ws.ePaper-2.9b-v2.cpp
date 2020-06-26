@@ -128,7 +128,7 @@ void display1Demo() {
     long count = 0;
     while (true) {
         
-/*
+
         printf("clear screen - white\n");
         d1.clear(WHITE);
         delay(2 * 1000);
@@ -144,7 +144,8 @@ void display1Demo() {
         printf("clear screen - white\n");
         d1.clear(WHITE);
         delay(2 * 1000);
-  */
+
+        continue;
 
         printf("draw boxes\n");
 
