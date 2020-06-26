@@ -69,11 +69,9 @@ namespace udd {
             exit(0);
         }
         virtual _word color2word(ColorType* xp);
+        virtual void reset();
 
         void openDisplay(DisplayConfigruation configuratrion);
-
-        void reset();
-
 
         void clear(Color color);
 
@@ -90,7 +88,6 @@ namespace udd {
 
         void writeBytes(_byte* data, uint32_t len);
         void pause();
-        void reset();
         void resume();
         void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
