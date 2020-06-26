@@ -80,7 +80,6 @@ namespace udd {
 
         writeCommand(0x10);  // black/white
         for (int y = 0; y < config.height; ++y) {
-            int bits = 0;
             for (int x = 0; x < width; ++x) {
                 switch (_color) {
                 case 0:  writeData(0xff);  //white
@@ -123,7 +122,7 @@ namespace udd {
     }
 
     void addBit(int bit, _byte* byte, int val) {
-        int orVal = val << bit;
+        int orVal = val << (7-bit);
         (*byte) = (*byte) | orVal;
     }
 
@@ -135,7 +134,7 @@ namespace udd {
 
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
-        int writeBytes = (config.width % 8 == 0) ? (config.width / 8) : (config.width / 8 + 1);
+//        int writeBytes = (config.width % 8 == 0) ? (config.width / 8) : (config.width / 8 + 1);
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
