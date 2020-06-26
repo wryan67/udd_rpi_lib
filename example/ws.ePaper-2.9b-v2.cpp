@@ -123,7 +123,7 @@ void display1Demo() {
 //    Image bmp = Image(196, 128, WHITE);
 //    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
 
-    Image chart = Image(d1Config.height, d1Config.width, WHITE);
+    Image chart = Image(d1Config.width, d1Config.height, WHITE);
 
     long count = 0;
     while (true) {
