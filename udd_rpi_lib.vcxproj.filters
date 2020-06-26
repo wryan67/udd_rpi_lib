@@ -15,7 +15,13 @@
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
     <ClCompile Include="src\controller\IdGenerator.cpp" />
-    <ClCompile Include="example\2displays.cpp" />
+    <ClCompile Include="example\demo1.cpp" />
+    <ClCompile Include="example\demo2.cpp" />
+    <ClCompile Include="example\neopixel.cpp" />
+    <ClCompile Include="example\neopixel2.cpp" />
+    <ClCompile Include="src\displays\DisplayNeoPixel.cpp" />
+    <ClCompile Include="example\demoWS.ePaper-2.9b-v2.cpp" />
+    <ClCompile Include="src\displays\DisplayWS_ePaper_v2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fonts\fonts.h" />
@@ -28,10 +34,20 @@
     <ClInclude Include="src\displays\DisplayST7735R.h" />
     <ClInclude Include="src\controller\IdGenerator.h" />
     <ClInclude Include="src\bmp\GUI_BMPfile.h" />
+    <ClInclude Include="src\displays\DisplayNeoPixel.h" />
+    <ClInclude Include="src\displays\DisplayWS_ePaper_v2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />
     <None Include="README.md" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="build.sh" />
+    <None Include="Makefile" />
+    <None Include="readme\circuit diagram.drawio" />
+    <None Include="readme\wiringDiagrams.xlsx" />
+    <None Include="udd_rpi_lib.code-workspace" />
+    <None Include="udd.headers" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\BlueAngle4-320x240.bmp" />
@@ -40,5 +56,8 @@
     <Image Include="images\BlueAngles3.png" />
     <Image Include="images\BlueAngles4.png" />
     <Image Include="images\BlueAngles5.png" />
+    <Image Include="readme\A26B52E7-CFD9-49FC-AE46-D9560006D6A8.jpeg" />
+    <Image Include="readme\circuit diagram.png" />
+    <Image Include="readme\wiringDiagram_st7789.png" />
   </ItemGroup>
 </Project>

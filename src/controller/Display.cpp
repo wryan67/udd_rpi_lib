@@ -74,6 +74,7 @@ namespace udd {
 
         printf("spiChannel:        %d\n", config.spiChannel);
         printf("spiSpeed:          %d\n", config.spiSpeed);
+        printf("busy pin:          %d\n", config.busyPin);
         printf("handle:            %d\n", handle);
     }
 

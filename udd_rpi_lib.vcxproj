@@ -65,12 +65,18 @@
     </RemotePostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="example\2displays.cpp" />
+    <ClCompile Include="example\demo1.cpp" />
+    <ClCompile Include="example\demo2.cpp" />
+    <ClCompile Include="example\demoWS.ePaper-2.9b-v2.cpp" />
+    <ClCompile Include="example\neopixel.cpp" />
+    <ClCompile Include="example\neopixel2.cpp" />
     <ClCompile Include="src\controller\IdGenerator.cpp" />
+    <ClCompile Include="src\displays\DisplayNeoPixel.cpp" />
     <ClCompile Include="src\displays\DisplayST7735R.cpp" />
     <ClCompile Include="src\displays\DisplayST7789.cpp" />
     <ClCompile Include="src\controller\Metadata.cpp" />
     <ClCompile Include="src\controller\Color.cpp" />
+    <ClCompile Include="src\displays\DisplayWS_ePaper_v2.cpp" />
     <ClCompile Include="src\fonts\font12.c" />
     <ClCompile Include="src\fonts\font12CN.c" />
     <ClCompile Include="src\fonts\font16.c" />
@@ -83,19 +89,29 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\controller\IdGenerator.h" />
+    <ClInclude Include="src\displays\DisplayNeoPixel.h" />
     <ClInclude Include="src\displays\DisplayST7735R.h" />
     <ClInclude Include="src\displays\DisplayST7789.h" />
     <ClInclude Include="src\bmp\GUI_BMPfile.h" />
     <ClInclude Include="src\controller\Metadata.h" />
     <ClInclude Include="src\controller\Color.h" />
+    <ClInclude Include="src\displays\DisplayWS_ePaper_v2.h" />
     <ClInclude Include="src\fonts\fonts.h" />
     <ClInclude Include="src\controller\Image.h" />
     <ClInclude Include="src\controller\Display.h" />
     <ClInclude Include="src\controller\inttypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="build.sh" />
+    <None Include="Makefile" />
     <None Include="README.md" />
+    <None Include="readme\circuit diagram.drawio" />
+    <None Include="readme\wiringDiagrams.xlsx" />
     <None Include="src\fonts\Release_Notes.html" />
+    <None Include="udd.headers" />
+    <None Include="udd_rpi_lib.code-workspace" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\BlueAngle4-320x240.bmp" />
@@ -104,6 +120,9 @@
     <Image Include="images\BlueAngles5.png" />
     <Image Include="images\MotorBike-128x128.bmp" />
     <Image Include="images\MotorBike.png" />
+    <Image Include="readme\A26B52E7-CFD9-49FC-AE46-D9560006D6A8.jpeg" />
+    <Image Include="readme\circuit diagram.png" />
+    <Image Include="readme\wiringDiagram_st7789.png" />
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>

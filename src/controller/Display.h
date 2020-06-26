@@ -28,12 +28,13 @@ namespace udd {
         int DC = 22;
         int RST = 23;
         int BLK = 7;
-
+        int busyPin = 0;
 
         int i2cAddress;
 
         int spiChannel = 0;
         int spiSpeed = 10000000;
+
 
 // NeoPixel
         int stripType;
