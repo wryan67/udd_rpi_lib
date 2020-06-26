@@ -82,9 +82,9 @@ namespace udd {
         for (int y = 0; y < config.height; ++y) {
             for (int x = 0; x < config.width; ++x) {
                 switch (_color) {
-                case 0:  writeData(0x00);  //white
+                case 0:  writeData(0xff);  //white
                             break;
-                case 1:  writeData(0xff);  //black
+                case 1:  writeData(0x00);  //black
                             break;
                 case 2:  writeData(0xff);  //red
                     break;
