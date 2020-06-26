@@ -9,7 +9,7 @@
 
 
 namespace udd {
-    extern bool initDisplay;
+    extern std::recursive_mutex screenLock;
 
     struct DisplayConfigurationStruct {
         DisplayType    displayType    = UNKNOWN_DISPLAY;
@@ -50,7 +50,6 @@ namespace udd {
     private:
 
     protected:
-        static std::recursive_mutex screenLock;
 
         int displayId = -1;
 

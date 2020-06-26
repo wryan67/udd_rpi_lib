@@ -59,9 +59,7 @@ namespace udd {
         openSPI();
         resume();
 
-        ColorType ct = color.toType();
-
-        int cmd=0x12;  // clear screen;
+         int cmd=0x12;  // clear screen;
 
         if (color.equals(RED)) {
             cmd = 0x13;
@@ -72,7 +70,7 @@ namespace udd {
 
         writeCommand(cmd);
 
-        if (cmd != 12) {
+        if (cmd != 0x12) {
             for (int y = 0; y < config.height; ++y) {
                 for (int x = 0; x < config.width; ++x) {
                     writeByte(0xFF);

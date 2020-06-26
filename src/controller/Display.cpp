@@ -8,7 +8,7 @@
 #include <wiringPiSPI.h>
 
 namespace udd {
-//    std::recursive_mutex screenLock;
+    std::recursive_mutex screenLock;
 
     Display::Display() {
         displayId = IdGenerator::next(); 
