@@ -61,7 +61,7 @@ namespace udd {
 
         char colorName[12];
 
-         int _color;
+         int _color=-1;
 
          if (color.equals(WHITE)) {
              _color = 0;
@@ -72,6 +72,9 @@ namespace udd {
         } else if (color.equals(RED)) {
             _color = 2;
             strcpy(colorName, "red");
+        } else {
+             fprintf(stderr, "ePaper.clear: unknown color");
+             return;
         }
 
 
@@ -79,11 +82,11 @@ namespace udd {
         for (int y = 0; y < config.height; ++y) {
             for (int x = 0; x < config.width; ++x) {
                 switch (_color) {
-                case 0:  writeData(0xFF);  //white
+                case 0:  writeData(0x00);  //white
                             break;
-                case 1:  writeData(0x00);  //black
+                case 1:  writeData(0xff);  //black
                             break;
-                case 2:  writeData(0x00);  //red
+                case 2:  writeData(0xff);  //red
                     break;
                 }
             }
@@ -94,11 +97,11 @@ namespace udd {
         for (int y = 0; y < config.height; ++y) {
             for (int x = 0; x < config.width; ++x) {
                 switch (_color) {
-                case 0:  writeData(0x00);  //white
+                case 0:  writeData(0xff);  //white
                     break;
-                case 1:  writeData(0x00);  //black
+                case 1:  writeData(0xff);  //black
                     break;
-                case 2:  writeData(0xff);  //red
+                case 2:  writeData(0x00);  //red
                     break;
                 }
             }
