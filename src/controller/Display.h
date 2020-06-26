@@ -48,9 +48,9 @@ namespace udd {
 
     class Display {
     private:
-        static std::recursive_mutex screenLock;
 
     protected:
+        static std::recursive_mutex screenLock;
 
         int displayId = -1;
 
@@ -61,8 +61,7 @@ namespace udd {
 
         Image vImage;
 
-        std::recursive_mutex screenLock;
-
+        
 
         
     public:
