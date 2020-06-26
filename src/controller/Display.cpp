@@ -178,16 +178,16 @@ namespace udd {
 
     void Display::setScreenWindow(_word x1, _word y1, _word x2, _word y2) {
         writeCommand(0x2a);
-        writeByte(x1 >> 8);
-        writeByte(x1 & 0xff);
-        writeByte((x2 - 1) >> 8);
-        writeByte((x2 - 1) & 0xff);
+        writeData(x1 >> 8);
+        writeData(x1 & 0xff);
+        writeData((x2 - 1) >> 8);
+        writeData((x2 - 1) & 0xff);
 
         writeCommand(0x2b);
-        writeByte(y1 >> 8);
-        writeByte(y1 & 0xff);
-        writeByte((y2 - 1) >> 8);
-        writeByte((y2 - 1) & 0xff);
+        writeData(y1 >> 8);
+        writeData(y1 & 0xff);
+        writeData((y2 - 1) >> 8);
+        writeData((y2 - 1) & 0xff);
 
         writeCommand(0x2c);
     }
@@ -199,7 +199,7 @@ namespace udd {
         digitalWrite(config.CS, 1);
     }
 
-    void Display::writeByte(_byte data) {
+    void Display::writeData(_byte data) {
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
         wiringPiSPIDataRW(0, &data, 1);

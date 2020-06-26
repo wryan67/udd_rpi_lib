@@ -14,16 +14,16 @@ namespace udd {
         printf("init\n"); fflush(stdout);
 
         writeCommand(0x00);//panel setting
-        writeByte(0x0f);//LUT from OTP?128x296
-        writeByte(0x89);//Temperature sensor, boost and other related timing settings
+        writeData(0x0f);//LUT from OTP?128x296
+        writeData(0x89);//Temperature sensor, boost and other related timing settings
 
         writeCommand(0x61);//resolution setting
-        writeByte(0x80);
-        writeByte(0x01);
-        writeByte(0x28);
+        writeData(0x80);
+        writeData(0x01);
+        writeData(0x28);
 
         writeCommand(0X50);//VCOM AND DATA INTERVAL SETTING			
-        writeByte(0x77);//WBmode:VBDF 17|D7 VBDW 97 VBDB 57
+        writeData(0x77);//WBmode:VBDF 17|D7 VBDW 97 VBDB 57
 
     }
 
@@ -59,47 +59,51 @@ namespace udd {
         openSPI();
         resume();
 
-         int cmd=0x12;  // white;
+        char colorName[12];
 
-        if (color.equals(RED)) {
-            printf("ePaper.clear red\n");
-            cmd = 0x13;
+         int _color;
+
+         if (color.equals(WHITE)) {
+             _color = 0;
+             strcpy(colorName, "white");
+         } else if (color.equals(BLACK)) {
+             _color = 1;
+             strcpy(colorName, "black");
+        } else if (color.equals(RED)) {
+            _color = 2;
+            strcpy(colorName, "red");
         }
-        else if (color.equals(BLACK)) {
-            printf("ePaper.clear black\n");
-            cmd = 0x10;
-        }
 
 
-        writeCommand(0x10);
+        writeCommand(0x10);  // black/white
         for (int y = 0; y < config.height; ++y) {
             for (int x = 0; x < config.width; ++x) {
-                switch (cmd) {
-                case 0x12:  writeByte(0xFF);  //white
+                switch (_color) {
+                case 0:  writeData(0xFF);  //white
                             break;
-                case 0x13:  writeByte(0x00);  //red
+                case 1:  writeData(0x00);  //black
                             break;
-                case 0x10:  writeByte(0x00);  //black
-                            break;
+                case 2:  writeData(0x00);  //red
+                    break;
                 }
             }
         }
-        writeCommand(0x92);
+        writeCommand(0x92);  // red begin
         writeCommand(0x13);
 
         for (int y = 0; y < config.height; ++y) {
             for (int x = 0; x < config.width; ++x) {
-                switch (cmd) {
-                case 0x12:  writeByte(0x00);  //white
+                switch (_color) {
+                case 0:  writeData(0x00);  //white
                     break;
-                case 0x13:  writeByte(0xff);  //red
+                case 1:  writeData(0x00);  //black
                     break;
-                case 0x10:  writeByte(0x00);  //black
+                case 2:  writeData(0xff);  //red
                     break;
                 }
             }
         }
-        writeCommand(0x92);
+        writeCommand(0x92); // red end
         writeCommand(0x12);
         readBusy();     
         

@@ -97,7 +97,7 @@ namespace udd {
         void resume();
         void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
-        void writeByte(_byte data);
+        void writeData(_byte data);
         void setPixel(Pixel pixel);
         //void writeWord(_word data);
     };
