@@ -133,6 +133,8 @@ void display1Demo() {
         delay(1000);
         d1.clear(BLACK);
         delay(1000);
+        d1.clear(WHITE);
+        delay(1000);
 
         chart.drawLine( 0,  0, 40, 40, BLACK, SOLID, 1);
         chart.drawLine(20, 20, 60, 60, RED, SOLID, 1);

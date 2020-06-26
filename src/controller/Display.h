@@ -60,20 +60,27 @@ namespace udd {
 
         Image vImage;
 
+        std::recursive_mutex Display::screenLock;
+
+
         
     public:
         DisplayConfigruation config;
         
         virtual void init() {
-            printf("init failed, base method called instead of child\n");
+            fprintf(stderr, "init failed, base method called instead of child\n");
             exit(0);
         }
-        virtual _word color2word(ColorType* xp);
-        virtual void reset();
 
         void openDisplay(DisplayConfigruation configuratrion);
 
-        void clear(Color color);
+        virtual _word color2word(ColorType* xp);
+        virtual void reset();
+        virtual void clear(Color color);
+        virtual void readBusy() {
+            fprintf(stderr, "readBusy() is not implemented for this method\n");
+            exit(0);
+        }
 
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);

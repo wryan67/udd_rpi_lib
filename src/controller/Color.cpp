@@ -68,7 +68,18 @@ Color::Color(const char* hexbytes) {
     }
 }
 
+bool Color::equals(Color otherColor) {
+    if (this->color.blue != otherColor.color.blue) {
+        return false;
+    }
+    if (this->color.red!= otherColor.color.red) {
+        return false;
+    }
+    if (this->color.green != otherColor.color.green) {
+        return false;
+    }
 
+}
 
 Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
     color.red       = red;

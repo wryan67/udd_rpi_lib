@@ -11,6 +11,8 @@ namespace udd {
 
         void init() override;
         void reset() override;
-        void readBusy();
+        void readBusy() override;
+        void clear(Color color) override;
+
     };
 }
