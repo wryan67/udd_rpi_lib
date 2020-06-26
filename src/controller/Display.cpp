@@ -29,7 +29,7 @@ namespace udd {
             pinMode(config.BLK, OUTPUT);
         }
         if (config.busyPin>= 0) {
-            pinMode(config.busyPin, OUTPUT);
+            pinMode(config.busyPin, INPUT);
         }
 
         visable();
