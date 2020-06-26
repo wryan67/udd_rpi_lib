@@ -25,7 +25,12 @@ namespace udd {
         pinMode(config.CS,  OUTPUT);
         pinMode(config.RST, OUTPUT);
         pinMode(config.DC,  OUTPUT);
-        pinMode(config.BLK, OUTPUT);
+        if (config.BLK >= 0) {
+            pinMode(config.BLK, OUTPUT);
+        }
+        if (config.busyPin>= 0) {
+            pinMode(config.busyPin, OUTPUT);
+        }
 
         visable();
 
@@ -71,10 +76,10 @@ namespace udd {
         printf("dc:                %d\n", config.DC);
         printf("rst:               %d\n", config.RST);
         printf("blk:               %d\n", config.BLK);
+        printf("busy pin:          %d\n", config.busyPin);
 
         printf("spiChannel:        %d\n", config.spiChannel);
         printf("spiSpeed:          %d\n", config.spiSpeed);
-        printf("busy pin:          %d\n", config.busyPin);
         printf("handle:            %d\n", handle);
     }
 
@@ -90,11 +95,15 @@ namespace udd {
     }
 
     void Display::visable() {
-        digitalWrite(config.BLK, 1);
+        if (config.BLK >= 0) {
+            digitalWrite(config.BLK, 1);
+        }
     }
 
     void Display::hidden() {
-        digitalWrite(config.BLK, 0);
+        if (config.BLK >= 0) {
+            digitalWrite(config.BLK, 0);
+        }
     }
 
     void Display::clear(Color color) {

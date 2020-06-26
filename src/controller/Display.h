@@ -27,8 +27,8 @@ namespace udd {
         int CS = 21;
         int DC = 22;
         int RST = 23;
-        int BLK = 7;
-        int busyPin = 0;
+        int BLK = -1;
+        int busyPin = -1;
 
         int i2cAddress;
 

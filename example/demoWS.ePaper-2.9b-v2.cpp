@@ -153,7 +153,8 @@ void configureDisplay1() {
     printf("-----d1 config------------------------------\n");
     d1Config.width = 196;
     d1Config.height = 128;
-    d1Config.spiSpeed = 45000000;
+//  d1Config.spiSpeed = 90000000;
+    d1Config.spiSpeed = 35000000;
 
     d1Config.CS  = 11;
     d1Config.DC  =  6;
