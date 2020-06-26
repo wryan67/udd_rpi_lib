@@ -147,27 +147,27 @@ namespace udd {
         writeCommand(0x10);  // black/white
 
         for (int y = 0; y < height; y++) {
-            int  bit = 0;
+            int  bits = 0;
             _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
                 if (ct == NULL) {
-                    addBit((++bit)%8, &out, 1); //white
+                    addBit(bits%8, &out, 1); //white
                 } else {
                     if (WHITE.equals(ct)) {
-                        addBit((++bit) % 8, &out, 1);
+                        addBit(bits%8, &out, 1);
                     }
                     else if (BLACK.equals(ct)) {
-                        addBit((++bit) % 8, &out, 0);
+                        addBit(bits%8, &out, 0);
                     }
                     else if (RED.equals(ct)) {
-                        addBit((++bit) % 8, &out, 1);
+                        addBit(bits%8, &out, 1);
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
-                if (bit % 8 == 0) {
+                if (++bits % 8 == 0) {
                     writeData(out);
                 }
             }
@@ -178,7 +178,7 @@ namespace udd {
         writeCommand(0x13);
 
         for (int y = 0; y < height; y++) {
-            int  bit = 0;
+            int  bits = 0;
             _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
@@ -197,21 +197,21 @@ namespace udd {
 
 
                 if (ct == NULL) {
-                    addBit((++bit) % 8, &out, 1);  // black/white
+                    addBit(bits % 8, &out, 1);
                 } else {
                     if (WHITE.equals(ct)) {
-                        addBit((++bit) % 8, &out, 1); //black/white
+                        addBit(bits % 8, &out, 1);
                     }
                     else if (BLACK.equals(ct)) {
-                        addBit((++bit) % 8, &out, 1);  //black/white
+                        addBit(bits % 8, &out, 1);
                     }
                     else if (RED.equals(ct)) {
-                        addBit((++bit) % 8, &out, 0);
+                        addBit(bits % 8, &out, 0);
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
-                if (bit % 8 == 0) {
+                if (++bits % 8 == 0) {
                     writeData(out);
                 }
             }
