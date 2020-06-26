@@ -106,6 +106,8 @@ namespace udd {
         writeCommand(0x92); // red end
         writeCommand(0x12);
         readBusy();     
+
+        printf("ePaper clear %s\n", color);
         
         pause();
         screenLock.unlock();
