@@ -204,8 +204,7 @@ install() {
   find $SRC -name "*.h" | while read FILENAME; do basename $FILENAME; done | awk '{printf("include.*%s\n",$0)}' >> $TMP.headers.dat
   
   (
-    cat $HEADER_ORDER
-    ls src/displays/*.h
+    cat $(cat $HEADER_ORDER) `ls src/displays/*.h`
   ) | egrep -avf $TMP.headers.dat >> ${DESTDIR}${PREFIX}/include/$HEADER_NAME
 
   chmod 0644 ${DESTDIR}${PREFIX}/include/$HEADER_NAME
