@@ -159,7 +159,6 @@ void configureDisplay1() {
     d1Config.CS  = 11;
     d1Config.DC  =  6;
     d1Config.RST =  0;
-    d1Config.BLK =  4;
     d1Config.busyPin = 5;
 
     d1.openDisplay(d1Config);
