@@ -78,7 +78,7 @@ bool Color::equals(Color otherColor) {
     if (this->color.green != otherColor.color.green) {
         return false;
     }
-
+    return true;
 }
 
 Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
