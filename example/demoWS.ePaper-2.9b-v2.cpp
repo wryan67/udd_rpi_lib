@@ -5,7 +5,7 @@ Wade Ryan
 
 Compiling:
 
-$ g++ -lwiringPi -lwiringPiUDDrpi 1display.cpp -o demo1
+$ g++ -lwiringPi -lwiringPiUDDrpi demoWS.ePaper-2.9b-v2.cpp -o demoWS.ePaper-2.9b-v2
 
 */
 
