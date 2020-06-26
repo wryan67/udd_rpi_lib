@@ -126,7 +126,7 @@ namespace udd {
         screenLock.lock();
         openSPI();
 
-        fprintf(stderr, "ePaper showImage()\n");
+        fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
@@ -144,6 +144,18 @@ namespace udd {
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
+                if (x==0 || x==2) {
+                    writeData(0xff); //red/white
+                    continue;
+                }
+                if (y == 0 || y==2) {
+                    writeData(0xff); //red/white
+                    continue;
+                }
+
+                writeData(0x00); // black
+                continue;
+
                 if (ct == NULL) {
                     writeData(0xff); //white
                 } else {
@@ -155,6 +167,8 @@ namespace udd {
                     }
                     else if (RED.equals(ct)) {
                         writeData(0xff);
+                    } else {
+                        fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
             }
@@ -168,6 +182,19 @@ namespace udd {
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
 
+                if (x == 2) {
+                    writeData(0x00); //red
+                    continue;
+                }
+                if (y == 2) {
+                    writeData(0x0); //red
+                    continue;
+                }
+
+                writeData(0xff); // white/black
+                continue;
+
+
                 if (ct == NULL) {
                     writeData(0xff); //white
                 } else {
@@ -179,6 +206,8 @@ namespace udd {
                     }
                     else if (RED.equals(ct)) {
                         writeData(0x00);
+                    } else {
+                        fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
             }

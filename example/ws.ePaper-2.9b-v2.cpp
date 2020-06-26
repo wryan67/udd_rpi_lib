@@ -125,27 +125,27 @@ void display1Demo() {
 
     Image chart = Image(d1Config.width, d1Config.height, WHITE);
 
+    bool doSolids = false;
     long count = 0;
     while (true) {
         
+        if (doSolids) {
+            printf("clear screen - white\n");
+            d1.clear(WHITE);
+            delay(2 * 1000);
 
-        printf("clear screen - white\n");
-        d1.clear(WHITE);
-        delay(2 * 1000);
+            printf("clear screen - black\n");
+            d1.clear(BLACK);
+            delay(2 * 1000);
 
-        printf("clear screen - black\n");
-        d1.clear(BLACK);
-        delay(2 * 1000);
+            printf("clear screen - red\n");
+            d1.clear(RED);
+            delay(2 * 1000);
 
-        printf("clear screen - red\n");
-        d1.clear(RED);
-        delay(2 * 1000);
-
-        printf("clear screen - white\n");
-        d1.clear(WHITE);
-        delay(2 * 1000);
-
-        continue;
+            printf("clear screen - white\n");
+            d1.clear(WHITE);
+            delay(2 * 1000);
+        }
 
         printf("draw boxes\n");
 
