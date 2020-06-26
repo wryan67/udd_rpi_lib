@@ -13,7 +13,7 @@ namespace udd {
         void reset() override;
         void readBusy() override;
         void clear(Color color) override;
-        void showImage(Image image, Rotation rotation); override;
+        void showImage(Image image, Rotation rotation) override;
 
     };
 }
