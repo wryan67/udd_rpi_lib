@@ -61,9 +61,10 @@ namespace udd {
 
         char colorName[12];
 
-         int _color=-1;
+        int _color=-1;
+        int width = (config.width % 8 == 0) ? (config.width / 8) : (config.width / 8 + 1);
 
-         if (color.equals(WHITE)) {
+        if (color.equals(WHITE)) {
              _color = 0;
              strcpy(colorName, "white");
          } else if (color.equals(BLACK)) {
@@ -77,10 +78,10 @@ namespace udd {
              return;
         }
 
-
         writeCommand(0x10);  // black/white
         for (int y = 0; y < config.height; ++y) {
-            for (int x = 0; x < config.width; ++x) {
+            int bits = 0;
+            for (int x = 0; x < width; ++x) {
                 switch (_color) {
                 case 0:  writeData(0xff);  //white
                             break;
@@ -91,11 +92,12 @@ namespace udd {
                 }
             }
         }
+        
         writeCommand(0x92);  // red begin
         writeCommand(0x13);
 
         for (int y = 0; y < config.height; ++y) {
-            for (int x = 0; x < config.width; ++x) {
+            for (int x = 0; x < width; ++x) {
                 switch (_color) {
                 case 0:  writeData(0xff);  //white
                     break;
@@ -128,6 +130,7 @@ namespace udd {
 
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
+        int writeBytes = (config.width % 8 == 0) ? (config.width / 8) : (config.width / 8 + 1);
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
@@ -135,26 +138,15 @@ namespace udd {
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-       // _word  row[config.width + config.xOffset];
-       // _byte* rowPointer = (_byte*)(row);
+        _word  row[config.width + config.xOffset];
+        _byte* rowPointer = (_byte*)(row);
 
         writeCommand(0x10);  // black/white
 
         for (int y = 0; y < height; y++) {
+            int bit = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-
-                if (x==0 || x==2) {
-                    writeData(0xff); //red/white
-                    continue;
-                }
-                if (y == 0 || y==2) {
-                    writeData(0xff); //red/white
-                    continue;
-                }
-
-                writeData(0x00); // black
-                continue;
 
                 if (ct == NULL) {
                     writeData(0xff); //white
