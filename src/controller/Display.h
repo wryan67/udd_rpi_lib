@@ -51,6 +51,7 @@ namespace udd {
         static std::recursive_mutex screenLock;
 
     protected:
+
         int displayId = -1;
 
         Display();
