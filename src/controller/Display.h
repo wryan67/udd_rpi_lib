@@ -76,7 +76,6 @@ namespace udd {
         virtual _word color2word(ColorType* xp);
         virtual void reset();
         virtual void clear(Color color);
-        virtual void showImage(Image image);
         virtual void showImage(Image image, Rotation rotation);
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");
