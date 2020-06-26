@@ -135,8 +135,8 @@ namespace udd {
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-        _word  row[config.width + config.xOffset];
-        _byte* rowPointer = (_byte*)(row);
+       // _word  row[config.width + config.xOffset];
+       // _byte* rowPointer = (_byte*)(row);
 
         writeCommand(0x10);  // black/white
 

@@ -152,7 +152,7 @@ void display1Demo() {
         chart.drawRectangle( 1,  1, 40, 40, BLACK, NONE, SOLID, 1);
         chart.drawRectangle(20, 20, 60, 60, RED,   NONE, SOLID, 1);
 
-        d1.showImage(chart);
+        d1.showImage(chart, DEGREE_90);
 
         delay(60 * 1000);
 
