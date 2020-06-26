@@ -116,6 +116,11 @@ namespace udd {
         screenLock.unlock();
     }
 
+    void DisplayWS_ePaper_v2::showImage(Image image) {
+        showImage(image, DEGREE_0);
+    }
+
+
     void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
 
         screenLock.lock();

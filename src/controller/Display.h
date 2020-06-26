@@ -47,8 +47,6 @@ namespace udd {
     typedef DisplayConfigurationStruct      DisplayConfigruation;
 
     class Display {
-    private:
-
     protected:
 
         int displayId = -1;
@@ -59,8 +57,6 @@ namespace udd {
         int handle = -1;
 
         Image vImage;
-
-        
 
         
     public:
@@ -76,6 +72,7 @@ namespace udd {
         virtual _word color2word(ColorType* xp);
         virtual void reset();
         virtual void clear(Color color);
+        virtual void showImage(Image image);
         virtual void showImage(Image image, Rotation rotation);
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");
@@ -90,7 +87,6 @@ namespace udd {
         void visable();
         void hidden();
 
-        void showImage(Image image);
         void writeData(_byte* data, uint32_t len);
         void pause();
         void resume();
