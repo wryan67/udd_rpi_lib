@@ -76,7 +76,9 @@ namespace udd {
                     writeByte(0xFF);
                 }
             }
+            writeCommand(0x12);
         }
+
         
         
         pause();
