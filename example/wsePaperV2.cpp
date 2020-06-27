@@ -128,9 +128,9 @@ void display1Demo() {
 
     Image chart = Image(width, height, WHITE);
 
-    printf("clear screen - white\n");
-    d1.clear(WHITE);
-    delay(2 * 1000);
+    // printf("clear screen - white\n");
+    // d1.clear(WHITE);
+    // delay(2 * 1000);
 
 
 
@@ -165,20 +165,29 @@ void display1Demo() {
         chart.clear(WHITE);
         chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
 
-        chart.drawText(73, 22, "ABC", &Font24, WHITE, BLACK);
-        chart.drawText(73, 42, "DEF", &Font24, WHITE, BLACK);
-        chart.drawText(73, 62, "GHI", &Font24, WHITE, BLACK);
-        chart.drawRectangle(70, 20, 125, 82, RED,   NONE, SOLID, 1);
+        chart.drawText(73, 22, "Pi", &Font24, WHITE, BLACK);
+        chart.drawText(73, 42, "zz", &Font24, WHITE, BLACK);
+        chart.drawText(73, 62, "a!", &Font24, WHITE, BLACK);
+        chart.drawRectangle(70, 20, 105, 82, RED,   NONE, SOLID, 1);
 
         chart.drawCircle( 296*3/4,64, 50, BLACK, NONE, SOLID,2);
-        chart.drawLineArc(296*3/4,64, 50, 0.0, BLACK, SOLID,2);
-        chart.drawLineArc(296*3/4,64, 50, 45.0, BLACK, SOLID,2);
-        chart.drawLineArc(296*3/4,64, 50, 90.0, BLACK, SOLID,2);
+        chart.drawLineArc(296*3/4,64, 50,  0.0, BLACK, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 50, 45.0, BLACK, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 50, 90.0, BLACK, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 48, 90+45.0, WHITE, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 48, 90+90.0, WHITE, SOLID,1);
 
         printf("----------------------degree=90---------\n");
         printf("degree_90\n");
         d1.showImage(chart, DEGREE_90);
-        delay(30 * 1000);
+        delay(5 * 1000);
+
+        chart.drawLineArc(296*3/4,64, 48, 45.0, WHITE, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 48, 90.0, WHITE, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 50, 90+45.0, BLACK, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 50, 90+90.0, BLACK, SOLID,1);
+
+        d1.showImage(chart, DEGREE_90);
 
 
         long long start = currentTimeMillis();
