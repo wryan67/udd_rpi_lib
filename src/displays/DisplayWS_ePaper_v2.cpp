@@ -1,5 +1,6 @@
 #include "DisplayWS_ePaper_v2.h"
 #include <wiringPi.h>
+#include <unistd.h>
 
 namespace udd {
 
@@ -130,21 +131,20 @@ namespace udd {
 
     void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
 
-        screenLock.lock();
-        openSPI();
-
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
-//        int writeBytes = (config.width % 8 == 0) ? (config.width / 8) : (config.width / 8 + 1);
-        int width = config.width + config.xOffset;
-        int height = config.height + config.yOffset;
-
-//        setScreenWindow(0, 0, width, height);
+        screenLock.lock();
+        openSPI();
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
 
-        writeCommand(0x10);  // black/white
+
+//        setPartReg();
+//        writeCommand(0x91); // set partial
+        writeCommand(0x10); // black/white
 
         for (int y = 0; y < height; y++) {
             int  bits = 0;
@@ -211,6 +211,7 @@ namespace udd {
 
         writeCommand(0x92); // red end
         writeCommand(0x12);
+        usleep(210);
         readBusy();
 
         digitalWrite(config.CS, 1);
