@@ -30,24 +30,24 @@ namespace udd {
     }
 
     void DisplayWS_ePaper_v2::initPartial() {
-        printf("reset\n"); fflush(stdout);
-        reset();
-        printf("init\n"); fflush(stdout);
+        // printf("reset\n"); fflush(stdout);
+        // reset();
+        // printf("init\n"); fflush(stdout);
 
-        writeCommand(0x01);	//POWER SETTING
-        writeData(0x03);
-        writeData(0x00);
-        writeData(0x2b);
-        writeData(0x2b);
-        writeData(0x03);
+        // writeCommand(0x01);	//POWER SETTING
+        // writeData(0x03);
+        // writeData(0x00);
+        // writeData(0x2b);
+        // writeData(0x2b);
+        // writeData(0x03);
 
-        writeCommand(0x06);	//boost soft start
-        writeData(0x17);     //A
-        writeData(0x17);     //B
-        writeData(0x17);     //C
+        // writeCommand(0x06);	//boost soft start
+        // writeData(0x17);     //A
+        // writeData(0x17);     //B
+        // writeData(0x17);     //C
 
-        writeCommand(0x04);
-        readBusy();
+        // writeCommand(0x04);
+        // readBusy();
 
         writeCommand(0x00);	//panel setting
         writeData(0xbf);     //LUT from OTP，128x296
@@ -258,9 +258,6 @@ namespace udd {
 
 
     void DisplayWS_ePaper_v2::showImagePartial(Image image, Rotation rotation) {
-
-        fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
-
         screenLock.lock();
         openSPI();
         digitalWrite(config.DC, 1);
@@ -284,7 +281,7 @@ namespace udd {
         writeData(config.height % 256 - 1);  //y-end
         writeData(0x28);
 
-        writeCommand(0x13); // black/white      
+        writeCommand(0x10); 
         
         for (int y = 0; y < height; y++) {
             int  bits = 0;

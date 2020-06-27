@@ -136,54 +136,47 @@ void display1Demo() {
     long count = 0;
 
 
-    while (true) {
         
-        if (doSolids) {
-            printf("clear screen - white\n");
-            d1.clear(WHITE);
-            delay(2 * 1000);
+    if (doSolids) {
+        printf("clear screen - white\n");
+        d1.clear(WHITE);
+        delay(2 * 1000);
 
-            printf("clear screen - black\n");
-            d1.clear(BLACK);
-            delay(2 * 1000);
+        printf("clear screen - black\n");
+        d1.clear(BLACK);
+        delay(2 * 1000);
 
-            printf("clear screen - red\n");
-            d1.clear(RED);
-            delay(2 * 1000);
+        printf("clear screen - red\n");
+        d1.clear(RED);
+        delay(2 * 1000);
 
-            printf("clear screen - white\n");
-            d1.clear(WHITE);
-            delay(2 * 1000);
-            continue;
-        }
+        printf("clear screen - white\n");
+        d1.clear(WHITE);
+        delay(2 * 1000);
+    }
 
+    chart.clear(WHITE);
+    chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
 
+    chart.drawText(73, 22, "Pi", &Font24, WHITE, BLACK);
+    chart.drawText(73, 42, "zz", &Font24, WHITE, BLACK);
+    chart.drawText(73, 62, "a!", &Font24, WHITE, BLACK);
 
-        chart.clear(WHITE);
-        chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
+    chart.drawRectangle(69, 19, 108, 83, RED,   NONE, SOLID, 3);
 
-        chart.drawText(73, 22, "Pi", &Font24, WHITE, BLACK);
-        chart.drawText(73, 42, "zz", &Font24, WHITE, BLACK);
-        chart.drawText(73, 62, "a!", &Font24, WHITE, BLACK);
-        chart.drawRectangle(70, 20, 105, 82, RED,   NONE, SOLID, 1);
+    chart.drawCircle( 296*3/4,64, 50, BLACK, NONE, SOLID,2);
 
-        chart.drawCircle( 296*3/4,64, 50, BLACK, NONE, SOLID,2);
+    d1.showImage(chart, DEGREE_90);
+    d1.initPartial();
+        
 
-        d1.showImage(chart, DEGREE_90);
-        exit(0);
-
-        for (float d=0;d<360;d+=45) {
-
+    while (true) {
+        for (float d=0;d<361;d+=45) {
+            printf("degree=%3f\n",d);
             chart.drawLineArc(296*3/4,64, 48,  d-45, WHITE, SOLID,1);
-            chart.drawLineArc(296*3/4,64, 50,  d,    BLACK, SOLID,1);
             chart.drawLineArc(296*3/4,64, 50,  d+45, BLACK, SOLID,1);
-            d1.showImage(chart, DEGREE_90);
+            d1.showImagePartial(chart, DEGREE_90);
         }
-
-        chart.drawLineArc(296*3/4,64, 48,  315, WHITE, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 48,    0, WHITE, SOLID,1);
-        d1.showImage(chart, DEGREE_90);
-
 
         long long start = currentTimeMillis();
 
