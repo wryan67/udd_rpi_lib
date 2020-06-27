@@ -176,10 +176,14 @@ void display1Demo() {
             sprintf(drg,"%3.0f", d);
             printf("degree: %3.0f\n",d);
 
-//            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
-//            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
-            chart.drawLineArc(296*3/4,64, 48, d, WHITE, SOLID, 1);
+            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
+            chart.drawRectangle(296/2-12,64, 296/2+12,64+12, BLACK, NONE, SOLID,1);
+            d1.showImagePartial(chart, DEGREE_90);
+
+            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, BLACK, SOLID,1);
             chart.drawText(296/2-12,64+6, drg, &Font12, BLACK, WHITE);
+            chart.drawText(296*3/4+12,64, drg, &Font12, BLACK, WHITE);
+
             d1.showImagePartial(chart, DEGREE_90);
         }
 

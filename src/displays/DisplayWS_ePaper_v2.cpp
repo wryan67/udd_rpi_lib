@@ -281,6 +281,8 @@ namespace udd {
         writeData(config.height % 256 - 1);  //y-end
         writeData(0x28);
 
+       // writeCommand(0x11); // swap images
+
         writeCommand(0x10); 
         
         for (int y = 0; y < height; y++) {
@@ -312,6 +314,8 @@ namespace udd {
                 writeData(out);
             }
         }
+
+
 
 
         enableDisplay();
