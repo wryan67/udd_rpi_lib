@@ -413,12 +413,48 @@ void Image::drawCircle(int x, int y, int radius, Color color, FillPattern patter
     }
 }
 
-void Image::drawLineArc(int x, int y, int radius, float degree, Color color, LineStyle style, int width) {
+void Image::drawLineArc(int x, int y, int length, float degree, Color color, LineStyle style, int width) {
 
     double xPoint, yPoint;
 
-    xPoint = radius * cos(degree * PI / 180.0);
-    yPoint = radius * sin(degree * PI / 180.0);
+    xPoint = length * cos(degree * PI / 180.0);
+    yPoint = length * sin(degree * PI / 180.0);
 
     drawLine(x, y, x + round(xPoint), y + round(yPoint), color, style, width);
+}
+
+void Image::drawPieSlice(int x, int y, int radius, float degree1, float degree2, Color color, LineStyle style, int width) {
+
+    double xPoint, yPoint;
+
+
+    int lx=-1, ly=-1;
+    int ct = 0;
+
+    for (int degree = degree1; degree <= degree2; degree += 1) {
+        
+        xPoint = radius * cos(degree * PI / 180.0);
+        yPoint = radius * sin(degree * PI / 180.0);
+
+        switch (style) {
+        case SOLID:
+            if (lx != xPoint || ly != yPoint) {
+                drawLine(x, y, x + round(xPoint), y + round(yPoint), color, style, width);
+                lx = xPoint;
+                ly = yPoint;
+            }
+            break;
+        case DOTTED:
+            if (lx != xPoint || ly != yPoint) {
+                if (++ct % 2 == 1) {
+                    drawLine(x, y, x + round(xPoint), y + round(yPoint), color, style, width);
+                }
+                lx = xPoint;
+                ly = yPoint;
+            }
+        }
+    }
+
+
+
 }

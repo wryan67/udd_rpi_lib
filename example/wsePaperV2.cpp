@@ -171,17 +171,23 @@ void display1Demo() {
         
 
     while (true) {
-        for (float d=0;d<361;d+=45) {
-            printf("degree=%3f\n",d);
-            chart.drawLineArc(296*3/4,64, 48,  d-45, WHITE, SOLID,1);
-            chart.drawLineArc(296*3/4,64, 50,  d+45, BLACK, SOLID,1);
+        for (float d=0;d<360;d+=45) {
+            char drg[16];
+            sprintf(drg,"%3.0f", d);
+            printf("degree: %3.0f\n",d);
+
+//            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
+//            chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
+            chart.drawLineArc(296*3/4,64, 48, d, WHITE, SOLID, 1);
+            chart.drawText(296/2-12,64+6, drg, &Font12, BLACK, WHITE);
             d1.showImagePartial(chart, DEGREE_90);
         }
 
         long long start = currentTimeMillis();
 
-//        while (demoSineWave(++count, start, chart));
     }
+    //        while (demoSineWave(++count, start, chart));
+
 }
 
 
