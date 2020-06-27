@@ -122,7 +122,9 @@ namespace udd {
     }
 
     void addBit(int bit, _byte* byte, int val) {
-        (*byte) = (*byte) | (val << (7 - bit));
+        if (val>0) {
+          (*byte) = (*byte) | (val << (7-bit));
+        }
     }
 
 
@@ -137,47 +139,41 @@ namespace udd {
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
-        setScreenWindow(0, 0, width, height);
+//        setScreenWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
 
         writeCommand(0x10);  // black/white
-        for (int i = 0; i < 37; ++i) {
-            printf("%02d      ", i);
-        }   printf("\n");
 
         for (int y = 0; y < height; y++) {
             int  bits = 0;
             _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-
-                if (ct == NULL) {
-                    addBit(bits%8, &out, 1); //white
-                } else {
+                int val=1;
+                if (ct != NULL) {
                     if (WHITE.equals(ct)) {
-                        addBit(bits%8, &out, 1);
+                        val=1;
                     }
                     else if (BLACK.equals(ct)) {
-                        addBit(bits%8, &out, 0);
+                        val=0;
                     }
                     else if (RED.equals(ct)) {
-                        addBit(bits%8, &out, 1);
+                        val=1;
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
                 if (++bits % 8 == 0) {
                     writeData(out);
-                    for (int i = 0; i < 7; ++i) {
-                        printf("%d", out & 1);
-                        out = out >> 1;
-                    }
+                    out=0;
                 }
+                addBit(bits%8, &out, val);
             }
-            printf("\n");
-            //writeData(rowPointer, (config.width + config.xOffset) );
+            if (width%8 != 0) {
+                writeData(out);
+            }
         }
 
         writeCommand(0x92);  // red begin
@@ -188,29 +184,30 @@ namespace udd {
             _byte out = 0;
             for (int x = 0; x < width; ++x) {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-
-                if (ct == NULL) {
-                    addBit(bits % 8, &out, 1);
-                } else {
+                int val=1;
+                if (ct != NULL) {
                     if (WHITE.equals(ct)) {
-                        addBit(bits % 8, &out, 1);
+                        val=1;
                     }
                     else if (BLACK.equals(ct)) {
-                        addBit(bits % 8, &out, 1);
+                        val=1;
                     }
                     else if (RED.equals(ct)) {
-                        addBit(bits % 8, &out, 0);
+                        val=0;
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
                     }
                 }
                 if (++bits % 8 == 0) {
                     writeData(out);
+                    out=0;
                 }
+                addBit(bits%8, &out, val);
             }
-            //writeData(rowPointer, (config.width + config.xOffset));
+            if (width%8 != 0) {
+                writeData(out);
+            }
         }
-
 
         writeCommand(0x92); // red end
         writeCommand(0x12);

@@ -123,7 +123,10 @@ void display1Demo() {
 //    Image bmp = Image(196, 128, WHITE);
 //    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
 
-    Image chart = Image(d1Config.width, d1Config.height, WHITE);
+    int width=d1Config.height;
+    int height=d1Config.width;
+
+    Image chart = Image(width, height, WHITE);
 
     bool doSolids = false;
     long count = 0;
@@ -150,30 +153,22 @@ void display1Demo() {
 
         printf("draw boxes\n");
 
+
         chart.clear(WHITE);
-        chart.drawRectangle( 1,  1, 40, 40, BLACK, NONE, SOLID, 1);
-//        chart.drawRectangle(20, 20, 60, 60, RED,   NONE, SOLID, 1);
-        chart.drawLine(0, 0, d1Config.height, d1Config.height, BLACK, SOLID, 1);
+        chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
 
-        printf("-------------------------------\n");
-        printf("degree_0\n");
-        d1.showImage(chart, DEGREE_0);
-        delay(30 * 1000);
+        chart.drawText(73, 22, "ABC", &Font24, WHITE, BLACK);
+        chart.drawText(73, 42, "DEF", &Font24, WHITE, BLACK);
+        chart.drawText(73, 62, "GHI", &Font24, WHITE, BLACK);
+        chart.drawRectangle(70, 20, 125, 82, RED,   NONE, SOLID, 1);
 
-        printf("-------------------------------\n");
+        chart.drawCircle(296*3/4,64, 50, BLACK, NONE, SOLID,2);
+
+        printf("----------------------degree=90---------\n");
         printf("degree_90\n");
         d1.showImage(chart, DEGREE_90);
         delay(30 * 1000);
 
-        printf("-------------------------------\n");
-        printf("degree_180\n");
-        d1.showImage(chart, DEGREE_180);
-        delay(30 * 1000);
-
-        printf("-------------------------------\n");
-        printf("degree_270\n");
-        d1.showImage(chart, DEGREE_270);
-        delay(30 * 1000);
 
         long long start = currentTimeMillis();
 
@@ -185,10 +180,11 @@ void display1Demo() {
 void configureDisplay1() {
     printf("--------------------------------------------\n");
     printf("-----d1 config------------------------------\n");
-    d1Config.width = 296;
-    d1Config.height = 128;
+    d1Config.width = 128;
+    d1Config.height = 296;
 //  d1Config.spiSpeed = 90000000;
     d1Config.spiSpeed = 10000000;
+    //d1Config.xOffset = 1;
 
     d1Config.CS  = 10;
     d1Config.DC  =  6;
