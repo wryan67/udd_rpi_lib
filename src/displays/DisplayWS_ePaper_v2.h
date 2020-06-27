@@ -15,6 +15,6 @@ namespace udd {
         void clear(Color color) override;
         void showImage(Image image) override;
         void showImage(Image image, Rotation rotation) override;
-
+        void setPartReg();
     };
 }

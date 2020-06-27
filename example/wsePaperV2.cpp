@@ -180,10 +180,10 @@ void display1Demo() {
         printf("----------------------degree=90---------\n");
         printf("degree_90\n");
         d1.showImage(chart, DEGREE_90);
-        delay(5 * 1000);
+        delay(1 * 1000);
 
+        chart.drawLineArc(296*3/4,64, 48,  0.0, WHITE, SOLID,1);
         chart.drawLineArc(296*3/4,64, 48, 45.0, WHITE, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 48, 90.0, WHITE, SOLID,1);
         chart.drawLineArc(296*3/4,64, 50, 90+45.0, BLACK, SOLID,1);
         chart.drawLineArc(296*3/4,64, 50, 90+90.0, BLACK, SOLID,1);
 
