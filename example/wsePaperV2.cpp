@@ -128,8 +128,16 @@ void display1Demo() {
 
     Image chart = Image(width, height, WHITE);
 
+    printf("clear screen - white\n");
+    d1.clear(WHITE);
+    delay(2 * 1000);
+
+
+
     bool doSolids = false;
     long count = 0;
+
+
     while (true) {
         
         if (doSolids) {
@@ -162,7 +170,10 @@ void display1Demo() {
         chart.drawText(73, 62, "GHI", &Font24, WHITE, BLACK);
         chart.drawRectangle(70, 20, 125, 82, RED,   NONE, SOLID, 1);
 
-        chart.drawCircle(296*3/4,64, 50, BLACK, NONE, SOLID,2);
+        chart.drawCircle( 296*3/4,64, 50, BLACK, NONE, SOLID,2);
+        chart.drawLineArc(296*3/4,64, 50, 0.0, BLACK, SOLID,2);
+        chart.drawLineArc(296*3/4,64, 50, 45.0, BLACK, SOLID,2);
+        chart.drawLineArc(296*3/4,64, 50, 90.0, BLACK, SOLID,2);
 
         printf("----------------------degree=90---------\n");
         printf("degree_90\n");

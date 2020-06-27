@@ -412,3 +412,13 @@ void Image::drawCircle(int x, int y, int radius, Color color, FillPattern patter
         }
     }
 }
+
+void Image::drawLineArc(int x, int y, int radius, float degree, Color color, LineStyle style, int width) {
+
+    double xPoint, yPoint;
+
+    xPoint = radius * cos(degree * PI / 180.0);
+    yPoint = radius * sin(degree * PI / 180.0);
+
+    drawLine(x, y, x + round(xPoint), y + round(yPoint), color, style, width);
+}

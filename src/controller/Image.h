@@ -27,6 +27,7 @@ namespace udd {
         void drawPixel(int x, int y, Color color);
 
         void drawLine(int x1, int y1, int x2, int y2, Color color, LineStyle style, int width);
+        void drawLineArc(int x, int y, int radius, float degree, Color color, LineStyle style, int width);
 
         void drawPoint(int x, int y, Color color, int width);
 
