@@ -1,4 +1,5 @@
 #include "DisplayWS_ePaper_v2.h"
+#include "DisplayWS_ePaper_v2_LUT.h"
 #include <wiringPi.h>
 #include <unistd.h>
 
@@ -28,8 +29,45 @@ namespace udd {
 
     }
 
+    void DisplayWS_ePaper_v2::initPartial() {
+        printf("reset\n"); fflush(stdout);
+        reset();
+        printf("init\n"); fflush(stdout);
+
+        writeCommand(0x01);	//POWER SETTING
+        writeData(0x03);
+        writeData(0x00);
+        writeData(0x2b);
+        writeData(0x2b);
+        writeData(0x03);
+
+        writeCommand(0x06);	//boost soft start
+        writeData(0x17);     //A
+        writeData(0x17);     //B
+        writeData(0x17);     //C
+
+        writeCommand(0x04);
+        readBusy();
+
+        writeCommand(0x00);	//panel setting
+        writeData(0xbf);     //LUT from OTP，128x296
+        writeData(0x0e);     //VCOM to 0V fast
+
+        writeCommand(0x30);	//PLL setting
+        writeData(0x3a);     // 3a 100HZ   29 150Hz 39 200HZ	31 171HZ
+
+
+        writeCommand(0x61);  //resolution setting
+        writeData(config.width);
+        writeData((config.height >> 8) & 0xff);
+        writeData(config.height & 0xff);
+
+        writeCommand(0X82);//VCOM AND DATA INTERVAL SETTING			
+        writeData(0x28);
+
+    }
+
     void DisplayWS_ePaper_v2::readBusy(void) {
-        printf("readBusy pin=%d\n", config.busyPin); fflush(stdout);
         unsigned char busy;
         do {
             writeCommand(0x71);
@@ -41,17 +79,21 @@ namespace udd {
 
 
     void DisplayWS_ePaper_v2::reset() {
-        printf("reset pin=%d\n", config.RST); fflush(stdout);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 1);
         digitalWrite(config.RST, 1);
         delay(200);
         digitalWrite(config.RST, 0);
-        delay(10);
+        delay(200);
         digitalWrite(config.RST, 1);
         delay(200);
     }
 
+    void DisplayWS_ePaper_v2::enableDisplay() {
+        writeCommand(0x12);
+        usleep(210);
+        readBusy();
+    }
 
     
     void DisplayWS_ePaper_v2::clear(Color color) {
@@ -109,11 +151,10 @@ namespace udd {
             }
         }
         writeCommand(0x92); // red end
-        writeCommand(0x12);
-        readBusy();     
 
-        printf("ePaper clear %s\n", colorName);
-        
+
+        EPD_SetFullReg();
+        enableDisplay();    
         pause();
         screenLock.unlock();
     }
@@ -128,8 +169,7 @@ namespace udd {
         }
     }
 
-
-    void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
+        void DisplayWS_ePaper_v2::showImage(Image image, Rotation rotation) {
 
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
@@ -141,9 +181,7 @@ namespace udd {
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
-
-//        setPartReg();
-//        writeCommand(0x91); // set partial
+       
         writeCommand(0x10); // black/white
 
         for (int y = 0; y < height; y++) {
@@ -175,6 +213,7 @@ namespace udd {
                 writeData(out);
             }
         }
+
 
         writeCommand(0x92);  // red begin
         writeCommand(0x13);
@@ -208,70 +247,86 @@ namespace udd {
                 writeData(out);
             }
         }
-
+        
         writeCommand(0x92); // red end
-        writeCommand(0x12);
-        usleep(210);
-        readBusy();
+
+        enableDisplay();
+        digitalWrite(config.CS, 1);
+        screenLock.unlock();
+    }
+
+
+
+    void DisplayWS_ePaper_v2::showImagePartial(Image image, Rotation rotation) {
+
+        fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
+
+        screenLock.lock();
+        openSPI();
+        digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
+
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
+
+
+        setPartReg();
+        writeCommand(0x91); // set partial
+
+
+        writeCommand(0x90);		//resolution setting
+        writeData(0);           //x-start
+        writeData(config.width - 1);       //x-end
+
+        writeData(0);
+        writeData(0);     //y-start
+        writeData(config.height / 256);
+        writeData(config.height % 256 - 1);  //y-end
+        writeData(0x28);
+
+        writeCommand(0x13); // black/white      
+        
+        for (int y = 0; y < height; y++) {
+            int  bits = 0;
+            _byte out = 0;
+            for (int x = 0; x < width; ++x) {
+                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
+                int val=1;
+                if (ct != NULL) {
+                    if (WHITE.equals(ct)) {
+                        val=1;
+                    }
+                    else if (BLACK.equals(ct)) {
+                        val=0;
+                    }
+                    else if (RED.equals(ct)) {
+                        val=1;
+                    } else {
+                        fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
+                    }
+                }
+                if (++bits % 8 == 0) {
+                    writeData(out);
+                    out=0;
+                }
+                addBit(bits%8, &out, val);
+            }
+            if (width%8 != 0) {
+                writeData(out);
+            }
+        }
+
+
+        enableDisplay();
 
         digitalWrite(config.CS, 1);
         screenLock.unlock();
     }
 
+
+
+
     void DisplayWS_ePaper_v2::setPartReg() {
-
-    /**
-     * partial screen update LUT
-    **/
-    const unsigned char EPD_2IN9D_lut_vcom1[] = {
-        0x00, 0x19, 0x01, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-        ,0x00, 0x00,
-    };
-    const unsigned char EPD_2IN9D_lut_ww1[] = {
-        0x00, 0x19, 0x01, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    };
-    const unsigned char EPD_2IN9D_lut_bw1[] = {
-        0x80, 0x19, 0x01, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    };
-    const unsigned char EPD_2IN9D_lut_wb1[] = {
-        0x40, 0x19, 0x01, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    };
-    const unsigned char EPD_2IN9D_lut_bb1[] = {
-        0x00, 0x19, 0x01, 0x00, 0x00, 0x01,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    };
-
-
-
         writeCommand(0x82);      //vcom_DC setting
         writeData(0x00);
         writeCommand(0X50);
@@ -303,4 +358,38 @@ namespace udd {
             writeData(EPD_2IN9D_lut_bb1[count]);
         }
     }
+
+
+
+    void DisplayWS_ePaper_v2::EPD_SetFullReg() {
+        writeCommand(0X50);			//VCOM AND DATA INTERVAL SETTING
+        writeData(0xb7);		    //WBmode:VBDF 17|D7 VBDW 97 VBDB 57		WBRmode:VBDF F7 VBDW 77 VBDB 37  VBDR B7
+
+        unsigned int count;
+        writeCommand(0x20);
+        for(count=0; count<44; count++) {
+            writeData(EPD_2IN9D_lut_vcomDC[count]);
+        }
+
+        writeCommand(0x21);
+        for(count=0; count<42; count++) {
+            writeData(EPD_2IN9D_lut_ww[count]);
+        }
+
+        writeCommand(0x22);
+        for(count=0; count<42; count++) {
+            writeData(EPD_2IN9D_lut_bw[count]);
+        }
+
+        writeCommand(0x23);
+        for(count=0; count<42; count++) {
+            writeData(EPD_2IN9D_lut_wb[count]);
+        }
+
+        writeCommand(0x24);
+        for(count=0; count<42; count++) {
+            writeData(EPD_2IN9D_lut_bb[count]);
+        }
+    }
+
 }

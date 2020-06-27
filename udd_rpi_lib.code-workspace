@@ -18,7 +18,10 @@
 			"vector": "cpp",
 			"system_error": "cpp",
 			"atomic": "cpp",
-			"limits": "cpp"
+			"limits": "cpp",
+			"memory": "cpp",
+			"random": "cpp",
+			"optional": "cpp"
 		}
 	}
 }

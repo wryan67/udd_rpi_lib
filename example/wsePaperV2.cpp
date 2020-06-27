@@ -128,11 +128,9 @@ void display1Demo() {
 
     Image chart = Image(width, height, WHITE);
 
-    // printf("clear screen - white\n");
-    // d1.clear(WHITE);
-    // delay(2 * 1000);
+    printf("---CLS---------------------------\n");
 
-
+//    d1.clear(WHITE);
 
     bool doSolids = false;
     long count = 0;
@@ -159,7 +157,6 @@ void display1Demo() {
             continue;
         }
 
-        printf("draw boxes\n");
 
 
         chart.clear(WHITE);
@@ -171,22 +168,20 @@ void display1Demo() {
         chart.drawRectangle(70, 20, 105, 82, RED,   NONE, SOLID, 1);
 
         chart.drawCircle( 296*3/4,64, 50, BLACK, NONE, SOLID,2);
-        chart.drawLineArc(296*3/4,64, 50,  0.0, BLACK, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 50, 45.0, BLACK, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 50, 90.0, BLACK, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 48, 90+45.0, WHITE, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 48, 90+90.0, WHITE, SOLID,1);
 
-        printf("----------------------degree=90---------\n");
-        printf("degree_90\n");
         d1.showImage(chart, DEGREE_90);
-        delay(1 * 1000);
+        exit(0);
 
-        chart.drawLineArc(296*3/4,64, 48,  0.0, WHITE, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 48, 45.0, WHITE, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 50, 90+45.0, BLACK, SOLID,1);
-        chart.drawLineArc(296*3/4,64, 50, 90+90.0, BLACK, SOLID,1);
+        for (float d=0;d<360;d+=45) {
 
+            chart.drawLineArc(296*3/4,64, 48,  d-45, WHITE, SOLID,1);
+            chart.drawLineArc(296*3/4,64, 50,  d,    BLACK, SOLID,1);
+            chart.drawLineArc(296*3/4,64, 50,  d+45, BLACK, SOLID,1);
+            d1.showImage(chart, DEGREE_90);
+        }
+
+        chart.drawLineArc(296*3/4,64, 48,  315, WHITE, SOLID,1);
+        chart.drawLineArc(296*3/4,64, 48,    0, WHITE, SOLID,1);
         d1.showImage(chart, DEGREE_90);
 
 
@@ -244,3 +239,4 @@ int main(void)
 
     return 0;
 }
+
