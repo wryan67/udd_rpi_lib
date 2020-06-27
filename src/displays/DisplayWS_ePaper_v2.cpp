@@ -143,6 +143,9 @@ namespace udd {
 
 
         writeCommand(0x10);  // black/white
+        for (int i = 0; i < 37; ++i) {
+            printf("%02d      ", i);
+        }   printf("\n");
 
         for (int y = 0; y < height; y++) {
             int  bits = 0;

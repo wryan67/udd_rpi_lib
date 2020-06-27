@@ -23,7 +23,7 @@
     <ClCompile Include="src\displays\DisplayWS_ePaper_v2.cpp" />
     <ClCompile Include="src\controller\Pixel.cpp" />
     <ClCompile Include="src\controller\Point.cpp" />
-    <ClCompile Include="example\ws.ePaper-2.9b-v2.cpp" />
+    <ClCompile Include="example\wsePaperV2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\fonts\fonts.h" />
