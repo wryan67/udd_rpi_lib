@@ -167,8 +167,13 @@ namespace udd {
                 }
                 if (++bits % 8 == 0) {
                     writeData(out);
+                    for (int i = 0; i < 7; ++i) {
+                        printf("%d", out & 1);
+                        out = out >> 1;
+                    }
                 }
             }
+            printf("\n");
             //writeData(rowPointer, (config.width + config.xOffset) );
         }
 
