@@ -7,6 +7,10 @@ Compiling:
 
 $ g++ -lwiringPi -lwiringPiUDDrpi 1display.cpp -o demo1
 
+I'm using an 8x8 matrix
+
+https://www.amazon.com/gp/product/B01MCUOD8N
+
 */
 
 #include <stdio.h>
@@ -197,22 +201,20 @@ void display1Demo() {
         delay(5000);
 
 
-        int radius=4;
 
-//      bmp.drawRectangle(5,5,radius,YELLOW,FILL,SOLID,1);
-        bmp.drawCircle(4,4,radius,YELLOW,NONE,SOLID,1);
-        bmp.drawText(3,1,"1",&Font8,DARK_BLUE,WHITE);
+        const char *message="BIKE";
 
-        d1.showImage(bmp);
-        delay(3000);
+        for (int i=0;i<strlen(message);++i) {
+          bmp.clear(DARK_BLUE);
+          char tmpstr[32];
+          strncpy(tmpstr,&message[i],1);   
+          bmp.drawText(1,1,tmpstr,&Font8,DARK_BLUE,WHITE);
+          bmp.drawRectangle(0,0,7,7,YELLOW,NONE,SOLID,1);
 
-        bmp.drawText(3,2,"2",&Font8,DARK_BLUE,WHITE);
-        d1.showImage(bmp);
-        delay(2500);
+          d1.showImage(bmp);
+          delay(3000);
+        }
 
-        bmp.drawText(3,2,"3",&Font8,DARK_BLUE,WHITE);
-        d1.showImage(bmp);
-        delay(5000);
 
     }
 }

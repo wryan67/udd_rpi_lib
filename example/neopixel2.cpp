@@ -8,6 +8,26 @@ Compiling:
 
 $ g++ -lwiringPi -lwiringPiUDDrpi 1display.cpp -o demo1
 
+I'm using a custom neopixel matrix that is basically 11x11.  
+Some of the pixels are "missing" on purpose, 
+so that the display is shaped like a stop sign.
+
+Here is the layout:
+
+      First Pixel
+              |
+              V  --->
+              * * * * * -------\
+   /------- * * * * * * * <----/
+   \----> * * * * * * * * * -------\
+        * * * * * * * * * * * <----/
+        * * * * * * * * * * *
+        * * * * * * * * * * *
+        * * * * * * * * * * *
+        * * * * * * * * * * *
+          * * * * * * * * *  
+            * * * * * * *    
+              * * * * * 
 */
 
 #include <stdio.h>
