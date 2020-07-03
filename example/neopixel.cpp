@@ -124,7 +124,7 @@ void rainbow() {
     long long start = currentTimeMillis();
     long long elapsed = 0;
 
-    while (elapsed<10*1000) {
+    while (elapsed<7*1000) {
         int color=++rainbowColor%256;
         elapsed = currentTimeMillis() - start;
 
@@ -142,82 +142,14 @@ void rainbow() {
 }
 
 
-void gyro() {
-    long long start = currentTimeMillis();
-    long long elapsed = 0;
-
-    Image bmp = Image(11, 11, BLACK);
-    Image tilt0 = Image(11, 11, BLACK);
-    Image tilt1 = Image(11, 11, BLACK);
-
-    tilt0.loadBMP("images/gyro/tilt0.bmp", 0, 0);
-    tilt1.loadBMP("images/gyro/tilt1.bmp", 0, 0);
-
-    int mirrorScreen=0;
-
-    while (elapsed<12*1000) {
-        elapsed = currentTimeMillis() - start;
-
-        Rotation degree=DEGREE_0;
-
-        ScreenMirror mirror=(mirrorScreen++%2==0)?NORMAL:HORIZONTAL; 
-
-
-        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(2000);
-
-        bmp.loadBMP("images/gyro/gyro-1.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(500);
-
-        bmp.loadBMP("images/gyro/gyro-0.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(250);
-
-        bmp.loadBMP("images/gyro/gyro-1.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(250);
-
-        bmp.loadBMP("images/gyro/gyro-2.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(250);
-
-        bmp.loadBMP("images/gyro/gyro-3.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(500);
-
-        bmp.loadBMP("images/gyro/gyro-4.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(750);
-
-        bmp.loadBMP("images/gyro/gyro-3.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(500);
-    
-        bmp.loadBMP("images/gyro/gyro-4.bmp", 0, 0);
-        d1.showImage(bmp,degree,mirror);
-        delay(250);
-
-
-        for (int i=0;i<10;++i) {
-
-            d1.showImage(tilt0,DEGREE_0,NORMAL);
-            delay(200); 
-
-            d1.showImage(tilt1,DEGREE_0,NORMAL);
-            delay(200);
-        }
-    }
-}
 
 
 void display1Demo() {
 
-//    Image bmp = Image(320, 240, BLACK);
-//    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
+    Image bike = Image(8, 8, BLACK);
+    bike.loadBMP("images/bicycle.bmp", 0, 0);
 
-    Image bmp = Image(11, 11, DARK_BLUE);
+    Image bmp = Image(8, 8, DARK_BLUE);
 
     Image chart = Image(d1Config.height, d1Config.width, BLACK);
 
@@ -255,19 +187,21 @@ void display1Demo() {
             }
         }
 
-        rainbow();
+//      rainbow();
 
 
         d1.render(d1Config.screenRotation);
         delay(1000);
 
-        gyro();
+        d1.showImage(bike);
+        delay(5000);
 
-        int radius=5;
 
-        bmp.drawCircle(5,5,radius,YELLOW,FILL,SOLID,1);
-        bmp.drawCircle(5,5,radius-1,DARK_BLUE,FILL,SOLID,1);
-        bmp.drawText(3,2,"1",&Font8,DARK_BLUE,WHITE);
+        int radius=4;
+
+//      bmp.drawRectangle(5,5,radius,YELLOW,FILL,SOLID,1);
+        bmp.drawCircle(4,4,radius,YELLOW,NONE,SOLID,1);
+        bmp.drawText(3,1,"1",&Font8,DARK_BLUE,WHITE);
 
         d1.showImage(bmp);
         delay(3000);
@@ -288,61 +222,20 @@ void display1Demo() {
 void configureDisplay1() {
     printf("--------------------------------------------\n");
     printf("-----d1 config------------------------------\n");
-    d1Config.width =            11;
-    d1Config.height =           11;
-
-    d1Config.stripType =        WS2811_STRIP_GRB; 
+    d1Config.width =            8;
+    d1Config.height =           8;
+    
+    d1Config.stripType =        WS2811_STRIP_RGB; 
     d1Config.targetFreq =       WS2811_TARGET_FREQ;
     d1Config.dmaChannel =       10;
     d1Config.gpioPin =          18;
     d1Config.brightness =       16;
     d1Config.screenRotation  =  udd::DEGREE_0;
+    d1Config.screenMirror    =  udd::HORIZONTAL;
 
     d1.openDisplay(d1Config);
     d1.printConfiguration();
 
-
-// bottom row (0)
-//  These are physicall there right now
-    d1.addGhostPixel(Point( 0, 0));
-    d1.addGhostPixel(Point( 1, 0));
-    d1.addGhostPixel(Point( 2, 0));
-
-    d1.addGhostPixel(Point( 8, 0));
-    d1.addGhostPixel(Point( 9, 0));
-    d1.addGhostPixel(Point(10, 0));
-
-// row 1
-    d1.addGhostPixel(Point( 0, 1));
-    d1.addGhostPixel(Point( 1, 1));
-
-    d1.addGhostPixel(Point( 9, 1));
-    d1.addGhostPixel(Point(10, 1));
-
-// row 2
-    d1.addGhostPixel(Point( 0, 2));
-    d1.addGhostPixel(Point(10, 2));
-
-// row 8
-    d1.addGhostPixel(Point( 0, 8));
-    d1.addGhostPixel(Point(10, 8));
-
-
-// row 9
-    d1.addGhostPixel(Point( 0, 9));
-    d1.addGhostPixel(Point( 1, 9));
-
-    d1.addGhostPixel(Point( 9, 9));
-    d1.addGhostPixel(Point(10, 9));
-
-// top row (10)
-    d1.addGhostPixel(Point( 0,10));
-    d1.addGhostPixel(Point( 1,10));
-    d1.addGhostPixel(Point( 2,10));
-
-    d1.addGhostPixel(Point( 8,10));
-    d1.addGhostPixel(Point( 9,10));
-    d1.addGhostPixel(Point(10,10));
 }
 
 
