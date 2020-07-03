@@ -191,7 +191,7 @@ void display1Demo() {
             }
         }
 
-//      rainbow();
+        rainbow();
 
 
         d1.render(d1Config.screenRotation);
