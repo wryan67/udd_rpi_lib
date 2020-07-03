@@ -102,16 +102,16 @@ namespace udd {
 
 
     void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
-        showImage(image, rotation, NORMAL);
+        showImage(image, rotation, config.screenMirror);
     }
 
 
     void DisplayNeoPixel::showImage(Image image) {
-        showImage(image, DEGREE_0);
+        showImage(image, config.screenRotation, config.screenMirror);
     }
 
     void DisplayNeoPixel::render(Rotation rotation) {
-        showImage(vImage, rotation);
+        showImage(vImage, rotation, config.screenMirror);
     }
    
 
