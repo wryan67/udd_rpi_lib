@@ -58,7 +58,7 @@ float vRef = 3.3;
 
 int minBrightness=8;
 int nomBrightness=32;
-int maxBrightness=254;
+int maxBrightness=128;
 
 float minVBrightness=0.5;
 float maxVBrightness=2.0;
@@ -396,7 +396,7 @@ void* setBrightness(void *) {
     for (int i=0;i<4;++i) {
       float v=readVoltage(handle, i, 0);
       if (v>6) {
-       v=0;
+        v=0;
       }
       volts[i]=v;
     }
@@ -404,12 +404,12 @@ void* setBrightness(void *) {
     long long cTime=currentTimeMillis();
     int elapsed = cTime - startTime;
 
-    if (volts[1]<1.0)  {
-        brightness=minBrightness;
-    } else if (volts[1]<3.0) {
+    if (volts[1]<2.0)  {
+        brightness=maxBrightness;
+    } else if (volts[1]<2.5) {
         brightness=nomBrightness;
     } else {
-        brightness=maxBrightness;
+        brightness=minBrightness;
     }
 
 
