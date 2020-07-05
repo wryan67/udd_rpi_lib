@@ -406,7 +406,7 @@ void* setBrightness(void *) {
 
     if (volts[0]<2.0)  {
         brightness=maxBrightness;
-    } else if (volts[0]<1.0) {
+    } else if (volts[0]<2.0) {
         brightness=nomBrightness;
     } else {
         brightness=minBrightness;
