@@ -404,9 +404,9 @@ void* setBrightness(void *) {
     long long cTime=currentTimeMillis();
     int elapsed = cTime - startTime;
 
-    if (volts[1]<2.0)  {
+    if (volts[0]<2.0)  {
         brightness=maxBrightness;
-    } else if (volts[1]<2.5) {
+    } else if (volts[0]<1.0) {
         brightness=nomBrightness;
     } else {
         brightness=minBrightness;
