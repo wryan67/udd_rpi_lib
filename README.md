@@ -12,4 +12,5 @@ This library provides a common, user friendly, interface for accessing various t
 
 ![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/images/2displays.jpg):https://www.youtube.com/watch?v=ayDWNnZb_Fs
 
-![thumbnail](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/readme/A26B52E7-CFD9-49FC-AE46-D9560006D6A8.jpeg):https://youtu.be/jrF-sLwCGfo
+![youtube](https://raw.githubusercontent.com/wryan67/udd_rpi_lib/master/readme/Custom%20NeoPixel%20Matrix/build-85.jpg)
+https://m.youtube.com/watch?v=FlzBYfZNvE0
