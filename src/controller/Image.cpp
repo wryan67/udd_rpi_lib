@@ -275,20 +275,23 @@ void Image::drawChar(int Xpoint, int Ypoint, const char Acsii_Char,
 # THE SOFTWARE.
 #
 ******************************************************************************/
-
 void Image::loadBMP(const char* filename, int Xstart, int Ystart) {
     FILE* fp;                     //Define a file pointer
-    BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
-    BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
 
-    // Binary file open
+        // Binary file open
     if ((fp = fopen(filename, "rb")) == NULL) {
-        fprintf(stderr,"Cann't open image the file: %s\n",filename);
+        fprintf(stderr, "Cann't open image the file: %s\n", filename);
         exit(0);
     }
 
+    loadBMP(fp, Xstart, Ystart);
+}
+
+void Image::loadBMP(FILE *fp, int Xstart, int Ystart) {
+    BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
+    BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
+
     // Set the file pointer from the beginning
-    fseek(fp, 0, SEEK_SET);
     fread(&bmpFileHeader, sizeof(BMPFILEHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 14
     fread(&bmpInfoHeader, sizeof(BMPINFOHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 50
 
