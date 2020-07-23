@@ -291,9 +291,10 @@ void Image::loadBMP(FILE *fp, int Xstart, int Ystart) {
     BMPFILEHEADER bmpFileHeader;  //Define a bmp file header structure
     BMPINFOHEADER bmpInfoHeader;  //Define a bmp info header structure
 
+    long bytesRead = 0;
     // Set the file pointer from the beginning
-    fread(&bmpFileHeader, sizeof(BMPFILEHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 14
-    fread(&bmpInfoHeader, sizeof(BMPINFOHEADER), 1, fp);    //sizeof(BMPFILEHEADER) must be 50
+    bytesRead+=fread(&bmpFileHeader, 1, sizeof(BMPFILEHEADER),  fp);    //sizeof(BMPFILEHEADER) must be 14
+    bytesRead+=fread(&bmpInfoHeader, 1, sizeof(BMPINFOHEADER),  fp);    //sizeof(BMPFILEHEADER) must be 50
 
     uint32_t rowSize = ((31 + (bmpInfoHeader.biWidth * bmpInfoHeader.biBitCount))/32)*4;
 
@@ -312,7 +313,7 @@ void Image::loadBMP(FILE *fp, int Xstart, int Ystart) {
 
     uint16_t x, y;
     unsigned char rowData[rowSize];
-    fseek(fp, bmpFileHeader.bOffset, SEEK_SET);
+    fseek(fp, bmpFileHeader.bOffset-bytesRead, SEEK_CUR);
 
     for (uint16_t iy = 0; iy < bmpInfoHeader.biHeight; iy++) {//Total display column
         y=bmpInfoHeader.biHeight-iy-1;
