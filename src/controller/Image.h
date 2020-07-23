@@ -36,6 +36,8 @@ namespace udd {
 
         void drawChar(int Xpoint, int Ypoint, const char Acsii_Char, sFONT* Font, Color Color_Background, Color Color_Foreground);
 
+        void loadBMP(FILE* file, int Xstart, int Ystart);
+
         void loadBMP(const char* filename, int Xstart, int Ystart);
 
         void drawRectangle(int x1, int y1, int x2, int y2, Color Color, FillPattern pattern, LineStyle lineStyle, int width);
