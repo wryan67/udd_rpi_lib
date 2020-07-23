@@ -313,9 +313,9 @@ void Image::loadBMP(FILE *fp, int Xstart, int Ystart) {
 
     uint16_t x, y;
     unsigned char rowData[rowSize];
-//    char tmpstr[bmpFileHeader.bOffset - bytesRead];
-//    fread(tmpstr, bmpFileHeader.bOffset - bytesRead, 1, fp);
-    fseek(fp, bmpFileHeader.bOffset-bytesRead, SEEK_CUR);
+    char tmpstr[bmpFileHeader.bOffset - bytesRead];
+    fread(tmpstr, bmpFileHeader.bOffset - bytesRead, 1, fp);
+//    fseek(fp, bmpFileHeader.bOffset-bytesRead, SEEK_CUR);  // seek_curr does not work on a pipe
 
     for (uint16_t iy = 0; iy < bmpInfoHeader.biHeight; iy++) {//Total display column
         y=bmpInfoHeader.biHeight-iy-1;
