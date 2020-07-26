@@ -163,7 +163,7 @@ namespace udd {
         fflush(stderr);
 
 
-        setWindow(0, 0, width, height);
+        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
