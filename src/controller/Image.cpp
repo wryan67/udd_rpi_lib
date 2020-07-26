@@ -93,10 +93,10 @@ ColorType* Image::getPixelColor(int x, int y) {
 
 ColorType* Image::getPixel(int x, int y, Rotation rotation) {
     switch (rotation) {
-    case DEGREE_0:    return getPixelColor(x,         y); 
-    case DEGREE_90:   return getPixelColor(y,           height-x-5);
-    case DEGREE_180:  return getPixelColor(width-x-5,   height-y-5);
-    case DEGREE_270:  return getPixelColor(width-y-5,   x);
+    case DEGREE_0:    return getPixelColor(x,           y); 
+    case DEGREE_90:   return getPixelColor(y,           height-x-1);
+    case DEGREE_180:  return getPixelColor(width-x-1,   height-y-1);
+    case DEGREE_270:  return getPixelColor(width-y-1,   x);
 
     default:
         fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);

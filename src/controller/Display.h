@@ -7,6 +7,8 @@
 #include "Image.h"
 #include <mutex>
 
+#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
+
 
 namespace udd {
     extern std::recursive_mutex screenLock;
