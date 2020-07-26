@@ -155,15 +155,11 @@ namespace udd {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; ++x) {
-                fprintf(stderr, "image.getPixel(%d,%d)\n", x, y); fflush(stderr);
                 ColorType* ct = image.getPixel(x, y, rotation);
 
                 if (ct == NULL) {
-                    fprintf(stderr, "ct is null\n");  fflush(stderr);
                     row[x] = 0;
                 } else {
-                    fprintf(stderr, "image.getPixel(%d,%d)=[#%02x%02x%02x]\n", x, y,
-                        ct->red, ct->green, ct->blue); fflush(stderr);
                     row[x] = color2word(ct);
                 }
             }
