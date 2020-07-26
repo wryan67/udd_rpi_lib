@@ -127,8 +127,8 @@ namespace udd {
         }
 
         setWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset, DEGREE_0);
-        //setWindowFullScreen();
         digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
 
         for (int y = 0; y < config.height+config.yOffset; y++) {
             writeData(rowPointer, (config.width+config.xOffset) * 2);
