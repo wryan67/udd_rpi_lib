@@ -131,8 +131,8 @@ namespace udd {
             x1 = 30;
             y1 = 159;
 
-            x2 = 30+50;
-            y2 = 159+99;
+            x2 = config.height - 1 - (x1+50);
+            y2 = y2+99;
 
             //            adjustPoint(x1, y1, rotation);
 //            adjustPoint(x2, y2, rotation);
