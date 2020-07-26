@@ -153,7 +153,7 @@ namespace udd {
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
 
-//        setWindow(0, 0, width, height);
+        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
@@ -186,7 +186,7 @@ namespace udd {
     }
 
     void Display::setWindowFullScreen() {
-        setWindow(0, 0, config.width + config.xOffset, config.height + config.yOffset);
+        setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset);
     }
 
 
