@@ -132,16 +132,16 @@ void display1Demo() {
     while (true) {
         printf("white");
         d1.clear(WHITE);
-        delay(300);
+        delay(20);
         printf("-red");
         d1.clear(RED);
-        delay(300);
+        delay(20);
         printf("-green");
         d1.clear(GREEN);
-        delay(300);
+        delay(20);
         printf("-blue\n");
         d1.clear(BLUE);
-        delay(300);
+        delay(20);
         d1.clear(BLACK);
 
         d1.showImage(bmp, DEGREE_270);
