@@ -132,7 +132,10 @@ namespace udd {
         screenLock.unlock();
     }
     
-
+    void Display::printRotation(Rotation rotation) {
+        fprintf(stderr, "Rotation:  %3d\n",rotation);
+        fflush(stderr);
+    }
 
     void Display::showImage(Image &image, Rotation rotation) {
 
@@ -144,6 +147,7 @@ namespace udd {
         int width = windowP2.x - windowP1.x + 1;
         int height= windowP2.y - windowP1.y + 1;
 
+        printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%4d  yOffset=%4d\n", config.xOffset, config.yOffset);
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 

@@ -88,6 +88,7 @@ namespace udd {
 
 
         void printConfiguration();
+        void printRotation(Rotation rotation);
 
         void closeSPI();
         void openSPI();
