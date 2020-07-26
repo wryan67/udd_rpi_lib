@@ -72,6 +72,9 @@ namespace udd {
         printf("xOffset:           %d\n", config.xOffset);
         printf("yOffset:           %d\n", config.yOffset);
 
+        printf("mirror:            %d\n", config.screenMirror);
+        printf("rotation:          %d\n", config.screenRotation);
+
         printf("cs:                %d\n", config.CS);
         printf("dc:                %d\n", config.DC);
         printf("rst:               %d\n", config.RST);
@@ -80,6 +83,7 @@ namespace udd {
 
         printf("spiChannel:        %d\n", config.spiChannel);
         printf("spiSpeed:          %d\n", config.spiSpeed);
+
         printf("handle:            %d\n", handle);
     }
 
