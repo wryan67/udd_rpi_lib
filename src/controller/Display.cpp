@@ -122,7 +122,7 @@ namespace udd {
             row[x] = cx;
         }
 
-        setScreenWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset);
+        setWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset);
         digitalWrite(config.DC, 1);
 
         for (int y = 0; y < config.height+config.yOffset; y++) {
@@ -142,7 +142,7 @@ namespace udd {
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
-        setScreenWindow(0, 0, width, height);
+        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
@@ -168,8 +168,6 @@ namespace udd {
         screenLock.unlock();
     }
 
-    void Display::setWindow(int x1, int y1, int x2, int y2) {
-    }
 
 
 
@@ -179,20 +177,8 @@ namespace udd {
 
 
 
-    void Display::setScreenWindow(_word x1, _word y1, _word x2, _word y2) {
-        writeCommand(0x2a);
-        writeData(x1 >> 8);
-        writeData(x1 & 0xff);
-        writeData((x2 - 1) >> 8);
-        writeData((x2 - 1) & 0xff);
+    void Display::setWindow(_word x1, _word y1, _word x2, _word y2) {
 
-        writeCommand(0x2b);
-        writeData(y1 >> 8);
-        writeData(y1 & 0xff);
-        writeData((y2 - 1) >> 8);
-        writeData((y2 - 1) & 0xff);
-
-        writeCommand(0x2c);
     }
 
     void Display::writeCommand(_byte data) {

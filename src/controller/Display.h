@@ -72,9 +72,9 @@ namespace udd {
         virtual _word color2word(ColorType* xp);
         virtual void reset();
         virtual void clear(Color color);
+        virtual void setWindow(_word x1, _word y1, _word x2, _word y2);
         virtual void showImage(Image image);
         virtual void showImage(Image image, Rotation rotation);
-        virtual void setWindow(int x1, int y1, int x2, int y2);
 
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");
@@ -92,7 +92,6 @@ namespace udd {
         void writeData(_byte* data, uint32_t len);
         void pause();
         void resume();
-        void setScreenWindow(_word Xstart, _word Ystart, _word Xend, _word Yend);
         void writeCommand(_byte data);
         void writeData(_byte data);
         void setPixel(Pixel pixel);
