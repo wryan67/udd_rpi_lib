@@ -131,8 +131,8 @@ namespace udd {
             x1 = 30;
             y1 = 159;
 
-            x2 = 81;
-            y2 = 259;
+            x2 = 99;
+            y2 = 300;
 
             //            adjustPoint(x1, y1, rotation);
 //            adjustPoint(x2, y2, rotation);
