@@ -131,13 +131,13 @@ void display1Demo() {
     long count = 0;
     while (true) {
         d1.clear(WHITE);
-        delay(10);
+        delay(300);
         d1.clear(RED);
-        delay(10);
+        delay(300);
         d1.clear(BLUE);
-        delay(10);
+        delay(300);
         d1.clear(GREEN);
-        delay(10);
+        delay(300);
         d1.clear(BLACK);
 
         d1.showImage(bmp, DEGREE_270);
