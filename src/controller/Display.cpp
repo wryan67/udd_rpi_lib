@@ -203,7 +203,7 @@ namespace udd {
         windowP2.y = y2;
     }
 
-    void Display::adjustPoint(int x, int y, Rotation rotation) {
+    void Display::adjustPoint(int &x, int &y, Rotation rotation) {
 
         int tmpX = x;
         int tmpY = y;
