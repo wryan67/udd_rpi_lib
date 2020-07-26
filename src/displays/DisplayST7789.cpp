@@ -99,6 +99,8 @@ namespace udd {
     }
 
     void DisplayST7789R::setWindow(int x1, int y1, int x2, int y2) {
+        Display::setWindow(x1, y1, x2, y2);
+
         writeCommand(0x2a);
         writeData(x1 >> 8);
         writeData(x1 & 0xff);

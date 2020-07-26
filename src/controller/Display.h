@@ -17,6 +17,8 @@ namespace udd {
         Rotation       screenRotation = DEGREE_0;
         ScreenMirror   screenMirror   = NORMAL;
 
+
+
         int width = 240;
         int height = 320;
 
@@ -58,6 +60,8 @@ namespace udd {
 
         Image vImage;
 
+        Point windowP1 = Point(0, 0);
+        Point windowP2 = Point(0, 0);
         
     public:
         DisplayConfigruation config;

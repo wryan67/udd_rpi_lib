@@ -139,10 +139,12 @@ namespace udd {
         screenLock.lock();
         openSPI();
 
-        int width = config.width + config.xOffset;
-        int height = config.height + config.yOffset;
+//        int width = config.width + config.xOffset;
+//        int height = config.height + config.yOffset;
+        int width = windowP2.x - windowP1.x + 1;
+        int height= windowP2.y - windowP1.y + 1;
 
-        setWindow(0, 0, width, height);
+//        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
@@ -181,7 +183,10 @@ namespace udd {
 
 
     void Display::setWindow(int x1, int y1, int x2, int y2) {
-
+        windowP1.x = x1;
+        windowP1.y = y1;
+        windowP2.x = x2;
+        windowP2.y = y2;
     }
 
     void Display::writeCommand(_byte data) {
