@@ -150,12 +150,12 @@ namespace udd {
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-        _word  row[config.width + config.xOffset];
+        _word  row[width];
         _byte* rowPointer = (_byte*)(row);
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; ++x) {
-                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
+                ColorType* ct = image.getPixel(x, y, rotation);
 
                 if (ct == NULL) {
                     row[x] = 0;
@@ -165,7 +165,7 @@ namespace udd {
                 }
             }
 
-            writeData(rowPointer, (config.width + config.xOffset) * 2);
+            writeData(rowPointer, (width) * 2);
         }
         digitalWrite(config.CS, 1);
 
