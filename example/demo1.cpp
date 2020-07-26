@@ -130,13 +130,17 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
+        printf("white");
         d1.clear(WHITE);
         delay(300);
+        printf("-red");
         d1.clear(RED);
         delay(300);
-        d1.clear(BLUE);
-        delay(300);
+        printf("-green");
         d1.clear(GREEN);
+        delay(300);
+        printf("-blue\n");
+        d1.clear(BLUE);
         delay(300);
         d1.clear(BLACK);
 
