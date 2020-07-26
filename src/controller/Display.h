@@ -62,7 +62,7 @@ namespace udd {
 
         Point windowP1 = Point(0, 0);
         Point windowP2 = Point(0, 0);
-        void Display::adjustPoint(int& x, int& y, Rotation rotation);
+        void adjustPoint(int& x, int& y, Rotation rotation);
         
     public:
         DisplayConfigruation config;
