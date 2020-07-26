@@ -118,11 +118,11 @@ namespace udd {
         }
 
         if (rotation == DEGREE_90) {
-            swap(int, y1, y2);
+            swap(int, x1, x2);
         }
 
         if (rotation == DEGREE_270) {
-            swap(int, x1, x2);
+            swap(int, y1, y2);
         }
 
 
