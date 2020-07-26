@@ -148,11 +148,12 @@ namespace udd {
 //        int width = windowP2.x - windowP1.x + 1;
 //        int height= windowP2.y - windowP1.y + 1;
 
-        printRotation(rotation);
+/*        printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%4d  yOffset=%4d\n", config.xOffset, config.yOffset);
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
+*/
 
 //        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
