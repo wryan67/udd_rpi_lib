@@ -168,6 +168,9 @@ namespace udd {
         screenLock.unlock();
     }
 
+    void Display::setWindow(int x1, int y1, int x2, int y2) {
+    }
+
 
 
     void Display::showImage(Image image) {
