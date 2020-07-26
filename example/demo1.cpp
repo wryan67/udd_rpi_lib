@@ -123,7 +123,7 @@ bool demoSineWave(int frameCount, long long start, Image image) {
 void display1Demo() {
 
     Image bmp = Image(320, 240, BLACK);
-    bmp.loadBMP("../images/BlueAngle4-320x240.bmp", 0, 0);
+    bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
 
     Image chart = Image(d1Config.height, d1Config.width, BLACK);
 
