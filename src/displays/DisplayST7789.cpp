@@ -157,13 +157,13 @@ namespace udd {
         fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
         fflush(stderr);
 
-        writeCommand(0x2a);
+        writeCommand(0x2a);    // caset   x1 <= y2
         writeData(x1 >> 8);
         writeData(x1 & 0xff);
         writeData((x2) >> 8);
         writeData((x2) & 0xff);
 
-        writeCommand(0x2b);
+        writeCommand(0x2b);     // raset   y1 <= y2
         writeData(y1 >> 8);
         writeData(y1 & 0xff);
         writeData((y2) >> 8);
