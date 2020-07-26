@@ -175,6 +175,9 @@ namespace udd {
         showImage(image, DEGREE_0);
     }
 
+    void Display::setWindowFullScreen() {
+        setWindow(0, 0, config.width + config.xOffset, config.height + config.yOffset);
+    }
 
 
     void Display::setWindow(_word x1, _word y1, _word x2, _word y2) {
