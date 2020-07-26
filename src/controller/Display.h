@@ -62,6 +62,7 @@ namespace udd {
 
         Point windowP1 = Point(0, 0);
         Point windowP2 = Point(0, 0);
+        void Display::adjustPoint(int& x, int& y, Rotation rotation);
         
     public:
         DisplayConfigruation config;
@@ -78,6 +79,7 @@ namespace udd {
         virtual void clear(Color color);
         virtual void setWindowFullScreen();
         virtual void setWindow(int x1, int y1, int x2, int y2);
+        virtual void setWindow(int x1, int y1, int x2, int y2, Rotation rotation);
         virtual void showImage(Image &image);
         virtual void showImage(Image &image, Rotation rotation);
 

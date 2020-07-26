@@ -9,7 +9,7 @@ namespace udd {
 
         void init() override;
 
-        void setWindow(int x1, int y1, int x2, int y2);
+        void setWindow(int x1, int y1, int x2, int y2, Rotation rotation);
 
     };
 }

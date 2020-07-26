@@ -52,7 +52,7 @@ namespace udd {
 
         void init() override;
         void initScanDir(LCD_SCAN_DIR direction);
-        void setWindow(int x1, int y1, int x2, int y2) override;
+        void setWindow(int x1, int y1, int x2, int y2, Rotation rotation);
 
         _word color2word(ColorType* xp);
 

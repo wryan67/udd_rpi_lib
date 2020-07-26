@@ -199,6 +199,46 @@ namespace udd {
         windowP2.y = y2;
     }
 
+    void Display::adjustPoint(int &x, int &y, Rotation rotation) {
+
+        int tmpX = x;
+        int tmpY = y;
+
+        switch (rotation) {
+        case DEGREE_0:    return;
+
+        case DEGREE_90:   x = y;  
+                          y = config.height - tmpX - 1; 
+                          return;
+
+        case DEGREE_180:  x = config.width - tmpX - 1; 
+                          y = config.height - tmpY - 1; 
+                          return;
+
+        case DEGREE_270:  x = config.width - y - 1;
+                          y = x;
+                          return;
+
+//        case DEGREE_0:    return getPixelColor(x,             y);
+//        case DEGREE_90:   return getPixelColor(y,             height - x - 1);
+//        case DEGREE_180:  return getPixelColor(width - x - 1, height - y - 1);
+//        case DEGREE_270:  return getPixelColor(width - y - 1, x);
+
+        default:
+            fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);
+            return;
+        }
+
+    }
+
+    void Display::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
+        windowP1.x = x1;
+        windowP1.y = y1;
+        windowP2.x = x2;
+        windowP2.y = y2;
+    }
+
+
     void Display::writeCommand(_byte data) {
         digitalWrite(config.DC, 0);
         digitalWrite(config.CS, 0);
