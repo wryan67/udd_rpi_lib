@@ -159,9 +159,11 @@ namespace udd {
                 ColorType* ct = image.getPixel(x, y, rotation);
 
                 if (ct == NULL) {
+                    fprintf(stderr, "ct is null\n");  fflush(stderr);
                     row[x] = 0;
-                }
-                else {
+                } else {
+                    fprintf(stderr, "image.getPixel(%d,%d)=[#%02x%02x%02x]\n", x, y,
+                        ct->red, ct->green, ct->blue); fflush(stderr);
                     row[x] = color2word(ct);
                 }
             }
