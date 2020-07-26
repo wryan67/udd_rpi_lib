@@ -144,7 +144,9 @@ namespace udd {
         int width = windowP2.x - windowP1.x + 1;
         int height= windowP2.y - windowP1.y + 1;
 
-        fprintf(stderr, "showImage width=%d  height=%d\n", width, height); fflush(stderr);
+        fprintf(stderr, "showImage xOffset=%d  yOffset=%d\n", config.xOffset, config.yOffset); 
+        fprintf(stderr, "showImage width=%d  height=%d\n", width, height); 
+        fflush(stderr);
 
 //        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
@@ -163,8 +165,6 @@ namespace udd {
                     row[x] = color2word(ct);
                 }
             }
-
-            fprintf(stderr, "writeData\n"); fflush(stderr);
 
             writeData(rowPointer, (width) * 2);
         }
