@@ -122,7 +122,8 @@ namespace udd {
             row[x] = cx;
         }
 
-        setWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset);
+        //setWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset);
+        setWindowFullScreen();
         digitalWrite(config.DC, 1);
 
         for (int y = 0; y < config.height+config.yOffset; y++) {
@@ -153,7 +154,7 @@ namespace udd {
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
 
-        setWindow(0, 0, width, height);
+//        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
