@@ -109,8 +109,12 @@ namespace udd {
         adjustPoint(x1, y1, rotation);
         adjustPoint(x2, y2, rotation);
 
+        fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+
+
         if (rotation == DEGREE_180) {
             swap(int, x1, x2);
+            swap(int, y1, y2);
         }
 
         /*
@@ -127,7 +131,7 @@ namespace udd {
         }
         */
 
-        fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+        fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
         fflush(stderr);
 
         writeCommand(0x2a);
