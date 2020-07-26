@@ -188,7 +188,7 @@ namespace udd {
     }
 
     void Display::setWindowFullScreen() {
-        setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset);
+        setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset, config.screenRotation);
     }
 
 
