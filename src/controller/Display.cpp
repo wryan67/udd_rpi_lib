@@ -122,16 +122,19 @@ namespace udd {
         _byte* rowPointer = (_byte*)(row);
         _word  cx = color2word(&ct);
 
-        for (int x = 0; x < config.width+config.xOffset; x++) {
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
+
+        for (int x = 0; x < width; x++) {
             row[x] = cx;
         }
 
-        setWindow(0, 0, config.width+config.xOffset, config.height+config.yOffset, DEGREE_0);
+        setWindow(0, 0, width, height, DEGREE_0);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
-        for (int y = 0; y < config.height+config.yOffset; y++) {
-            writeData(rowPointer, (config.width+config.xOffset) * 2);
+        for (int y = 0; y < height; y++) {
+            writeData(rowPointer, (width) * 2);
         }
         pause();
         screenLock.unlock();
@@ -146,6 +149,7 @@ namespace udd {
 
         screenLock.lock();
         openSPI();
+        resume();
 
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
@@ -181,6 +185,7 @@ namespace udd {
         }
         digitalWrite(config.CS, 1);
 
+        pause();
         screenLock.unlock();
     }
 
