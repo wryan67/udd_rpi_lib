@@ -106,23 +106,31 @@ namespace udd {
         fprintf(stderr, "----adjustPoint(rotation=%d)------------------\n",rotation);
         fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
 
-        adjustPoint(x1, y1, rotation);
-        adjustPoint(x2, y2, rotation);
 
         fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
 
+        if (rotation == DEGREE_0) {
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
+        }
 
         if (rotation == DEGREE_180) {
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
             swap(int, x1, x2);
             swap(int, y1, y2);
         }
 
         if (rotation == DEGREE_90) {
             swap(int, y1, y2);
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
         }
 
         if (rotation == DEGREE_270) {
             swap(int, x1, x2);
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
         }
 
 
