@@ -219,8 +219,8 @@ namespace udd {
                           y = config.height - tmpY - 1; 
                           return;
 
-        case DEGREE_270:  x = config.width - y - 1;
-                          y = x;
+        case DEGREE_270:  x = config.width - tmpY - 1;
+                          y = tmpX;
                           return;
 
 //        case DEGREE_0:    return getPixelColor(x,             y);
