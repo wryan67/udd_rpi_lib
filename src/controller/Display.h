@@ -73,7 +73,7 @@ namespace udd {
         virtual void reset();
         virtual void clear(Color color);
         virtual void setWindowFullScreen();
-        virtual void setWindow(_word x1, _word y1, _word x2, _word y2);
+        virtual void setWindow(int x1, int y1, int x2, int y2);
         virtual void showImage(Image image);
         virtual void showImage(Image image, Rotation rotation);
 

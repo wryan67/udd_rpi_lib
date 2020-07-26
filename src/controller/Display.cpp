@@ -180,7 +180,7 @@ namespace udd {
     }
 
 
-    void Display::setWindow(_word x1, _word y1, _word x2, _word y2) {
+    void Display::setWindow(int x1, int y1, int x2, int y2) {
 
     }
 
