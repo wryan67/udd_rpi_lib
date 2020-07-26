@@ -128,11 +128,12 @@ namespace udd {
         if (rotation == DEGREE_270) {
             swap(int, y1, y2);
             
-            x1 = 110;
-            y1 = 110;
+            scanf(getenv("X1"), "%d", &x1);
+            scanf(getenv("Y1"), "%d", &y1);
 
-            x2 = x1-101;
-            y2 = y2+101;
+            scanf(getenv("X2"), "%d", &x2);
+            scanf(getenv("Y2"), "%d", &y2);
+
 
             //            adjustPoint(x1, y1, rotation);
 //            adjustPoint(x2, y2, rotation);
