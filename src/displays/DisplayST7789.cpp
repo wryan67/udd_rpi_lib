@@ -98,6 +98,8 @@ namespace udd {
         writeCommand(0x29);
     }
 
+#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
+
     void DisplayST7789R::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
         Display::setWindow(x1, y1, x2, y2);
 
@@ -107,6 +109,9 @@ namespace udd {
         adjustPoint(x1, y1, rotation);
         adjustPoint(x2, y2, rotation);
 
+        if (rotation == DEGREE_180) {
+            swap(int, x1, x2);
+        }
 
         /*
         if (x2 < x1) {
