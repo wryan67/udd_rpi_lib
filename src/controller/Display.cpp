@@ -142,10 +142,10 @@ namespace udd {
         screenLock.lock();
         openSPI();
 
-//        int width = config.width + config.xOffset;
-//        int height = config.height + config.yOffset;
-        int width = windowP2.x - windowP1.x + 1;
-        int height= windowP2.y - windowP1.y + 1;
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
+//        int width = windowP2.x - windowP1.x + 1;
+//        int height= windowP2.y - windowP1.y + 1;
 
         printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
