@@ -115,8 +115,8 @@ namespace udd {
         }
 
         if (rotation == DEGREE_180) {
-//            adjustPoint(x1, y1, rotation);
-//            adjustPoint(x2, y2, rotation);
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
             swap(int, x1, x2);
             swap(int, y1, y2);
         }
