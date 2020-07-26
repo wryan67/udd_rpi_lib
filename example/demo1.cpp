@@ -28,6 +28,8 @@ long long lastTime = currentTimeMillis();
 long long lastSecond;
 int fps, lastFPS = 0;
 
+int spiSpeed = 90000000;
+
 
 unsigned long long currentTimeMillis() {
     struct timeval currentTime;
@@ -138,7 +140,7 @@ void display1Demo() {
         delay(10);
         d1.clear(BLACK);
 
-        d1.showImage(bmp, DEGREE_90);
+        d1.showImage(bmp, DEGREE_270);
 
         delay(1000);
 
@@ -154,7 +156,7 @@ void configureDisplay1() {
     printf("-----d1 config------------------------------\n");
     d1Config.width = 240;
     d1Config.height = 320;
-    d1Config.spiSpeed = 90000000;
+    d1Config.spiSpeed = spiSpeed;
 
     d1Config.CS = 21;
     d1Config.DC = 22;
@@ -167,9 +169,13 @@ void configureDisplay1() {
 
 
 
-int main(void)
+int main(int argc, char **argv)
 {
 	wiringPiSetup();  // use wiring pi numbers
+
+    if (argc > 0) {
+        sscanf(argv[argc - 1], "%d", &spiSpeed);
+    }
 
     // just incase there's somehting attached to the standard spi cs pins
     pinMode(10, OUTPUT);
