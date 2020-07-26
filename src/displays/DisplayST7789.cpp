@@ -101,8 +101,14 @@ namespace udd {
     void DisplayST7789R::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
         Display::setWindow(x1, y1, x2, y2);
 
+        fprintf(stderr, "---------------------------\n");
+        fprintf(stderr, "p1(%d,%d) p2(%d,%d)\n", x1, y1, x2, y2);
+
         adjustPoint(x1, y1, rotation);
         adjustPoint(x2, y2, rotation);
+
+        fprintf(stderr, "p1(%d,%d) p2(%d,%d)\n", x1, y1, x2, y2);
+        fflush(stderr);
 
         writeCommand(0x2a);
         writeData(x1 >> 8);
