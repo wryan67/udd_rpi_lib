@@ -130,18 +130,19 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
+        int solidsDelay = 2000;
         printf("white");
         d1.clear(WHITE);
-        delay(20);
+        delay(solidsDelay);
         printf("-red");
         d1.clear(RED);
-        delay(20);
+        delay(solidsDelay);
         printf("-green");
         d1.clear(GREEN);
-        delay(20);
+        delay(solidsDelay);
         printf("-blue\n");
         d1.clear(BLUE);
-        delay(20);
+        delay(solidsDelay);
         d1.clear(BLACK);
 
         d1.showImage(bmp, DEGREE_270);

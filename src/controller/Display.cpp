@@ -129,7 +129,7 @@ namespace udd {
             row[x] = cx;
         }
 
-        setWindow(0, 0, width, height, DEGREE_0);
+        setWindow(0, 0, width-1, height-1, DEGREE_0);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
