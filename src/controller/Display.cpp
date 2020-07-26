@@ -216,7 +216,7 @@ namespace udd {
         switch (rotation) {
         case DEGREE_0:    return;
 
-        case DEGREE_270:   x = y;  
+        case DEGREE_90:   x = y;  
                           y = config.height - tmpX - 1; 
                           return;
 
@@ -224,11 +224,11 @@ namespace udd {
                           y = config.height - tmpY - 1; 
                           return;
 
-        case DEGREE_90:   x = config.width - tmpY - 1;
+        case DEGREE_270:  x = config.width - tmpY - 1;
                           y = tmpX;
 
                           return;
-
+// getPixel()
 //        case DEGREE_0:    return getPixelColor(x,             y);
 //        case DEGREE_90:   return getPixelColor(y,             height - x - 1);
 //        case DEGREE_180:  return getPixelColor(width - x - 1, height - y - 1);
