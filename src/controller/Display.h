@@ -78,8 +78,8 @@ namespace udd {
         virtual void clear(Color color);
         virtual void setWindowFullScreen();
         virtual void setWindow(int x1, int y1, int x2, int y2);
-        virtual void showImage(Image image);
-        virtual void showImage(Image image, Rotation rotation);
+        virtual void showImage(Image &image);
+        virtual void showImage(Image &image, Rotation rotation);
 
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");

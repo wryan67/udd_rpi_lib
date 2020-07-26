@@ -134,7 +134,7 @@ namespace udd {
     
 
 
-    void Display::showImage(Image image, Rotation rotation) {
+    void Display::showImage(Image &image, Rotation rotation) {
 
         screenLock.lock();
         openSPI();
@@ -180,7 +180,7 @@ namespace udd {
 
 
 
-    void Display::showImage(Image image) {
+    void Display::showImage(Image &image) {
         showImage(image, DEGREE_0);
     }
 
