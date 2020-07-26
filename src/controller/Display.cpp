@@ -144,6 +144,7 @@ namespace udd {
         fprintf(stderr, "Rotation:  %3d\n",rotation);
         fflush(stderr);
     }
+#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
 
     void Display::showImage(Image &image, Rotation rotation) {
 
