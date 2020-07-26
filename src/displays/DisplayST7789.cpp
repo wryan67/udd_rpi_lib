@@ -127,7 +127,7 @@ namespace udd {
 
         if (rotation == DEGREE_270) {
             swap(int, y1, y2);
-            swap(int, x1, x2);
+            
             //            adjustPoint(x1, y1, rotation);
 //            adjustPoint(x2, y2, rotation);
         }
