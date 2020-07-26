@@ -129,10 +129,10 @@ namespace udd {
             swap(int, y1, y2);
             
             x1 = 30;
-            y1 = 209;
+            y1 = 259;
 
             x2 = 129;
-            y2 = 259;
+            y2 = 209;
 
             //            adjustPoint(x1, y1, rotation);
 //            adjustPoint(x2, y2, rotation);
