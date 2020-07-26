@@ -110,7 +110,37 @@ namespace udd {
         }
     }
 
-    void Display::clear(Color color) {
+    void Display::clearWindow(Color color) {
+        screenLock.lock();
+
+        openSPI();
+        resume();
+
+        ColorType ct = color.toType();
+
+        _word  row[config.width + config.xOffset];
+        _byte* rowPointer = (_byte*)(row);
+        _word  cx = color2word(&ct);
+
+        int width = windowP2.x - windowP1.x + 1;
+        int height = windowP2.y - windowP1.y + 1;
+
+        for (int x = 0; x < width; x++) {
+            row[x] = cx;
+        }
+
+        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, DEGREE_0);
+        digitalWrite(config.DC, 1);
+        digitalWrite(config.CS, 0);
+
+        for (int y = 0; y < height; y++) {
+            writeData(rowPointer, (width) * 2);
+        }
+        pause();
+        screenLock.unlock();
+    }
+
+    void Display::clearScreen(Color color) {
         screenLock.lock();
 
         openSPI();
@@ -144,10 +174,9 @@ namespace udd {
         fprintf(stderr, "Rotation:  %3d\n",rotation);
         fflush(stderr);
     }
-#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
 
     void Display::showImage(Image &image, Rotation rotation) {
-
+        int width, height;
         screenLock.lock();
         openSPI();
         resume();
@@ -155,19 +184,27 @@ namespace udd {
 //        int width = config.width + config.xOffset;
 //        int height = config.height + config.yOffset;
 
-        int width = windowP2.x - windowP1.x + 1;
-        int height= windowP2.y - windowP1.y + 1;
 
-        if (rotation == DEGREE_270) {
-            swap(int, width, height);
+        switch (rotation) {
+        case DEGREE_0:
+        case DEGREE_180:
+            width = windowP2.x - windowP1.x + 1;
+            height = windowP2.y - windowP1.y + 1;
+            break;
+        case DEGREE_90:
+        case DEGREE_270:
+            height = windowP2.x - windowP1.x + 1;
+            width  = windowP2.y - windowP1.y + 1;
+            break;
         }
 
+/*
         printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%4d  yOffset=%4d\n", config.xOffset, config.yOffset);
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
-
+*/
 
         setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, rotation);
         digitalWrite(config.DC, 1);
@@ -202,12 +239,15 @@ namespace udd {
         showImage(image, DEGREE_0);
     }
 
-    void Display::setWindowFullScreen() {
+    void Display::setWindow() {
         setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset, config.screenRotation);
     }
 
-
     void Display::setWindow(int x1, int y1, int x2, int y2) {
+        setWindow(x1, y1, x2, y2, DEGREE_0);
+    }
+
+    void Display::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
         windowP1.x = x1;
         windowP1.y = y1;
         windowP2.x = x2;
@@ -234,11 +274,6 @@ namespace udd {
                           y = tmpX;
 
                           return;
-// getPixel()
-//        case DEGREE_0:    return getPixelColor(x,             y);
-//        case DEGREE_90:   return getPixelColor(y,             height - x - 1);
-//        case DEGREE_180:  return getPixelColor(width - x - 1, height - y - 1);
-//        case DEGREE_270:  return getPixelColor(width - y - 1, x);
 
         default:
             fprintf(stderr, "not implemented yet, rotation degree=%d", rotation);
@@ -247,12 +282,7 @@ namespace udd {
 
     }
 
-    void Display::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
-        windowP1.x = x1;
-        windowP1.y = y1;
-        windowP2.x = x2;
-        windowP2.y = y2;
-    }
+
 
 
     void Display::writeCommand(_byte data) {

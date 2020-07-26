@@ -30,7 +30,7 @@ namespace udd {
         void addGhostPixel(Point point);
         void addGhostPixels(std::vector<Point> points);
 
-        void clear(Color color);
+        void clearScreen(Color color);
 
         void showImage(Image image, Rotation rotation, ScreenMirror mirror);
         void showImage(Image image, Rotation rotation);

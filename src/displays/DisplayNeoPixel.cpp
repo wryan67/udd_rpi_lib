@@ -43,7 +43,7 @@ namespace udd {
         }
     }
 
-    void DisplayNeoPixel::clear(Color color) {
+    void DisplayNeoPixel::clearScreen(Color color) {
 
         for (int x=0;x<config.width;++x) {
             for (int y=0;y<config.height;++y) {

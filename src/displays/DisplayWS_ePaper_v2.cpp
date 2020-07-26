@@ -96,7 +96,7 @@ namespace udd {
     }
 
     
-    void DisplayWS_ePaper_v2::clear(Color color) {
+    void DisplayWS_ePaper_v2::clearScreen(Color color) {
         screenLock.lock();
 
         openSPI();

@@ -20,7 +20,7 @@ namespace udd {
         
         Image(int width, int height, Color backgroundColor);
 
-        void clear(Color backgroundColor);
+        void clearScreen(Color backgroundColor);
 
         void close();
 

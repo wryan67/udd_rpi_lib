@@ -82,7 +82,7 @@ bool demoSineWave(int frameCount, long long start, Image image) {
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
-    image.clear(BLACK);
+    image.clearScreen(BLACK);
     image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
     // line markers
@@ -130,7 +130,7 @@ void display1Demo() {
 
     printf("---CLS---------------------------\n");
 
-//    d1.clear(WHITE);
+//    d1.clearScreen(WHITE);
 
     bool doSolids = false;
     long count = 0;
@@ -139,23 +139,23 @@ void display1Demo() {
         
     if (doSolids) {
         printf("clear screen - white\n");
-        d1.clear(WHITE);
+        d1.clearScreen(WHITE);
         delay(2 * 1000);
 
         printf("clear screen - black\n");
-        d1.clear(BLACK);
+        d1.clearScreen(BLACK);
         delay(2 * 1000);
 
         printf("clear screen - red\n");
-        d1.clear(RED);
+        d1.clearScreen(RED);
         delay(2 * 1000);
 
         printf("clear screen - white\n");
-        d1.clear(WHITE);
+        d1.clearScreen(WHITE);
         delay(2 * 1000);
     }
 
-    chart.clear(WHITE);
+    chart.clearScreen(WHITE);
     chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
 
     chart.drawText(73, 22, "Pi", &Font24, WHITE, BLACK);

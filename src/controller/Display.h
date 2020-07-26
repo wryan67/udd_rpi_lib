@@ -74,12 +74,13 @@ namespace udd {
         }
 
         void openDisplay(DisplayConfigruation configuratrion);
+        void setWindow();
+        void setWindow(int x1, int y1, int x2, int y2);
 
         virtual _word color2word(ColorType* xp);
         virtual void reset();
-        virtual void clear(Color color);
-        virtual void setWindowFullScreen();
-        virtual void setWindow(int x1, int y1, int x2, int y2);
+        virtual void clearScreen(Color color);
+        virtual void clearWindow(Color color);
         virtual void setWindow(int x1, int y1, int x2, int y2, Rotation rotation);
         virtual void showImage(Image &image);
         virtual void showImage(Image &image, Rotation rotation);
