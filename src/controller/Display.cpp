@@ -144,6 +144,8 @@ namespace udd {
         int width = windowP2.x - windowP1.x + 1;
         int height= windowP2.y - windowP1.y + 1;
 
+        fprintf(stderr, "showImage width=%  height=%d\n", width, height); fflush(stderr);
+
 //        setWindow(0, 0, width, height);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
