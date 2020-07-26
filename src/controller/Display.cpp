@@ -141,8 +141,8 @@ namespace udd {
 
 //        int width = config.width + config.xOffset;
 //        int height = config.height + config.yOffset;
-        int width = windowP2.x - windowP1.x;
-        int height= windowP2.y - windowP1.y;
+        int width = windowP2.x - windowP1.x + 1;
+        int height= windowP2.y - windowP1.y + 1;
 
         fprintf(stderr, "showImage configW=%d  configY=%d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%d  yOffset=%d\n", config.xOffset, config.yOffset);
@@ -182,7 +182,7 @@ namespace udd {
     }
 
     void Display::setWindowFullScreen() {
-        setWindow(0, 0, config.width + config.xOffset, config.height + config.yOffset);
+        setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset);
     }
 
 
