@@ -155,6 +155,7 @@ namespace udd {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; ++x) {
+                fprintf(stderr, "image.getPixel(%d,%d)\n", x, y); fflush(stderr);
                 ColorType* ct = image.getPixel(x, y, rotation);
 
                 if (ct == NULL) {
@@ -164,6 +165,8 @@ namespace udd {
                     row[x] = color2word(ct);
                 }
             }
+
+            fprintf(stderr, "writeData\n"); fflush(stderr);
 
             writeData(rowPointer, (width) * 2);
         }
