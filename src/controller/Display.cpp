@@ -201,7 +201,13 @@ namespace udd {
 //        int width = config.width + config.xOffset;
 //        int height = config.height + config.yOffset;
 
+        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, rotation);
 
+        width = windowP2.x - windowP1.x + 1;
+        height = windowP2.y - windowP1.y + 1;
+
+
+/*
         switch (rotation) {
         case DEGREE_0:
         case DEGREE_180:
@@ -217,16 +223,15 @@ namespace udd {
             width = 0;
             height = 0;
         }
+*/
 
-/*
         printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%4d  yOffset=%4d\n", config.xOffset, config.yOffset);
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
-*/
 
-        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, rotation);
+
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
