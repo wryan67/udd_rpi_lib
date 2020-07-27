@@ -113,7 +113,7 @@ bool demoSineWave(int frameCount, long long start, Image image) {
     sprintf(message, "%d-fps", lastFPS);
     image.drawText(maxX - (17 * strlen(message)) - 1, minY + 1, message, &Font24, BLACK, WHITE);
 
-    d1.showImage(image,DEGREE_270);
+    d1.showImage(image, DEGREE_270);
 
     return ((now - start) < 8000);
 }
@@ -178,13 +178,13 @@ void display1Demo() {
 
             chart.drawPieSlice(296*3/4,64, 48,  d, d+45, WHITE, SOLID,1);
             chart.drawRectangle(296/2-12,64, 296/2+12,64+12, BLACK, NONE, SOLID,1);
-            d1.showImagePartial(chart, DEGREE_90);
+            d1.showImage(chart, DEGREE_90);
 
             chart.drawPieSlice(296*3/4,64, 48,  d, d+45, BLACK, SOLID,1);
             chart.drawText(296/2-12,64+6, drg, &Font12, BLACK, WHITE);
             chart.drawText(296*3/4+12,64, drg, &Font12, BLACK, WHITE);
 
-            d1.showImagePartial(chart, DEGREE_90);
+            d1.showImage(chart, DEGREE_90);
         }
 
         long long start = currentTimeMillis();

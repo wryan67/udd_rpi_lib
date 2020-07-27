@@ -160,11 +160,21 @@ namespace udd {
     }
 
 
+
     void addBit(int bit, _byte* byte, int val) {
         if (val>0) {
           (*byte) = (*byte) | (val << (7-bit));
         }
     }
+
+    void DisplayWS_ePaper_v2::showImage(Image& image) {
+        Display::showImage(image);
+    }
+
+    void DisplayWS_ePaper_v2::showImage(Image& image, Rotation rotation) {
+        Display::showImage(image, rotation);
+    }
+
 
     void DisplayWS_ePaper_v2::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
 
@@ -253,73 +263,6 @@ namespace udd {
     }
 
 
-
-    void DisplayWS_ePaper_v2::showImagePartial(Image image, Rotation rotation) {
-        screenLock.lock();
-        openSPI();
-        digitalWrite(config.DC, 1);
-        digitalWrite(config.CS, 0);
-
-        int width = config.width + config.xOffset;
-        int height = config.height + config.yOffset;
-
-
-        setPartReg();
-        writeCommand(0x91); // set partial
-
-
-        writeCommand(0x90);		//resolution setting
-        writeData(0);           //x-start
-        writeData(config.width - 1);       //x-end
-
-        writeData(0);
-        writeData(0);     //y-start
-        writeData(config.height / 256);
-        writeData(config.height % 256 - 1);  //y-end
-        writeData(0x28);
-
-       // writeCommand(0x11); // swap images
-
-        writeCommand(0x10); 
-        
-        for (int y = 0; y < height; y++) {
-            int  bits = 0;
-            _byte out = 0;
-            for (int x = 0; x < width; ++x) {
-                ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
-                int val=1;
-                if (ct != NULL) {
-                    if (WHITE.equals(ct)) {
-                        val=1;
-                    }
-                    else if (BLACK.equals(ct)) {
-                        val=0;
-                    }
-                    else if (RED.equals(ct)) {
-                        val=1;
-                    } else {
-                        fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
-                    }
-                }
-                if (++bits % 8 == 0) {
-                    writeData(out);
-                    out=0;
-                }
-                addBit(bits%8, &out, val);
-            }
-            if (width%8 != 0) {
-                writeData(out);
-            }
-        }
-
-
-
-
-        enableDisplay();
-
-        digitalWrite(config.CS, 1);
-        screenLock.unlock();
-    }
 
 
 
