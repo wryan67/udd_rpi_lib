@@ -222,7 +222,7 @@ namespace udd {
         if (image.getHeight() != height ||
             image.getWidth() != width) {
             fprintf(stderr, "Image size does not match window size. Height: [Image=%d, Window=%d]   Width: [Image=%d, Window=%d]\n",
-                image.getHeight(), height, image.getWidth, width);
+                image.getHeight(), height, image.getWidth(), width);
         }
 
 /*
