@@ -133,12 +133,15 @@ namespace udd {
             fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
             swap(int, x1, x2);
             swap(int, y1, y2);
+
+            fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+
             swap(int, x1, y2);
 
         }
 
 
-        fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+        fprintf(stderr, "p4(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
         fflush(stderr);
 
         writeCommand(0x2a);    // caset   x1 <= y2
