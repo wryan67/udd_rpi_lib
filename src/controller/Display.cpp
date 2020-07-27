@@ -146,22 +146,28 @@ namespace udd {
         openSPI();
         resume();
 
+        int width = config.width + config.xOffset;
+        int height = config.height + config.yOffset;
+
+
         ColorType ct = color.toType();
 
-        _word  row[config.width+config.xOffset];
+        _word  row[width];
         _byte* rowPointer = (_byte*)(row);
         _word  cx = color2word(&ct);
 
-        int width = config.width + config.xOffset;
-        int height = config.height + config.yOffset;
 
         for (int x = 0; x < width; x++) {
             row[x] = cx;
         }
 
+        printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
         setWindow(0, 0, width-1, height-1, DEGREE_0);
+
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
+
+        printf("clearScreen: write data row width=%d\n", width); fflush(stdout);
 
         for (int y = 0; y < height; y++) {
             writeData(rowPointer, (width) * 2);
