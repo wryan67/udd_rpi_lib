@@ -136,7 +136,7 @@ namespace udd {
 
             fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
 
-            swap(int, x1, y2);
+            swap(int, x2, y2);
 
         }
 
