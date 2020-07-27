@@ -76,7 +76,7 @@ namespace udd {
         }
 
         void openDisplay(DisplayConfigruation configuratrion);
-        void setWindow();
+        void setWindowFullScreen();
         void setWindow(int x1, int y1, int x2, int y2);
 
         virtual _word color2word(ColorType* xp);
