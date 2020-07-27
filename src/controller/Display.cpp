@@ -154,15 +154,21 @@ namespace udd {
         int height = config.height + config.yOffset;
 
 
-        ColorType ct = color.toType();
 
         printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
 
         _word  row[width];
         _byte* rowPointer = (_byte*)(row);
+
+        printf("clearScreen: tag01\n"); fflush(stdout);
+
+        ColorType ct = color.toType();
+
+        printf("clearScreen: tag02\n"); fflush(stdout);
+
         _word  cx = color2word(&ct);
 
-        printf("clearScreen: tag00\n"); fflush(stdout);
+        printf("clearScreen: tag03\n"); fflush(stdout);
 
         for (int x = 0; x < width; x++) {
             row[x] = cx;
