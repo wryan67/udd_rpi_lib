@@ -42,6 +42,9 @@ namespace udd {
             addGhostPixel(p);
         }
     }
+    void DisplayNeoPixel::setPixel(Pixel pixel) {
+        this->vImage.drawPoint(pixel.point.x, pixel.point.y, pixel.color, 1);
+    }
 
     void DisplayNeoPixel::clearScreen(Color color) {
 

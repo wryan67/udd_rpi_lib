@@ -35,8 +35,11 @@ namespace udd {
         void showImage(Image image, Rotation rotation, ScreenMirror mirror);
         void showImage(Image image, Rotation rotation);
         void showImage(Image image);
+        void setPixel(Pixel pixel);
 
     private:
+        Image vImage;
+        
         std::vector<Point> ghostPixels={};
 
     };
