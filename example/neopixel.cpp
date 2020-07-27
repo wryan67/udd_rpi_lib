@@ -86,7 +86,7 @@ bool demoSineWave(int frameCount, long long start, Image image) {
     int maxY = imageHeight-1;
     int midY = minY + (maxY - minY) / 2;
 
-    image.clearScreen(BLACK);
+    image.clear(BLACK);
     image.drawRectangle(minX, minY, maxX, maxY, WHITE, NONE, DOTTED, 1);
 
     // line markers
