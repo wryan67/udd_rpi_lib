@@ -76,6 +76,7 @@ namespace udd {
         virtual void clearWindow(Color color, Point p1, Point p2, Rotation rotation);
         
         virtual void showImage(Image &image);
+        virtual void showImage(Image &image, Rotation rotation);
         virtual void showImage(Image &image, Point p1, Point p2, Rotation rotation);
 
         virtual void readBusy() {

@@ -197,6 +197,10 @@ namespace udd {
         showImage(image, Point(0,0), Point(config.width,config.height), DEGREE_0);
     }
 
+    void Display::showImage(Image& image, Rotation rotation) {
+        showImage(image, Point(0, 0), Point(config.width, config.height), rotation);
+    }
+    
     void Display::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
         int width, height;
         screenLock.lock();
