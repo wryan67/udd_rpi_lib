@@ -201,6 +201,9 @@ namespace udd {
             height = windowP2.x - windowP1.x + 1;
             width  = windowP2.y - windowP1.y + 1;
             break;
+        default:
+            width = 0;
+            height = 0;
         }
 
 /*

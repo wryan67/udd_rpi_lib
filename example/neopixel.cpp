@@ -205,7 +205,7 @@ void display1Demo() {
         const char *message="BIKE";
 
         for (int i=0;i<strlen(message);++i) {
-          bmp.clearScreen(DARK_BLUE);
+          bmp.clear(DARK_BLUE);
           char tmpstr[32];
           strncpy(tmpstr,&message[i],1);   
           bmp.drawText(1,1,tmpstr,&Font8,DARK_BLUE,WHITE);
