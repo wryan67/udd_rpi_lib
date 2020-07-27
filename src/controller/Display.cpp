@@ -290,8 +290,8 @@ namespace udd {
                             y = config.height - tmpY - 1; 
                             return;
 
-        case DEGREE_270:    x = config.height - tmpY - 1;
-                            y = config.width  - tmpX - 1;
+        case DEGREE_270:    x = tmpY;
+                            y = config.height - tmpX;
                             return;
 
         default:
