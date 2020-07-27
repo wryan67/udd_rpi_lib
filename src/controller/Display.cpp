@@ -225,23 +225,23 @@ namespace udd {
                 image.getHeight(), height, image.getWidth(), width);
         }
 
-/*
+
         switch (rotation) {
         case DEGREE_0:
         case DEGREE_180:
-            width = windowP2.x - windowP1.x + 1;
-            height = windowP2.y - windowP1.y + 1;
+            width = p2.x - p1.x + 1;
+            height = p2.y - p1.y + 1;
             break;
         case DEGREE_90:
         case DEGREE_270:
-            height = windowP2.x - windowP1.x + 1;
-            width  = windowP2.y - windowP1.y + 1;
+            height = p2.x - p1.x + 1;
+            width  = p2.y - p1.y + 1;
             break;
         default:
             width = 0;
             height = 0;
         }
-*/
+
 
         printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
