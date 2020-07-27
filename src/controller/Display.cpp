@@ -194,15 +194,15 @@ namespace udd {
 
 
     void Display::showImage(Image& image) {
-        showImage(image, Point(0,0), Point(config.width,config.height), DEGREE_0);
+        showImage(image, Point(0,0), Point(config.width-1, config.height-1), DEGREE_0);
     }
 
     void Display::showImage(Image& image, Rotation rotation) {
         Point p1 = Point(0, 0);
-        Point p2 = Point(config.width, config.height);
+        Point p2 = Point(config.width-1, config.height-1);
 
         if (image.getWidth() > config.width) {
-            p2 = Point(config.height, config.width);
+            p2 = Point(config.height-1, config.width-1);
         }
         showImage(image, p1, p2, rotation);
     }
