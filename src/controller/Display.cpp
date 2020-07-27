@@ -156,16 +156,19 @@ namespace udd {
 
         ColorType ct = color.toType();
 
+        printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
+
         _word  row[width];
         _byte* rowPointer = (_byte*)(row);
         _word  cx = color2word(&ct);
 
+        printf("clearScreen: tag00\n"); fflush(stdout);
 
         for (int x = 0; x < width; x++) {
             row[x] = cx;
         }
 
-        printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
+        printf("clearScreen: tag01\n"); fflush(stdout);
         setWindow(0, 0, width-1, height-1, DEGREE_0);
 
         digitalWrite(config.DC, 1);
