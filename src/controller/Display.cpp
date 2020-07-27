@@ -201,7 +201,7 @@ namespace udd {
         Point p1 = Point(0, 0);
         Point p2 = Point(config.width, config.height);
 
-        if (image.getWidth > config.width) {
+        if (image.getWidth() > config.width) {
             p2 = Point(config.height, config.width);
         }
         showImage(image, p1, p2, rotation);
