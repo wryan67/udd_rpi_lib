@@ -6,5 +6,5 @@ if [ "$*" = "" ];then
 fi  
 
 git commit -am "$*" && git push && \
-ssh morpheus "cd /home/wryan/projects/udd_rpi_lib; git pull && make clean && make exe"
+ssh morpheus "cd /home/wryan/projects/udd_rpi_lib; git pull && make clean && make install"
 
