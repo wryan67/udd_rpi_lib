@@ -25,10 +25,10 @@ Image::Image(int width, int height, Color backgroundColor) {
 
     canvas = (ColorType*)malloc(memorySize);
 
-    clearScreen(backgroundColor);
+    clear(backgroundColor);
 }
 
-void Image::clearScreen(Color backgroundColor) {
+void Image::clear(Color backgroundColor) {
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
             ColorType* xp = getPixelColor(x, y);
