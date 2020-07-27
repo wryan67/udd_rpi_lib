@@ -141,7 +141,11 @@ namespace udd {
     }
 
     void Display::clearScreen(Color color) {
+        printf("clearScreen: starts\n"); fflush(stdout);
+
+        
         screenLock.lock();
+
 
         openSPI();
         resume();
