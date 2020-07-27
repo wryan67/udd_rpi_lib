@@ -148,19 +148,12 @@ namespace udd {
     }
 
     void Display::clearScreen(Color color) {
-        printf("clearScreen: starts\n"); fflush(stdout);
-
-        
         screenLock.lock();
-
-
         openSPI();
         resume();
 
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
-
-        printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
 
         _word  row[width];
         _byte* rowPointer = (_byte*)(row);
@@ -172,13 +165,10 @@ namespace udd {
             row[x] = cx;
         }
 
-        printf("clearScreen: tag01\n"); fflush(stdout);
         setWindow(Point(0, 0), Point(width-1, height-1), DEGREE_0);
 
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
-
-        printf("clearScreen: write data row width=%d\n", width); fflush(stdout);
 
         for (int y = 0; y < height; y++) {
             writeData(rowPointer, (width) * 2);
