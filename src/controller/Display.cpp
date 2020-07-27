@@ -213,13 +213,17 @@ namespace udd {
         openSPI();
         resume();
 
-//        int width = config.width + config.xOffset;
-//        int height = config.height + config.yOffset;
 
         setWindow(p1, p2, rotation);
 
         width = p2.x - p1.x + 1;
         height = p2.y - p1.y + 1;
+
+        if (image.getHeight() != height ||
+            image.getWidth() != width) {
+            fprintf(stderr, "Image size does not match window size. Height: [Image=%d, Window=%d]   Width: [Image=%d, Window=%d]\n",
+                image.getHeight(), height, image.getWidth, width);
+        }
 
 /*
         switch (rotation) {
