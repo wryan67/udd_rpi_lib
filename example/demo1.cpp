@@ -128,24 +128,20 @@ void rotationDemo() {
 
     Image tmpimg = Image(tmpWidth, tmpHeight, BLACK);
     
-    tmpimg.drawLine(00, 00, 99, 00, WHITE, SOLID, 1);  // top 
-    tmpimg.drawLine(00, 00, 00, 50, WHITE, SOLID, 1);  // left
-    tmpimg.drawLine(99, 00, 99, 50, WHITE, SOLID, 1);  // right
-    tmpimg.drawLine(00, 50, 99, 50, WHITE, SOLID, 1);  // bottom
+    tmpimg.drawLine(         0,           0, tmpWidth-1,           0, WHITE, SOLID, 1);  // top 
+    tmpimg.drawLine(         0,           0,          0, tmpHeight-1, WHITE, SOLID, 1);  // left
+    tmpimg.drawLine(tmpWidth-1,           0, tmpWidth-1, tmpHeight-1, WHITE, SOLID, 1);  // right
+    tmpimg.drawLine(         0, tmpHeight-1, tmpWidth-1, tmpHeight-1, WHITE, SOLID, 1);  // bottom
 
-    printf("--- DEGREE_0 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_0", &Font24, BLACK, RED);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_0); // RED
 
-    printf("--- DEGREE_90 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_90", &Font24, BLACK, YELLOW);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_90); // YELLOW
 
-    printf("--- DEGREE_180 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_180", &Font24, BLACK, GREEN);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_180); // GREEN
 
-    printf("--- DEGREE_270 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_270", &Font24, BLACK, CYAN);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_270); // CYAN
 
