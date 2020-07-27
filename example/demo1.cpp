@@ -131,7 +131,7 @@ void display1Demo() {
     long count = 0;
     while (true) {
         int solidsDelay = 2000;
-        printf("white");
+        printf("white"); fflush(stdout);
         d1.clearScreen(WHITE);
         delay(solidsDelay);
         printf("-red");
