@@ -242,13 +242,13 @@ namespace udd {
             height = 0;
         }
 
-
+/*
         printRotation(rotation);
         fprintf(stderr, "showImage configW=%4d  configY=%4d\n", config.width, config.height);
         fprintf(stderr, "showImage xOffset=%4d  yOffset=%4d\n", config.xOffset, config.yOffset);
         fprintf(stderr, "showImage width=  %4d  height= %4d\n", width, height); 
         fflush(stderr);
-
+*/
 
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
@@ -287,12 +287,12 @@ namespace udd {
         int x2 = p2.x;
         int y2 = p2.y;
 
-        fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+//        fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
 
         adjustPoint(x1, y1, rotation);
         adjustPoint(x2, y2, rotation);
 
-        fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+//        fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
 
 
         switch (rotation) {
@@ -315,8 +315,8 @@ namespace udd {
         }
 
 
-        fprintf(stderr, "p4(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
-        fflush(stderr);
+//        fprintf(stderr, "p4(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+//        fflush(stderr);
 
         writeCommand(0x2a);    // caset   x1 <= y2
         writeData(x1 >> 8);
