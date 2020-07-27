@@ -149,7 +149,6 @@ void display1Demo() {
         printf("\n\n\n\n"); fflush(stdout);
         d1.showImage(bmp, DEGREE_270);
 
-        exit(0);
         delay(1000);
 
         long long start = currentTimeMillis();
