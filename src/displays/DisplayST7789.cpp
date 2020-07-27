@@ -106,9 +106,7 @@ namespace udd {
 
         fprintf(stderr, "----adjustPoint(rotation=%d)------------------\n",rotation);
         fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
-
-
-        fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+        fflush(stderr);
 
         if (rotation == DEGREE_0) {
             // do nothing
@@ -128,12 +126,8 @@ namespace udd {
 
         if (rotation == DEGREE_270) {
             swap(int, y1, y2);
-            
-            sscanf(getenv("X1"), "%d", &x1);
-            sscanf(getenv("Y1"), "%d", &y1);
-
-            sscanf(getenv("X2"), "%d", &x2);
-            sscanf(getenv("Y2"), "%d", &y2);
+            adjustPoint(x1, y1, rotation);
+            adjustPoint(x2, y2, rotation);
 
 
             //            adjustPoint(x1, y1, rotation);

@@ -157,23 +157,11 @@ namespace udd {
 
         printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
 
-        printf("clearScreen: tag00a\n"); fflush(stdout);
-
         _word  row[width];
-
-        printf("clearScreen: tag00b\n"); fflush(stdout);
-
         _byte* rowPointer = (_byte*)(row);
 
-        printf("clearScreen: tag01\n"); fflush(stdout);
-
         ColorType ct = color.toType();
-
-        printf("clearScreen: tag02\n"); fflush(stdout);
-
         _word  cx = color2word(&ct);
-
-        printf("clearScreen: tag03\n"); fflush(stdout);
 
         for (int x = 0; x < width; x++) {
             row[x] = cx;
