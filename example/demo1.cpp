@@ -148,6 +148,7 @@ void display1Demo() {
 
         d1.showImage(bmp, DEGREE_270);
 
+        exit(0);
         delay(1000);
 
         long long start = currentTimeMillis();

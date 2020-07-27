@@ -7,7 +7,9 @@
 #include "Image.h"
 #include <mutex>
 
-
+#ifndef NULL
+#define NULL 0
+#endif
 
 namespace udd {
     extern std::recursive_mutex screenLock;

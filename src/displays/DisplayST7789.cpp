@@ -127,29 +127,11 @@ namespace udd {
         }
 
         if (rotation == DEGREE_270) {
-            swap(int, y1, y2);
             adjustPoint(x1, y1, rotation);
             adjustPoint(x2, y2, rotation);
-
-
-            //            adjustPoint(x1, y1, rotation);
-//            adjustPoint(x2, y2, rotation);
+            swap(int, x1, x2);
         }
 
-
-        /*
-        if (x2 < x1) {
-            int tmp = x1;
-            x1 = x2;
-            x2 = tmp;
-        }
-
-        if (y2 < y1) {
-            int tmp = y1;
-            y1 = y2;
-            y2 = tmp;
-        }
-        */
 
         fprintf(stderr, "p3(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
         fflush(stderr);
