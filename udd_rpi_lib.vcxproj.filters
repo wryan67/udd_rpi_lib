@@ -40,6 +40,7 @@
     <ClInclude Include="src\displays\DisplayWS_ePaper_v2.h" />
     <ClInclude Include="src\controller\Pixel.h" />
     <ClInclude Include="src\controller\Point.h" />
+    <ClInclude Include="src\displays\DisplayWS_ePaper_v2_LUT.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\fonts\Release_Notes.html" />

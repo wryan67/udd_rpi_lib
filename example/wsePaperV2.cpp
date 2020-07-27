@@ -155,7 +155,7 @@ void display1Demo() {
         delay(2 * 1000);
     }
 
-    chart.clearScreen(WHITE);
+    chart.clear(WHITE);
     chart.drawRectangle( 0,  1, width-1, height-1, BLACK, NONE, SOLID, 1);
 
     chart.drawText(73, 22, "Pi", &Font24, WHITE, BLACK);

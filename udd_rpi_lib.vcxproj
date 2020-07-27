@@ -100,6 +100,7 @@
     <ClInclude Include="src\controller\Metadata.h" />
     <ClInclude Include="src\controller\Color.h" />
     <ClInclude Include="src\displays\DisplayWS_ePaper_v2.h" />
+    <ClInclude Include="src\displays\DisplayWS_ePaper_v2_LUT.h" />
     <ClInclude Include="src\fonts\fonts.h" />
     <ClInclude Include="src\controller\Image.h" />
     <ClInclude Include="src\controller\Display.h" />
