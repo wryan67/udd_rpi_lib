@@ -207,7 +207,7 @@ namespace udd {
         showImage(image, p1, p2, rotation);
     }
     
-    void Display::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
+    void Display::showImage(Image& image, Point p1, Point p2, Rotation rotation) {
         int width, height;
         screenLock.lock();
         openSPI();
