@@ -8,17 +8,24 @@
 #include <wiringPiSPI.h>
 
 namespace udd {
+#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
+
     std::recursive_mutex screenLock;
 
     Display::Display() {
         displayId = IdGenerator::next(); 
     }
 
+    void Display::init() {
+        fprintf(stderr, "init failed, base method called instead of child\n");
+        exit(0);
+    }
+
 
 
     void Display::openDisplay(DisplayConfigruation configuration) {
         this->config = configuration;
-        this->vImage = Image(config.width, config.height, BLACK);
+//        this->vImage = Image(config.width, config.height, BLACK);
 
         openSPI();
 
@@ -110,7 +117,7 @@ namespace udd {
         }
     }
 
-    void Display::clearWindow(Color color) {
+    void Display::clearWindow(Color color, Point p1, Point p2, Rotation rotation) {
         screenLock.lock();
 
         openSPI();
@@ -122,14 +129,14 @@ namespace udd {
         _byte* rowPointer = (_byte*)(row);
         _word  cx = color2word(&ct);
 
-        int width = windowP2.x - windowP1.x + 1;
-        int height = windowP2.y - windowP1.y + 1;
+        int width = p2.x - p1.x + 1;
+        int height = p2.y - p1.y + 1;
 
         for (int x = 0; x < width; x++) {
             row[x] = cx;
         }
 
-        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, DEGREE_0);
+        setWindow(p1,p2, DEGREE_0);
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
 
@@ -153,8 +160,6 @@ namespace udd {
         int width = config.width + config.xOffset;
         int height = config.height + config.yOffset;
 
-
-
         printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
 
         _word  row[width];
@@ -168,7 +173,7 @@ namespace udd {
         }
 
         printf("clearScreen: tag01\n"); fflush(stdout);
-        setWindow(0, 0, width-1, height-1, DEGREE_0);
+        setWindow(Point(0, 0), Point(width-1, height-1), DEGREE_0);
 
         digitalWrite(config.DC, 1);
         digitalWrite(config.CS, 0);
@@ -189,10 +194,10 @@ namespace udd {
 
 
     void Display::showImage(Image& image) {
-        showImage(image, DEGREE_0);
+        showImage(image, Point(0,0), Point(config.width,config.height), DEGREE_0);
     }
 
-    void Display::showImage(Image &image, Rotation rotation) {
+    void Display::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
         int width, height;
         screenLock.lock();
         openSPI();
@@ -201,11 +206,10 @@ namespace udd {
 //        int width = config.width + config.xOffset;
 //        int height = config.height + config.yOffset;
 
-        setWindow(windowP1.x, windowP1.y, windowP2.x, windowP2.y, rotation);
+        setWindow(p1, p2, rotation);
 
-        width = windowP2.x - windowP1.x + 1;
-        height = windowP2.y - windowP1.y + 1;
-
+        width = p2.x - p1.x + 1;
+        height = p2.y - p1.y + 1;
 
 /*
         switch (rotation) {
@@ -259,19 +263,61 @@ namespace udd {
 
 
 
-    void Display::setWindowFullScreen() {
-        setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset, config.screenRotation);
-    }
 
-    void Display::setWindow(int x1, int y1, int x2, int y2) {
-        setWindow(x1, y1, x2, y2, DEGREE_0);
-    }
 
-    void Display::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
-        windowP1.x = x1;
-        windowP1.y = y1;
-        windowP2.x = x2;
-        windowP2.y = y2;
+    void Display::setWindow(Point p1, Point p2, Rotation rotation) {
+
+        int x1 = p1.x;
+        int y1 = p1.y;
+
+        int x2 = p2.x;
+        int y2 = p2.y;
+
+        fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+
+        adjustPoint(x1, y1, rotation);
+        adjustPoint(x2, y2, rotation);
+
+        fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+
+
+        switch (rotation) {
+        case DEGREE_0: {     
+                            break;
+        }
+        case DEGREE_90: {    
+                            swap(int, x1, x2);
+                            break;
+        }
+        case DEGREE_180: {   
+                            swap(int, x1, x2);
+                            swap(int, y1, y2);
+                            break;
+        }
+        case DEGREE_270: {
+                            swap(int, y1, y2);
+                            break;
+        }
+        }
+
+
+        fprintf(stderr, "p4(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
+        fflush(stderr);
+
+        writeCommand(0x2a);    // caset   x1 <= y2
+        writeData(x1 >> 8);
+        writeData(x1 & 0xff);
+        writeData((x2) >> 8);
+        writeData((x2) & 0xff);
+
+        writeCommand(0x2b);     // raset   y1 <= y2
+        writeData(y1 >> 8);
+        writeData(y1 & 0xff);
+        writeData((y2) >> 8);
+        writeData((y2) & 0xff);
+
+        writeCommand(0x2C);
+
     }
 
     void Display::adjustPoint(int &x, int &y, Rotation rotation) {
@@ -351,8 +397,10 @@ namespace udd {
     }
     */
 
+    /*
    void Display::setPixel(Pixel pixel) {
        this->vImage.drawPoint(pixel.point.x, pixel.point.y, pixel.color,1);
    }
+   */
 
 }

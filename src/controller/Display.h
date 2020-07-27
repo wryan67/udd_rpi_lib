@@ -53,44 +53,38 @@ namespace udd {
 
     class Display {
     protected:
-
         int displayId = -1;
+        int handle = -1;
 
         Display();
         virtual ~Display() {}
 
-        int handle = -1;
-
-        Image vImage;
-
-        Point windowP1 = Point(0, 0);
-        Point windowP2 = Point(0, 0);
         void adjustPoint(int& x, int& y, Rotation rotation);
-        
+
+        virtual void setWindow(Point p1, Point p2, Rotation rotation);
+
     public:
         DisplayConfigruation config;
         
-        virtual void init() {
-            fprintf(stderr, "init failed, base method called instead of child\n");
-            exit(0);
-        }
+        virtual void init();
+
 
         void openDisplay(DisplayConfigruation configuratrion);
-        void setWindowFullScreen();
-        void setWindow(int x1, int y1, int x2, int y2);
 
-        virtual _word color2word(ColorType* xp);
-        virtual void reset();
+        
         virtual void clearScreen(Color color);
-        virtual void clearWindow(Color color);
-        virtual void setWindow(int x1, int y1, int x2, int y2, Rotation rotation);
+        virtual void clearWindow(Color color, Point p1, Point p2, Rotation rotation);
+        
         virtual void showImage(Image &image);
-        virtual void showImage(Image &image, Rotation rotation);
+        virtual void showImage(Image &image, Point p1, Point p2, Rotation rotation);
 
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");
             exit(0);
         }
+
+        virtual _word color2word(ColorType* xp);
+        virtual void reset();
 
 
         void printConfiguration();
@@ -106,7 +100,7 @@ namespace udd {
         void resume();
         void writeCommand(_byte data);
         void writeData(_byte data);
-        void setPixel(Pixel pixel);
+        //void setPixel(Pixel pixel);
         //void writeWord(_word data);
     };
 

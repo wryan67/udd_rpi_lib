@@ -98,61 +98,8 @@ namespace udd {
         writeCommand(0x29);
     }
 
-#define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
 
 
-    void DisplayST7789R::setWindow(int x1, int y1, int x2, int y2, Rotation rotation) {
-        fprintf(stderr, "----setWindow(rotation=%d)------------------\n", rotation);
-        fprintf(stderr, "p1(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
-
-        Display::setWindow(x1, y1, x2, y2, rotation);
-
-        fprintf(stderr, "----adjustPoint(rotation=%d)------------------\n",rotation);
-        fflush(stderr);
-
-        if (rotation == DEGREE_0) {
-            // do nothing
-        }
-
-        if (rotation == DEGREE_180) {
-            adjustPoint(x1, y1, rotation);
-            adjustPoint(x2, y2, rotation);
-            swap(int, x1, x2);
-            swap(int, y1, y2);
-        }
-
-        if (rotation == DEGREE_90) {
-            swap(int, x1, x2);
-
-        }
-
-        if (rotation == DEGREE_270) {
-            adjustPoint(x1, y1, rotation);
-            adjustPoint(x2, y2, rotation);
-
-            fprintf(stderr, "p2(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
-            swap(int, y1, y2);
-
-        }
-
-
-        fprintf(stderr, "p4(%3d,%3d) p2(%3d,%3d)\n", x1, y1, x2, y2);
-        fflush(stderr);
-
-        writeCommand(0x2a);    // caset   x1 <= y2
-        writeData(x1 >> 8);
-        writeData(x1 & 0xff);
-        writeData((x2) >> 8);
-        writeData((x2) & 0xff);
-
-        writeCommand(0x2b);     // raset   y1 <= y2
-        writeData(y1 >> 8);
-        writeData(y1 & 0xff);
-        writeData((y2) >> 8);
-        writeData((y2) & 0xff);
-
-        writeCommand(0x2C);
-    }
 
 
 
