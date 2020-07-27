@@ -131,7 +131,7 @@ void display1Demo() {
 
     long count = 0;
     while (true) {
-        int solidsDelay = 2000;
+        int solidsDelay = 200;
         printf("white"); fflush(stdout);
         d1.clearScreen(WHITE);
         delay(solidsDelay);
@@ -146,6 +146,7 @@ void display1Demo() {
         delay(solidsDelay);
         d1.clearScreen(BLACK);
 
+        printf("\n\n\n\n"); fflush(stdout);
         d1.showImage(bmp, DEGREE_270);
 
         exit(0);
