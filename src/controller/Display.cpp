@@ -175,6 +175,11 @@ namespace udd {
         fflush(stderr);
     }
 
+
+    void Display::showImage(Image& image) {
+        showImage(image, DEGREE_0);
+    }
+
     void Display::showImage(Image &image, Rotation rotation) {
         int width, height;
         screenLock.lock();
@@ -234,11 +239,6 @@ namespace udd {
 
 
 
-
-    void Display::showImage(Image &image) {
-        showImage(image, DEGREE_0);
-    }
-
     void Display::setWindow() {
         setWindow(0, 0, config.width-1 + config.xOffset, config.height-1 + config.yOffset, config.screenRotation);
     }
@@ -281,8 +281,6 @@ namespace udd {
         }
 
     }
-
-
 
 
     void Display::writeCommand(_byte data) {
