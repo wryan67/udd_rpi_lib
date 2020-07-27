@@ -121,7 +121,7 @@ bool demoSineWave(int frameCount, long long start, Image image) {
 }
 
 void display1Demo() {
-    printf("demo1"); fflush(stdout);
+    printf("demo1\n"); fflush(stdout);
 
     Image bmp = Image(320, 240, BLACK);
     bmp.loadBMP("images/BlueAngle4-320x240.bmp", 0, 0);
