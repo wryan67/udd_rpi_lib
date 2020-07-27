@@ -137,13 +137,13 @@ void rotationDemo() {
     tmpimg.drawText(10, 10, "D_0", &Font24, BLACK, RED);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_0); // RED
 
-    printf("--- DEGREE_180 --------------------------------------------------\n");
-    tmpimg.drawText(10, 10, "D_180", &Font24, BLACK, GREEN);
-    d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_180); // GREEN
-
     printf("--- DEGREE_90 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_90", &Font24, BLACK, YELLOW);
     d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_90); // YELLOW
+
+    printf("--- DEGREE_180 --------------------------------------------------\n");
+    tmpimg.drawText(10, 10, "D_180", &Font24, BLACK, GREEN);
+    d1.showImage(tmpimg, Point(30, 10), Point(30 + tmpWidth - 1, 10 + tmpHeight - 1), DEGREE_180); // GREEN
 
     printf("--- DEGREE_270 --------------------------------------------------\n");
     tmpimg.drawText(10, 10, "D_270", &Font24, BLACK, CYAN);
