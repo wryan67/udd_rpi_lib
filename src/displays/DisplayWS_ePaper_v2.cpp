@@ -159,9 +159,6 @@ namespace udd {
         screenLock.unlock();
     }
 
-    void DisplayWS_ePaper_v2::showImage(Image &image) {
-        showImage(image, DEGREE_0);
-    }
 
     void addBit(int bit, _byte* byte, int val) {
         if (val>0) {
@@ -169,7 +166,7 @@ namespace udd {
         }
     }
 
-        void DisplayWS_ePaper_v2::showImage(Image &image, Rotation rotation) {
+    void DisplayWS_ePaper_v2::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
 
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
