@@ -157,7 +157,12 @@ namespace udd {
 
         printf("clearScreen: width=%d height=%d\n", width, height); fflush(stdout);
 
+        printf("clearScreen: tag00a\n"); fflush(stdout);
+
         _word  row[width];
+
+        printf("clearScreen: tag00b\n"); fflush(stdout);
+
         _byte* rowPointer = (_byte*)(row);
 
         printf("clearScreen: tag01\n"); fflush(stdout);
