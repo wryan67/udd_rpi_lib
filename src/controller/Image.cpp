@@ -28,6 +28,14 @@ Image::Image(int width, int height, Color backgroundColor) {
     clear(backgroundColor);
 }
 
+int udd::Image::getWidth() {
+    return width;
+}
+
+int udd::Image::getHeight() {
+    return height;
+}
+
 void Image::clear(Color backgroundColor) {
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {

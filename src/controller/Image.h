@@ -20,6 +20,9 @@ namespace udd {
         
         Image(int width, int height, Color backgroundColor);
 
+        int getWidth();
+        int getHeight();
+
         void clear(Color backgroundColor);
 
         void close();
