@@ -10,6 +10,25 @@
 namespace udd {
 #define swap(t, a, b)  {t tmp=a; a=b; b=tmp;}
 
+    Rotation validateRotation(char* rotation) {
+
+        int r;
+        if (sscanf(rotation, "%d", &r) != 1) {
+            r = -1;
+        }
+
+        switch (r) {
+            case 0:     return DEGREE_0;
+            case 90:    return DEGREE_90;
+            case 180:   return DEGREE_180;
+            case 270:   return DEGREE_270;
+
+            default:
+                fprintf(stderr, "Invalid rotation specified\n");
+                return DEGREE_INVALID;
+        }
+    }
+
     std::recursive_mutex screenLock;
 
     Display::Display() {
