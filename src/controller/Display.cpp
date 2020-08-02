@@ -23,6 +23,7 @@ namespace udd {
             case 180:   return DEGREE_180;
             case 270:   return DEGREE_270;
 
+
             default:
                 fprintf(stderr, "Invalid rotation specified\n");
                 return DEGREE_INVALID;
@@ -320,6 +321,9 @@ namespace udd {
         case DEGREE_270: {
                             swap(int, y1, y2);
                             break;
+        }
+        default: {
+            break;
         }
         }
 
