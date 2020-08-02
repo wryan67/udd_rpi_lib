@@ -13,7 +13,11 @@ namespace udd {
     };
 
     enum Rotation {
-        DEGREE_0 = 0, DEGREE_90 = 90, DEGREE_180 = 180, DEGREE_270 = 270
+        DEGREE_0 = 0, 
+        DEGREE_90 = 90, 
+        DEGREE_180 = 180, 
+        DEGREE_270 = 270,
+        DEGREE_INVALID = -1
     };
 
     enum ScreenMirror {
