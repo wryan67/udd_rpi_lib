@@ -51,6 +51,8 @@ namespace udd {
 
     typedef DisplayConfigurationStruct      DisplayConfigruation;
 
+    Rotation validateRotation(char* rotation);
+
     class Display {
     protected:
         int displayId = -1;
