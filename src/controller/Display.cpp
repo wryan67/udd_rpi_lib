@@ -110,6 +110,7 @@ namespace udd {
 
         printf("spiChannel:        %d\n", config.spiChannel);
         printf("spiSpeed:          %d\n", config.spiSpeed);
+        printf("spiMode:           %d\n", config.spiMode);
 
         printf("handle:            %d\n", handle);
     }
@@ -122,7 +123,7 @@ namespace udd {
         if (handle >= 0) {
             close(handle);
         }
-        handle = wiringPiSPISetup(config.spiChannel, config.spiSpeed);
+        handle = wiringPiSPISetupMode(config.spiChannel, config.spiSpeed, config.spiMode);
     }
 
     void Display::visable() {
