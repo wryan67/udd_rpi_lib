@@ -39,6 +39,7 @@ namespace udd {
 
         int spiChannel = 0;
         int spiSpeed = 10000000;
+        int spiMode = 0; // SPI mode 0,1,2,3
 
 
 // NeoPixel
