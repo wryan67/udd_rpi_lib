@@ -56,7 +56,7 @@ namespace udd {
         render(config.screenRotation);
     }
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation, ScreenMirror mirror) {
+    void DisplayNeoPixel::showImage(Image &image, Rotation rotation, ScreenMirror mirror) {
 
         int row=0;
         int pos=0;
@@ -104,12 +104,12 @@ namespace udd {
     }
 
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
+    void DisplayNeoPixel::showImage(Image &image, Rotation rotation) {
         showImage(image, rotation, config.screenMirror);
     }
 
 
-    void DisplayNeoPixel::showImage(Image image) {
+    void DisplayNeoPixel::showImage(Image &image) {
         showImage(image, config.screenRotation, config.screenMirror);
     }
 

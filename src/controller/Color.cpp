@@ -1,6 +1,6 @@
 #include "Color.h"
 #include <string.h>
-#include <stdio.h>
+#include <stdio.h> 
 
 Color::Color() {
     color.red = 0;
@@ -9,22 +9,22 @@ Color::Color() {
     color.opacity = 255;
 }
 
-
 Color::Color(ColorType color) {
-    this->color.red = color.red;
-    this->color.green = color.green;
-    this->color.blue = color.blue;
-    this->color.opacity = color.opacity;
+    setColor(color.red, color.green, color.blue, color.opacity);
 }
-
 
 Color::Color(_byte red, _byte green, _byte blue) {
-    color.red = red;
-    color.green = green;
-    color.blue = blue;
-    color.opacity = 255;
+    setColor(red, green, blue, 255);
 }
 
+Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
+    setColor(red, green, blue, opacity);
+}
+
+Color::Color(uint32_t colorRGB24) {
+    setRGB24(colorRGB24);
+}
+ 
 Color::Color(const char* hexbytes) {
     char buf[3];
     int intensity;
@@ -108,22 +108,19 @@ bool Color::equals(ColorType *otherColor) {
 }
 
 
-Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
-    color.red       = red;
-    color.green     = green;
-    color.blue      = blue;
-    color.opacity   = opacity;
+inline void Color::setColor(_byte red, _byte green, _byte blue, _byte opacity) {
+    color.red = red;
+    color.green = green;
+    color.blue = blue;
+    color.opacity = opacity;
 }
 
-ColorType Color::toType() {
-    return color;
+inline void Color::setRGB24(uint32_t colorRGB24) {
+    color.red = (_byte)(colorRGB24 & 0xFF);
+    color.green = (_byte)((colorRGB24 & 0xFF00) >> 8);
+    color.blue = (_byte)((colorRGB24 & 0xFF0000) >> 16);
+    color.opacity = (_byte)((colorRGB24 & 0xFF000000) >> 24);
 }
-
-
-int32_t Color::rgb24() {
-    return (color.green<<16)+(color.red<<8)+(color.blue);
-}
-
 
 Color::Color(int clr) {
     color.opacity = 255;

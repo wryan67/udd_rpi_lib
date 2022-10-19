@@ -36,6 +36,8 @@ namespace udd {
         MASK
     } FillPattern;
 
-
+    typedef enum {
+        BILINEAR
+    } ScaleMode;
 
 }

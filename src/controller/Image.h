@@ -17,6 +17,8 @@ namespace udd {
     class Image {
     public:
         Image();
+        Image(const Image &img);
+        virtual ~Image();
         
         Image(int width, int height, Color backgroundColor);
 
@@ -51,9 +53,14 @@ namespace udd {
         void drawPieSlice(int x, int y, int radius, float degree1, float degree2, Color color, LineStyle style, int width);
         void printPixel(int x, int y);
 
-        ColorType* getPixel(int x, int y, udd::Rotation rotation);
+        ColorType* getPixel(int x, int y, udd::Rotation rotation) const;
 
-        ColorType* getPixelColor(int x, int y);
+        ColorType* getPixelColor(int x, int y) const;
+
+        Image scale(float scaleX, float scaleY, ScaleMode mode);
+
+    private:
+        static void scaleBilinear(const Image &src, Image &dst);
 
         
     private:
@@ -64,6 +71,6 @@ namespace udd {
         Color    backgroundColor;
 
         _word color2word(ColorType* xp);
-
+        void init();
     };
 }

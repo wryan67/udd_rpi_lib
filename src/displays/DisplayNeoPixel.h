@@ -32,9 +32,9 @@ namespace udd {
 
         void clearScreen(Color color);
 
-        void showImage(Image image, Rotation rotation, ScreenMirror mirror);
-        void showImage(Image image, Rotation rotation);
-        void showImage(Image image);
+        void showImage(Image &image, Rotation rotation, ScreenMirror mirror);
+        void showImage(Image &image, Rotation rotation);
+        void showImage(Image &image);
         void setPixel(Pixel pixel);
 
     private:

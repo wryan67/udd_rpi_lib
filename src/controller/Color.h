@@ -12,6 +12,9 @@ struct ColorStruct {
 
 typedef ColorStruct ColorType;
 
+inline uint32_t   getRGB24(const ColorType *color) {
+   return (color->opacity << 24 ) | (color->blue << 16) | (color->green << 8) | color->red;
+}
 
 class Color {
 public:
@@ -19,14 +22,17 @@ public:
 
     Color();
     Color(ColorType color);
-    Color(_byte red, _byte blue, _byte green);
+    Color(_byte red, _byte green, _byte blue);
+    Color(_byte red, _byte green, _byte blue, _byte opacity);
+    Color(uint32_t colorRGB24);
     Color(const char *hexbytes);
-    Color(_byte red, _byte blue, _byte green, _byte opacity);
-
+ 
     Color(int pos);
 
-    ColorType toType();
-    int32_t   rgb24();
+    inline ColorType toType() { return color; }
+    inline uint32_t rgb24() { return getRGB24(&color); }
+    inline void setColor(_byte red, _byte green, _byte blue, _byte opacity);
+    inline void setRGB24(uint32_t colorRGB24);
     void      print();
     bool      equals(Color otherColor);
     bool      equals(ColorType otherColor);

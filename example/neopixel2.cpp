@@ -73,7 +73,7 @@ unsigned long long currentTimeMillis() {
 }
 
 
-void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
+void drawSine(Image &image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
     bool first = true;
     int lx = -1, ly = -1;
     double vx = 0;
@@ -94,7 +94,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-bool demoSineWave(int frameCount, long long start, Image image) {
+bool demoSineWave(int frameCount, long long start, Image &image) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 

@@ -6,26 +6,48 @@
 
 using namespace udd;
 
-Image::Image() {
-    width=0;
-    height=0;    
-    backgroundColor=BLACK;
+#undef max  // in case any sys header defines it
+inline float max(float a, float b) { return (a < b) ? a : b; };
+inline float lerp(float s, float e, float t){return s+(e-s)*t;}
+inline float blerp(float c00, float c10, float c01, float c11, float tx, float ty) {
+    return lerp(lerp(c00, c10, tx), lerp(c01, c11, tx), ty);
+}
+#define getByte(value, n) (value >> (n*8) & 0xFF)
+
+// Default c'tor
+Image::Image() : Image(0, 0, BLACK) {
 }
 
-
+// Copy c'tor
+Image::Image(const Image &img) {
+    width = img.width;
+    height = img.height;
+    backgroundColor = img.backgroundColor;
+    init();
+    memcpy(canvas, img.canvas, width * height * sizeof(ColorType));
+}
 
 Image::Image(int width, int height, Color backgroundColor) {
     this->width = width;
     this->height = height;
 
     this->backgroundColor = backgroundColor;
-
-    uint32_t imageSize = width * height;
-    uint32_t memorySize = imageSize * sizeof(ColorType);
-
-    canvas = (ColorType*)malloc(memorySize);
-
+    init();
     clear(backgroundColor);
+}
+
+// Private initializer helper
+void Image::init() {
+    uint32_t imageSize = width * height;
+    canvas = NULL;
+    if (imageSize > 0) {
+        canvas = new ColorType[imageSize];
+    }
+}
+
+// D'tor
+Image::~Image() {
+    close();
 }
 
 int udd::Image::getWidth() {
@@ -49,7 +71,10 @@ void Image::clear(Color backgroundColor) {
 }
 
 void Image::close() {
-    free(canvas);
+    if (NULL != canvas) {
+        delete canvas;
+        canvas = NULL;
+    }
 }
 
 void Image::drawPixel(int x, int y, Color color) {
@@ -65,12 +90,6 @@ void Image::drawPixel(int x, int y, Color color) {
     xp->blue = color.color.blue;
     xp->opacity = color.color.opacity;
 
-
-    if (color.color.red != 0 ||
-        color.color.green != 0 ||
-        color.color.blue != 0
-        ) {
-    }
 }
 
 
@@ -86,20 +105,19 @@ void Image::printPixel(int x, int y) {
     }
 }
 
-ColorType* Image::getPixelColor(int x, int y) {
+ColorType* Image::getPixelColor(int x, int y) const {
 
     if (x<0 || x >= width || y<0 || y>=height) {
         return NULL;
     }
 
     long offset = (y * width) + x;
-    ColorType* xp = canvas + offset;
 
-    return xp;
+    return &canvas[offset];
 }
 
 
-ColorType* Image::getPixel(int x, int y, Rotation rotation) {
+ColorType* Image::getPixel(int x, int y, Rotation rotation) const {
     switch (rotation) {
     case DEGREE_0:    return getPixelColor(x,           y); 
     case DEGREE_90:   return getPixelColor(y,           height-x-1);
@@ -468,7 +486,38 @@ void Image::drawPieSlice(int x, int y, int radius, float degree1, float degree2,
             }
         }
     }
+}
 
+Image Image::scale(float scaleX, float scaleY, ScaleMode mode) {
+    int newWidth = (int)(width * scaleX);
+    int newHeight = (int)(height * scaleY);
+    Image newImage = Image(newWidth, newHeight, backgroundColor);
+    switch (mode) {
+    case BILINEAR:
+        Image::scaleBilinear(*this, newImage);
+        break;
+    default:
+        fprintf(stderr, "not yet implemented (mode=%d)\n", mode);
+    }
+    return newImage;
+}
 
-
+void Image::scaleBilinear(const Image &src, Image &dst) {
+    for (int y = 0; y < dst.height; y++) {
+        for (int x = 0; x < dst.width; x++) {
+            float gx = max(x / (float)(dst.width) * (src.width) - 0.5f, src.width - 1);
+            float gy = max(y / (float)(dst.height) * (src.height) - 0.5, src.height - 1);
+            int gxi = (int)gx;
+            int gyi = (int)gy;
+            uint32_t result=0;
+            uint32_t c00 = getRGB24(src.getPixelColor(gxi, gyi));
+            uint32_t c10 = getRGB24(src.getPixelColor(gxi+1, gyi));
+            uint32_t c01 = getRGB24(src.getPixelColor(gxi, gyi+1));
+            uint32_t c11 = getRGB24(src.getPixelColor(gxi+1, gyi+1));
+            for(uint8_t i = 0; i < 3; i++){
+                result |= (uint8_t)blerp(getByte(c00, i), getByte(c10, i), getByte(c01, i), getByte(c11, i), gx - gxi, gy -gyi) << (8*i);
+            }
+            dst.drawPixel(x,y, Color(result));
+        }
+    }
 }

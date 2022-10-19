@@ -41,7 +41,7 @@ unsigned long long currentTimeMillis() {
 }
 
 
-void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
+void drawSine(Image &image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
     bool first = true;;
     int lx = -1, ly = -1;
     double vx = 0;
@@ -62,7 +62,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-bool demoSineWave(int frameCount, long long start, Image image) {
+bool demoSineWave(int frameCount, long long start, Image &image) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 
@@ -148,6 +148,20 @@ void rotationDemo() {
 
 }
 
+void imageDemo(Image &img) {
+    Image images[] = {
+        img,
+        img.scale(0.75, 0.75, BILINEAR),
+        img.scale(0.50, 0.50, BILINEAR),
+        img.scale(0.25 ,0.25, BILINEAR)
+    };
+    for (int i = 0; i < sizeof(images)/sizeof(img); i++) {
+        Image &thisImg = images[i];
+        d1.showImage(thisImg, DEGREE_270);
+        delay(2000);
+    }
+ }
+
 void display1Demo() {
     printf("demo1\n"); fflush(stdout);
 
@@ -170,8 +184,7 @@ void display1Demo() {
         delay(solidsDelay);
         d1.clearScreen(BLACK);
 
-        d1.showImage(bmp, DEGREE_270);
-        delay(2000);
+        imageDemo(bmp);
 
         rotationDemo();
         delay(4000);
@@ -214,14 +227,6 @@ int main(int argc, char **argv)
     pinMode(11, OUTPUT);
     digitalWrite(10, HIGH);
     digitalWrite(11, HIGH);
-
-    int         demos = 3;
-    pthread_t   threads[demos];
-    char        message[demos][256];
-
-    for (int i = 0; i < demos; ++i) {
-        sprintf(message[i], "demo thread %d", i);
-    }
 
     configureDisplay1();
 
