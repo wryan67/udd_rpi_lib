@@ -96,7 +96,7 @@ namespace udd {
     }
 
     
-    void DisplayWS_ePaper_v2::clearScreen(Color color) {
+    void DisplayWS_ePaper_v2::clearScreen(const Color &color) {
         screenLock.lock();
 
         openSPI();
@@ -167,16 +167,16 @@ namespace udd {
         }
     }
 
-    void DisplayWS_ePaper_v2::showImage(Image& image) {
+    void DisplayWS_ePaper_v2::showImage(const Image& image) {
         Display::showImage(image);
     }
 
-    void DisplayWS_ePaper_v2::showImage(Image& image, Rotation rotation) {
+    void DisplayWS_ePaper_v2::showImage(const Image& image, Rotation rotation) {
         Display::showImage(image, rotation);
     }
 
 
-    void DisplayWS_ePaper_v2::showImage(Image &image, Point p1, Point p2, Rotation rotation) {
+    void DisplayWS_ePaper_v2::showImage(const Image &image, Point p1, Point p2, Rotation rotation) {
 
         fprintf(stderr, "ePaper showImage(%d,%d)\n", config.width, config.height);
 
@@ -198,13 +198,13 @@ namespace udd {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
                 int val=1;
                 if (ct != NULL) {
-                    if (WHITE.equals(ct)) {
+                    if (WHITE.equals(*ct)) {
                         val=1;
                     }
-                    else if (BLACK.equals(ct)) {
+                    else if (BLACK.equals(*ct)) {
                         val=0;
                     }
-                    else if (RED.equals(ct)) {
+                    else if (RED.equals(*ct)) {
                         val=1;
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);
@@ -232,13 +232,13 @@ namespace udd {
                 ColorType* ct = image.getPixel(x - config.xOffset, y - config.yOffset, rotation);
                 int val=1;
                 if (ct != NULL) {
-                    if (WHITE.equals(ct)) {
+                    if (WHITE.equals(*ct)) {
                         val=1;
                     }
-                    else if (BLACK.equals(ct)) {
+                    else if (BLACK.equals(*ct)) {
                         val=1;
                     }
-                    else if (RED.equals(ct)) {
+                    else if (RED.equals(*ct)) {
                         val=0;
                     } else {
                         fprintf(stderr, "invalid color found at (%d,%d)\n", x, y);

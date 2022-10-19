@@ -36,6 +36,13 @@ namespace udd {
         MASK
     } FillPattern;
 
+    typedef enum {
+        BILINEAR
+    } ScaleMode;
 
+    typedef enum {
+        DEGREES,
+        RADIANS
+    } AngleUnit;
 
 }

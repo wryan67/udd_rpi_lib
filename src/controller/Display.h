@@ -75,12 +75,12 @@ namespace udd {
         void openDisplay(DisplayConfigruation configuratrion);
 
         
-        virtual void clearScreen(Color color);
-        virtual void clearWindow(Color color, Point p1, Point p2, Rotation rotation);
+        virtual void clearScreen(const Color &color);
+        virtual void clearWindow(const Color &color, Point p1, Point p2, Rotation rotation);
         
-        virtual void showImage(Image& image);
-        virtual void showImage(Image& image, Rotation rotation);
-        virtual void showImage(Image& image, Point p1, Point p2, Rotation rotation);
+        virtual void showImage(const Image& image);
+        virtual void showImage(const Image& image, Rotation rotation);
+        virtual void showImage(const Image& image, Point p1, Point p2, Rotation rotation);
 
         virtual void readBusy() {
             fprintf(stderr, "readBusy() is not implemented for this method\n");

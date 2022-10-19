@@ -12,6 +12,9 @@ struct ColorStruct {
 
 typedef ColorStruct ColorType;
 
+inline uint32_t   getRGB24(const ColorType *color) {
+   return (color->opacity << 24 ) | (color->blue << 16) | (color->green << 8) | color->red;
+}
 
 class Color {
 public:
@@ -19,42 +22,44 @@ public:
 
     Color();
     Color(ColorType color);
-    Color(_byte red, _byte blue, _byte green);
+    Color(_byte red, _byte green, _byte blue);
+    Color(_byte red, _byte green, _byte blue, _byte opacity);
+    Color(uint32_t colorRGB24);
     Color(const char *hexbytes);
-    Color(_byte red, _byte blue, _byte green, _byte opacity);
-
+ 
     Color(int pos);
 
-    ColorType toType();
-    int32_t   rgb24();
-    void      print();
-    bool      equals(Color otherColor);
-    bool      equals(ColorType otherColor);
-    bool      equals(ColorType *otherColor);
+    inline ColorType toType() const { return color; }
+    inline uint32_t rgb24() const { return getRGB24(&color); }
+    inline void setColor(_byte red, _byte green, _byte blue, _byte opacity);
+    inline void setRGB24(uint32_t colorRGB24);
+    void      print() const;
+    bool      equals(const Color &otherColor) const;
+    bool      equals(const ColorType &otherColor) const;
 
 };
 
 
 // original 8
-extern Color BLACK;
-extern Color RED;
-extern Color GREEN;
-extern Color BLUE;
-extern Color YELLOW;
-extern Color MAGENTA;
-extern Color CYAN;
-extern Color WHITE;
+extern const Color BLACK;
+extern const Color RED;
+extern const Color GREEN;
+extern const Color BLUE;
+extern const Color YELLOW;
+extern const Color MAGENTA;
+extern const Color CYAN;
+extern const Color WHITE;
 
-extern Color GRAY;
-extern Color BROWN;
-extern Color ORANGE;
+extern const Color GRAY;
+extern const Color BROWN;
+extern const Color ORANGE;
 
-extern Color LIGHT_BLUE;
-extern Color LIGHT_GRAY;
+extern const Color LIGHT_BLUE;
+extern const Color LIGHT_GRAY;
 
-extern Color DARK_BLUE;
-extern Color DARK_RED;
-extern Color DARK_GREEN;
+extern const Color DARK_BLUE;
+extern const Color DARK_RED;
+extern const Color DARK_GREEN;
 
-extern Color DARK_GRAY_BLUE;
+extern const Color DARK_GRAY_BLUE;
 

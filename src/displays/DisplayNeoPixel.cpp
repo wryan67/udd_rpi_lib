@@ -46,7 +46,7 @@ namespace udd {
         this->vImage.drawPoint(pixel.point.x, pixel.point.y, pixel.color, 1);
     }
 
-    void DisplayNeoPixel::clearScreen(Color color) {
+    void DisplayNeoPixel::clearScreen(const Color &color) {
 
         for (int x=0;x<config.width;++x) {
             for (int y=0;y<config.height;++y) {
@@ -56,7 +56,7 @@ namespace udd {
         render(config.screenRotation);
     }
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation, ScreenMirror mirror) {
+    void DisplayNeoPixel::showImage(const Image &image, Rotation rotation, ScreenMirror mirror) {
 
         int row=0;
         int pos=0;
@@ -104,12 +104,12 @@ namespace udd {
     }
 
 
-    void DisplayNeoPixel::showImage(Image image, Rotation rotation) {
+    void DisplayNeoPixel::showImage(const Image &image, Rotation rotation) {
         showImage(image, rotation, config.screenMirror);
     }
 
 
-    void DisplayNeoPixel::showImage(Image image) {
+    void DisplayNeoPixel::showImage(const Image &image) {
         showImage(image, config.screenRotation, config.screenMirror);
     }
 
