@@ -43,7 +43,7 @@ namespace udd {
 
 
 
-    void Display::openDisplay(DisplayConfigruation configuration) {
+    void Display::openDisplay(DisplayConfiguration configuration) {
         this->config = configuration;
 //        this->vImage = Image(config.width, config.height, BLACK);
 

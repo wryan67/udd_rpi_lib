@@ -22,7 +22,7 @@ namespace udd {
     public:
 
         DisplayNeoPixel();
-        void openDisplay(DisplayConfigruation configuration);
+        void openDisplay(DisplayConfiguration configuration);
         void printConfiguration();
         void setBrightness(int brightness);
         void render(Rotation rotation);

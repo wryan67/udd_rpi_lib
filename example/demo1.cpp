@@ -19,7 +19,7 @@ $ g++ -lwiringPi -lwiringPiUDDrpi demo1.cpp -o demo1
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayST7789R d1 = DisplayST7789R();
 

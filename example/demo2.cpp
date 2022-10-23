@@ -20,8 +20,8 @@ $ g++ -lwiringPi -lpthread 2displays.cpp /usr/local/lib/libwiringPiUDDrpi.a -o d
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
-DisplayConfigruation d2Config;
+DisplayConfiguration d1Config;
+DisplayConfiguration d2Config;
 
 DisplayST7789R d1 = DisplayST7789R();
 DisplayST7735R d2 = DisplayST7735R();

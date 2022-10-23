@@ -50,7 +50,7 @@ namespace udd {
         int brightness;
     };
 
-    typedef DisplayConfigurationStruct      DisplayConfigruation;
+    typedef DisplayConfigurationStruct      DisplayConfiguration;
 
     Rotation validateRotation(char* rotation);
 
@@ -67,12 +67,12 @@ namespace udd {
         virtual void setWindow(Point p1, Point p2, Rotation rotation);
 
     public:
-        DisplayConfigruation config;
+        DisplayConfiguration config;
         
         virtual void init();
 
 
-        void openDisplay(DisplayConfigruation configuratrion);
+        void openDisplay(DisplayConfiguration configuratrion);
 
         
         virtual void clearScreen(const Color &color);

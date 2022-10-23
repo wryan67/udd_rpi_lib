@@ -44,7 +44,7 @@ Here is the layout:
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayNeoPixel d1 = DisplayNeoPixel();
 

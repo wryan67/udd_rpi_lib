@@ -168,22 +168,22 @@ package() {
     ls -tr $LIB/* 2>/dev/null | tail -1 | grep '\.a' > /dev/null
     A=$?
 
-    echo Buliding source for dynamic library for sake of size and compatibility
+    echo Building source for dynamic library for sake of size and compatibility
     DYNAMIC="-fPIC"
     [ $A = 0 ] && clean objects
     build
 
-    echo Packagiang lib$LIBNAME.so
+    echo Packaging lib$LIBNAME.so
     OBJECTS=$(find $OBJ -type f)
     ${CC} -shared -Wl,-soname,lib$LIBNAME.so -o $LIB/lib$LIBNAME.so.$VERSION ${OBJECTS}  || die
     clean objects
   fi
 
-  echo Buliding source for static library for sake of runtime speed
+  echo Building source for static library for sake of runtime speed
   DYNAMIC=""
   build
 
-  echo Packagiang lib$LIBNAME.a
+  echo Packaging lib$LIBNAME.a
   OBJECTS=$(find $OBJ -type f)
   ar rcs $LIB/lib$LIBNAME.a $OBJECTS || die
   ranlib $LIB/lib$LIBNAME.a  || die

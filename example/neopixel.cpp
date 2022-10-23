@@ -23,7 +23,7 @@ https://www.amazon.com/gp/product/B01MCUOD8N
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayNeoPixel d1 = DisplayNeoPixel();
 

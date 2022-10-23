@@ -19,7 +19,7 @@ $ g++ -lwiringPi -lwiringPiUDDrpi ws.ePaper-2.9b-v2.cpp -o ws.ePaper-2.9b-v2
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayWS_ePaper_v2 d1 = DisplayWS_ePaper_v2();
 

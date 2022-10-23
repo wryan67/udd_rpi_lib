@@ -5,7 +5,7 @@ namespace udd {
 
     DisplayNeoPixel::DisplayNeoPixel() : Display() {}
 
-    void DisplayNeoPixel::openDisplay(DisplayConfigruation configuration) {
+    void DisplayNeoPixel::openDisplay(DisplayConfiguration configuration) {
         this->config = configuration;
         this->vImage = Image(config.width, config.height, BLACK);
 
