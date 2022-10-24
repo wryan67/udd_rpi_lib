@@ -19,7 +19,7 @@ $ g++ -lwiringPi -lwiringPiUDDrpi ws.ePaper-2.9b-v2.cpp -o ws.ePaper-2.9b-v2
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayWS_ePaper_v2 d1 = DisplayWS_ePaper_v2();
 
@@ -39,7 +39,7 @@ unsigned long long currentTimeMillis() {
 }
 
 
-void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
+void drawSine(Image &image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
     bool first = true;;
     int lx = -1, ly = -1;
     double vx = 0;
@@ -60,7 +60,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-bool demoSineWave(int frameCount, long long start, Image image) {
+bool demoSineWave(int frameCount, long long start, Image &image) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 

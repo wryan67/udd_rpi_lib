@@ -19,7 +19,7 @@ $ g++ -lwiringPi -lwiringPiUDDrpi demo1.cpp -o demo1
 
 using namespace udd;
 
-DisplayConfigruation d1Config;
+DisplayConfiguration d1Config;
 
 DisplayST7789R d1 = DisplayST7789R();
 
@@ -41,7 +41,7 @@ unsigned long long currentTimeMillis() {
 }
 
 
-void drawSine(Image image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
+void drawSine(Image &image, float offset, float speed, int maxX, int maxY, float waveHeight, Color color, int width) {
     bool first = true;;
     int lx = -1, ly = -1;
     double vx = 0;
@@ -62,7 +62,7 @@ void drawSine(Image image, float offset, float speed, int maxX, int maxY, float 
 }
 
 
-bool demoSineWave(int frameCount, long long start, Image image) {
+bool demoSineWave(int frameCount, long long start, Image &image) {
     long long now = currentTimeMillis();
     float refVoltage = 5;
 
@@ -148,6 +148,29 @@ void rotationDemo() {
 
 }
 
+void imageRotationDemo(Image &img) {
+    Image srcImg = img.scale(0.75f, 0.75f, BILINEAR);
+    for (int deg = 0; deg < 360; deg += 5) {
+        printf("Rotate: %d degrees CW\n", deg);  fflush(stdout);
+        d1.showImage(srcImg.rotate(deg, DEGREES), DEGREE_270);
+    }
+    for (int deg = 0; deg > -360; deg -= 5) {
+        printf("Rotate: %d degrees CCW\n", deg);  fflush(stdout);
+        d1.showImage(srcImg.rotate(deg, DEGREES), DEGREE_270);
+    }
+}
+
+void imageScalingDemo(Image &img) {
+    for (int i = 100; i > 0; i -= 10) {
+        float scale = i / 100.0f;
+        d1.showImage(img.scale(scale, scale, BILINEAR), DEGREE_270);
+    }
+    for (int i = 20; i <= 200; i += 10) {
+        float scale = i / 100.0f;
+        d1.showImage(img.scale(scale, scale, BILINEAR), DEGREE_270);
+    }
+}
+
 void display1Demo() {
     printf("demo1\n"); fflush(stdout);
 
@@ -170,8 +193,8 @@ void display1Demo() {
         delay(solidsDelay);
         d1.clearScreen(BLACK);
 
-        d1.showImage(bmp, DEGREE_270);
-        delay(2000);
+        imageRotationDemo(bmp);
+        imageScalingDemo(bmp);
 
         rotationDemo();
         delay(4000);
@@ -189,6 +212,7 @@ void configureDisplay1() {
     d1Config.width = 240;
     d1Config.height = 320;
     d1Config.spiSpeed = spiSpeed;
+    d1Config.spiMode = 0;
 
     d1Config.CS = 21;
     d1Config.DC = 22;
@@ -214,14 +238,6 @@ int main(int argc, char **argv)
     pinMode(11, OUTPUT);
     digitalWrite(10, HIGH);
     digitalWrite(11, HIGH);
-
-    int         demos = 3;
-    pthread_t   threads[demos];
-    char        message[demos][256];
-
-    for (int i = 0; i < demos; ++i) {
-        sprintf(message[i], "demo thread %d", i);
-    }
 
     configureDisplay1();
 

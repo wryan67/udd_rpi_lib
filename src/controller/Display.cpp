@@ -43,7 +43,7 @@ namespace udd {
 
 
 
-    void Display::openDisplay(DisplayConfigruation configuration) {
+    void Display::openDisplay(DisplayConfiguration configuration) {
         this->config = configuration;
 //        this->vImage = Image(config.width, config.height, BLACK);
 
@@ -138,7 +138,7 @@ namespace udd {
         }
     }
 
-    void Display::clearWindow(Color color, Point p1, Point p2, Rotation rotation) {
+    void Display::clearWindow(const Color &color, Point p1, Point p2, Rotation rotation) {
         screenLock.lock();
 
         openSPI();
@@ -168,7 +168,7 @@ namespace udd {
         screenLock.unlock();
     }
 
-    void Display::clearScreen(Color color) {
+    void Display::clearScreen(const Color &color) {
         screenLock.lock();
         openSPI();
         resume();
@@ -204,11 +204,11 @@ namespace udd {
     }
 
 
-    void Display::showImage(Image& image) {
+    void Display::showImage(const Image& image) {
         showImage(image, Point(0,0), Point(config.width-1, config.height-1), DEGREE_0);
     }
 
-    void Display::showImage(Image& image, Rotation rotation) {
+    void Display::showImage(const Image& image, Rotation rotation) {
         Point p1 = Point(0, 0);
         Point p2 = Point(config.width-1, config.height-1);
 
@@ -218,7 +218,7 @@ namespace udd {
         showImage(image, p1, p2, rotation);
     }
     
-    void Display::showImage(Image& image, Point p1, Point p2, Rotation rotation) {
+    void Display::showImage(const Image& image, Point p1, Point p2, Rotation rotation) {
         int width, height;
         screenLock.lock();
         openSPI();
@@ -232,8 +232,8 @@ namespace udd {
 
         if (image.getHeight() != height ||
             image.getWidth() != width) {
-            fprintf(stderr, "Image size does not match window size. Height: [Image=%d, Window=%d]   Width: [Image=%d, Window=%d]\n",
-                image.getHeight(), height, image.getWidth(), width);
+            fprintf(stderr, "Image size does not match window size. Image: (%dx%d)  Window: (%dx%d)\n",
+                image.getWidth(), image.getHeight(), width, height);
         }
 
 

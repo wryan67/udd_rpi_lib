@@ -9,22 +9,22 @@ Color::Color() {
     color.opacity = 255;
 }
 
-
 Color::Color(ColorType color) {
-    this->color.red = color.red;
-    this->color.green = color.green;
-    this->color.blue = color.blue;
-    this->color.opacity = color.opacity;
+    memcpy(&this->color, &color, sizeof(ColorType));
 }
-
 
 Color::Color(_byte red, _byte green, _byte blue) {
-    color.red = red;
-    color.green = green;
-    color.blue = blue;
-    color.opacity = 255;
+    setColor(red, green, blue, 255);
 }
 
+Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
+    setColor(red, green, blue, opacity);
+}
+
+Color::Color(uint32_t colorRGB24) {
+    setRGB24(colorRGB24);
+}
+ 
 Color::Color(const char* hexbytes) {
     char buf[3];
     int intensity;
@@ -68,62 +68,36 @@ Color::Color(const char* hexbytes) {
     }
 }
 
-bool Color::equals(Color otherColor) {
-    if (this->color.blue != otherColor.color.blue) {
+bool Color::equals(const Color &otherColor) const {
+    return equals(otherColor.color);
+}
+
+bool Color::equals(const ColorType &otherColor) const {
+    if (color.blue != otherColor.blue) {
         return false;
     }
-    if (this->color.red!= otherColor.color.red) {
+    if (color.red != otherColor.red) {
         return false;
     }
-    if (this->color.green != otherColor.color.green) {
+    if (color.green != otherColor.green) {
         return false;
     }
     return true;
 }
 
-bool Color::equals(ColorType otherColor) {
-    if (this->color.blue != otherColor.blue) {
-        return false;
-    }
-    if (this->color.red != otherColor.red) {
-        return false;
-    }
-    if (this->color.green != otherColor.green) {
-        return false;
-    }
-    return true;
+inline void Color::setColor(_byte red, _byte green, _byte blue, _byte opacity) {
+    color.red = red;
+    color.green = green;
+    color.blue = blue;
+    color.opacity = opacity;
 }
 
-bool Color::equals(ColorType *otherColor) {
-    if (this->color.blue != otherColor->blue) {
-        return false;
-    }
-    if (this->color.red != otherColor->red) {
-        return false;
-    }
-    if (this->color.green != otherColor->green) {
-        return false;
-    }
-    return true;
+inline void Color::setRGB24(uint32_t colorRGB24) {
+    color.red = (_byte)(colorRGB24 & 0xFF);
+    color.green = (_byte)((colorRGB24 & 0xFF00) >> 8);
+    color.blue = (_byte)((colorRGB24 & 0xFF0000) >> 16);
+    color.opacity = (_byte)((colorRGB24 & 0xFF000000) >> 24);
 }
-
-
-Color::Color(_byte red, _byte green, _byte blue, _byte opacity) {
-    color.red       = red;
-    color.green     = green;
-    color.blue      = blue;
-    color.opacity   = opacity;
-}
-
-ColorType Color::toType() {
-    return color;
-}
-
-
-int32_t Color::rgb24() {
-    return (color.green<<16)+(color.red<<8)+(color.blue);
-}
-
 
 Color::Color(int clr) {
     color.opacity = 255;
@@ -150,7 +124,7 @@ Color::Color(int clr) {
 }
 
 
-void Color::print() {
+void Color::print() const {
 
     printf("color::print: 0x%02x%02x%02x\n", this->color.red, this->color.blue,this->color.green);
     printf("color::print: 0x%02x%02x%02x\n", color.red, color.blue, color.green);
@@ -164,26 +138,26 @@ void Color::print() {
 
 
 // Original 8
-Color BLACK             = Color(0,     0,   0);
-Color RED               = Color(255,   0,   0);
-Color GREEN             = Color(0,   255,   0);
-Color BLUE              = Color(0,     0, 255);
-Color YELLOW            = Color(255, 255,   0);
-Color MAGENTA           = Color(255,   0, 255);
-Color CYAN              = Color(0,   255, 255);
-Color WHITE             = Color(255, 255, 255);
+const Color BLACK             = Color(0,     0,   0);
+const Color RED               = Color(255,   0,   0);
+const Color GREEN             = Color(0,   255,   0);
+const Color BLUE              = Color(0,     0, 255);
+const Color YELLOW            = Color(255, 255,   0);
+const Color MAGENTA           = Color(255,   0, 255);
+const Color CYAN              = Color(0,   255, 255);
+const Color WHITE             = Color(255, 255, 255);
 
 // extended colors
-Color GRAY              = Color("#808080");
-Color BROWN             = Color(165,  42,  42);
-Color ORANGE            = Color(255, 128,   0);
+const Color GRAY              = Color("#808080");
+const Color BROWN             = Color(165,  42,  42);
+const Color ORANGE            = Color(255, 128,   0);
 
-Color DARK_RED          = Color(128,   0,   0);
-Color DARK_GREEN        = Color(0,   128,   0);
-Color DARK_BLUE         = Color(0,     0, 128);
+const Color DARK_RED          = Color(128,   0,   0);
+const Color DARK_GREEN        = Color(0,   128,   0);
+const Color DARK_BLUE         = Color(0,     0, 128);
 
 
-Color LIGHT_BLUE        = Color(204, 228, 255);
-Color LIGHT_GRAY        = Color("#E0E0E0");
+const Color LIGHT_BLUE        = Color(204, 228, 255);
+const Color LIGHT_GRAY        = Color("#E0E0E0");
 
-Color DARK_GRAY_BLUE    = Color("003366");
+const Color DARK_GRAY_BLUE    = Color("003366");
